@@ -167,7 +167,7 @@ def compute_all(args):
 
         acc = c.accuracy(x_test, y_test)
         results.append(
-            [dataset, n_classes, X.shape[1], X.shape[0], classifier_name, mc,
+            [dataset, n_classes, X.shape[1]/2, X.shape[0], classifier_name, mc,
            fold_id, acc, exec_time]
         )
 
