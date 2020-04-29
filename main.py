@@ -13,10 +13,12 @@ from sklearn.model_selection import StratifiedKFold
 
 from models.wflvq import WFLVQ
 from models.ivabc import IVABC
+from models.sdsa import SDSA
 
 classifiers = {
       'wflvq': WFLVQ,
-      'ivabc': IVABC
+      'ivabc': IVABC,
+      'sdsa' : SDSA
 }
 
 parameters = {
@@ -47,6 +49,12 @@ parameters = {
             'k': 3,
             'alpha': 0.0
         }
+    },
+    'sdsa': {
+        'climates': {'k': 266},
+        'dry-climates': {'k': 100},
+        'european-climates': {'k': 60},
+        'mushroom': {'k': 9}
     }
 }
 
@@ -68,7 +76,7 @@ def parse_arguments():
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-c', '--classifiers', dest='classifier_names',
                         type=comma_separated_strings,
-                        default=['wflvq', 'ivabc'],
+                        default=['wflvq', 'ivabc','sdsa'],
                         help='''Classifiers to use for evaluation in a comma
                         separated list of strings. From the following
                         options: ''' + ', '.join(classifiers.keys()))
