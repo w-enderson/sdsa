@@ -29,12 +29,14 @@ class SDSA:
             medias.append(np.mean(X[(C == c)], axis = 0))
 
         medias = np.array(medias)
+        medias_min = medias[:,::2]
+        medias_max = medias[:,1::2]
         #print(medias)
 
         for i in range(100):
 
-            d_min = cdist(X[:,::2], medias)
-            d_max = cdist(X[:,1::2], medias)    
+            d_min = cdist(X[:,::2], medias_min)
+            d_max = cdist(X[:,1::2], medias_max)    
             distance = d_min + d_max
             C  = np.argmin(distance, axis=1)
 
@@ -46,9 +48,12 @@ class SDSA:
             medias = []
             for c in range(self.k): 
                 medias.append(np.mean(X[(C == c)], axis = 0))
-
-        d_min = cdist(X[:,::2], medias)
-        d_max = cdist(X[:,1::2], medias)
+                
+        medias = np.array(medias)
+        medias_min = medias[:,::2]
+        medias_max = medias[:,1::2]
+        d_min = cdist(X[:,::2], medias_min)
+        d_max = cdist(X[:,1::2], medias_max)
 
 
         D = d_min + d_max
@@ -62,10 +67,14 @@ class SDSA:
     def accuracy(self, X, Y):
         #teste e retorna acuracia
         #predições para o teste
-        D = cdist(X, self.medias)
+
+        D_min = cdist(X[:, ::2], self.medias[:,::2])
+        D_max = cdist(X[:, 1::2], self.medias[:,1::2])
+
+        D = D_min + D_max
         predicoes = self.clf.predict(D)
         
-        accuracy = np.sum(predicoes == Y)/len(predicoes)
+        accuracy = np.mean(predicoes == Y)
         return accuracy    
 
 
