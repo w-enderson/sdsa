@@ -15,7 +15,7 @@ class SDSA:
 
     def fit(self, X, Y):    
         #treinamento
-        sort = random.sample(range(len(X)), self.k)
+        sort = np.random.choice(range(len(X)), self.k)
         #print(sort)
         n = X[sort]
         #print(n)
