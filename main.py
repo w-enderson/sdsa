@@ -10,6 +10,8 @@ import pandas as pd
 import numpy as np
 
 from sklearn.model_selection import StratifiedKFold
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
 
 from models.wflvq import WFLVQ
 from models.ivabc import IVABC
@@ -18,7 +20,10 @@ from models.sdsa import SDSA
 classifiers = {
       'wflvq': WFLVQ,
       'ivabc': IVABC,
-      'sdsa' : SDSA
+      'sdsa' : SDSA,
+      'sdsa_not_update' : SDSA,
+      'sdsa_rf' : SDSA,
+      'sdsa_svc' : SDSA
 }
 
 parameters = {
@@ -55,6 +60,24 @@ parameters = {
         'dry-climates': {'k': 100},
         'european-climates': {'k': 60},
         'mushroom': {'k': 9}
+    },
+    'sdsa_not_update': {
+        'climates': {'k': 266, 'update': False},
+        'dry-climates': {'k': 100, 'update': False},
+        'european-climates': {'k': 60, 'update': False},
+        'mushroom': {'k': 9,'update': False}
+    },
+    'sdsa_rf': {
+        'climates': {'k': 266, 'classifier': RandomForestClassifier},
+        'dry-climates': {'k': 100, 'classifier': RandomForestClassifier},
+        'european-climates': {'k': 60, 'classifier': RandomForestClassifier},
+        'mushroom': {'k': 9,'classifier': RandomForestClassifier}
+    },
+    'sdsa_svc': {
+        'climates': {'k': 266, 'classifier': SVC},
+        'dry-climates': {'k': 100, 'classifier': SVC},
+        'european-climates': {'k': 60, 'classifier': SVC},
+        'mushroom': {'k': 9,'classifier': SVC}
     }
 }
 
@@ -76,7 +99,7 @@ def parse_arguments():
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-c', '--classifiers', dest='classifier_names',
                         type=comma_separated_strings,
-                        default=['wflvq', 'ivabc','sdsa'],
+                        default=['wflvq', 'ivabc','sdsa', 'sdsa_not_update', 'sdsa_rf', 'sdsa_svc'],
                         help='''Classifiers to use for evaluation in a comma
                         separated list of strings. From the following
                         options: ''' + ', '.join(classifiers.keys()))
