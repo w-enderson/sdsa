@@ -58,18 +58,18 @@ class SDSA:
                     if np.any(C==c):
                       medias.append(np.mean(X[(C == c)], axis = 0))
                     
-                    medias = np.array(medias)
-                    medias_min = medias[:,::2]
-                    medias_max = medias[:,1::2]
-                    d_min = cdist(X[:,::2], medias_min)
-                    d_max = cdist(X[:,1::2], medias_max)
-                    D = d_min + d_max
+                medias = np.array(medias)
+                medias_min = medias[:,::2]
+                medias_max = medias[:,1::2]
+                d_min = cdist(X[:,::2], medias_min)
+                d_max = cdist(X[:,1::2], medias_max)
+                D = d_min + d_max
         
         d_min = cdist(X[:,::2], medias_min)
         d_max = cdist(X[:,1::2], medias_max)
         D = d_min + d_max
 
-        clf = self.classifier(max_depth=3)
+        clf = self.classifier()
         clf.fit(D,Y)
         self.clf = clf
         self.medias = medias
