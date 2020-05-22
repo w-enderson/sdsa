@@ -12,6 +12,7 @@ import numpy as np
 from sklearn.model_selection import StratifiedKFold
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
 
 from models.wflvq import WFLVQ
 from models.ivabc import IVABC
@@ -23,7 +24,8 @@ classifiers = {
       'sdsa' : SDSA,
       'sdsa_not_update' : SDSA,
       'sdsa_rf' : SDSA,
-      'sdsa_svc' : SDSA
+      'sdsa_svc' : SDSA,
+      'sdsa_lr' : SDSA
 }
 
 parameters = {
@@ -78,6 +80,12 @@ parameters = {
         'dry-climates': {'k': 100, 'classifier': SVC},
         'european-climates': {'k': 60, 'classifier': SVC},
         'mushroom': {'k': 9,'classifier': SVC}
+    },
+    'sdsa_lr': {
+        'climates': {'k': 266, 'classifier': LogisticRegression},
+        'dry-climates': {'k': 100, 'classifier': LogisticRegression},
+        'european-climates': {'k': 60, 'classifier': LogisticRegression},
+        'mushroom': {'k': 9,'classifier': LogisticRegression}
     }
 }
 
@@ -99,7 +107,7 @@ def parse_arguments():
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-c', '--classifiers', dest='classifier_names',
                         type=comma_separated_strings,
-                        default=['wflvq', 'ivabc','sdsa', 'sdsa_not_update', 'sdsa_rf', 'sdsa_svc'],
+                        default=['wflvq', 'ivabc','sdsa', 'sdsa_not_update', 'sdsa_rf', 'sdsa_svc','sdsa_lr'],
                         help='''Classifiers to use for evaluation in a comma
                         separated list of strings. From the following
                         options: ''' + ', '.join(classifiers.keys()))
