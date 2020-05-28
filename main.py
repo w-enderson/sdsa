@@ -24,8 +24,11 @@ classifiers = {
       'sdsa' : SDSA,
       'sdsa_not_update' : SDSA,
       'sdsa_rf' : SDSA,
+      'sdsa_rf_not_update' : SDSA,
       'sdsa_svc' : SDSA,
-      'sdsa_lr' : SDSA
+      'sdsa_svc_not_update' : SDSA,
+      'sdsa_lr' : SDSA,
+      'sdsa_lr_not_update' : SDSA
 }
 
 parameters = {
@@ -75,17 +78,35 @@ parameters = {
         'european-climates': {'k': 60, 'classifier': RandomForestClassifier},
         'mushroom': {'k': 9,'classifier': RandomForestClassifier}
     },
+    'sdsa_rf_not_update': {
+        'climates': {'k': 266, 'classifier': RandomForestClassifier, 'update': False},
+        'dry-climates': {'k': 100, 'classifier': RandomForestClassifier, 'update': False},
+        'european-climates': {'k': 60, 'classifier': RandomForestClassifier, 'update': False},
+        'mushroom': {'k': 9,'classifier': RandomForestClassifier, 'update': False}
+    },
     'sdsa_svc': {
         'climates': {'k': 266, 'classifier': SVC},
         'dry-climates': {'k': 100, 'classifier': SVC},
         'european-climates': {'k': 60, 'classifier': SVC},
         'mushroom': {'k': 9,'classifier': SVC}
     },
+    'sdsa_svc_not_update': {
+        'climates': {'k': 266, 'classifier': SVC, 'update': False},
+        'dry-climates': {'k': 100, 'classifier': SVC, 'update': False},
+        'european-climates': {'k': 60, 'classifier': SVC, 'update': False},
+        'mushroom': {'k': 9,'classifier': SVC, 'update': False}
+    },
     'sdsa_lr': {
         'climates': {'k': 266, 'classifier': LogisticRegression},
         'dry-climates': {'k': 100, 'classifier': LogisticRegression},
         'european-climates': {'k': 60, 'classifier': LogisticRegression},
         'mushroom': {'k': 9,'classifier': LogisticRegression}
+    },
+    'sdsa_lr_not_update': {
+        'climates': {'k': 266, 'classifier': LogisticRegression,  'update': False},
+        'dry-climates': {'k': 100, 'classifier': LogisticRegression,  'update': False},
+        'european-climates': {'k': 60, 'classifier': LogisticRegression,  'update': False},
+        'mushroom': {'k': 9,'classifier': LogisticRegression,  'update': False}
     }
 }
 
@@ -107,7 +128,8 @@ def parse_arguments():
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-c', '--classifiers', dest='classifier_names',
                         type=comma_separated_strings,
-                        default=['wflvq', 'ivabc','sdsa', 'sdsa_not_update', 'sdsa_rf', 'sdsa_svc','sdsa_lr'],
+                        default=['wflvq', 'ivabc','sdsa', 'sdsa_not_update', 'sdsa_rf', 'sdsa_rf_not_update',
+                         'sdsa_svc','sdsa_svc_not_update','sdsa_lr', 'sdsa_lr_not_update'],
                         help='''Classifiers to use for evaluation in a comma
                         separated list of strings. From the following
                         options: ''' + ', '.join(classifiers.keys()))
