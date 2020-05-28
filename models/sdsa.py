@@ -5,6 +5,9 @@ import numpy as np
 from scipy.spatial.distance import cdist
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.utils.extmath import stable_cumsum
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
 # from sklearn.model_selection import train_test_split
 # from sklearn.model_selection import StratifiedKFold
 # from sklearn.ensemble import RandomForestClassifier
@@ -76,7 +79,12 @@ class SDSA:
         # D = d_min + d_max
         D = distances(X, medias)
 
-        clf = self.classifier()
+        if self.classifier in [SVC, LogisticRegression]:
+            clf = self.classifier(max_iter = 120000)
+        else:
+            clf = self.classifier()
+
+
         clf.fit(D,Y)
         self.clf = clf
         self.medias = medias
