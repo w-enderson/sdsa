@@ -61,52 +61,52 @@ parameters = {
         }
     },
     'sdsa': {
-        'climates': {'k': 266},
-        'dry-climates': {'k': 100},
-        'european-climates': {'k': 60},
-        'mushroom': {'k': 9}
+        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'parameters' : {}},
+        'dry-climates': {'k': [28, 38, 34], 'parameters' : {}},
+        'european-climates': {'k': [20, 40], 'parameters' : {}},
+        'mushroom': {'k': [7, 2], 'parameters' : {}}
     },
     'sdsa_not_update': {
-        'climates': {'k': 266, 'update': False},
-        'dry-climates': {'k': 100, 'update': False},
-        'european-climates': {'k': 60, 'update': False},
-        'mushroom': {'k': 9,'update': False}
+        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'update': False, 'parameters' : {}},
+        'dry-climates': {'k': [28, 38, 34], 'update': False, 'parameters' : {}},
+        'european-climates': {'k': [20, 40], 'update': False, 'parameters' : {}},
+        'mushroom': {'k': [7, 2],'update': False, 'parameters' : {}}
     },
     'sdsa_rf': {
-        'climates': {'k': 266, 'classifier': RandomForestClassifier},
-        'dry-climates': {'k': 100, 'classifier': RandomForestClassifier},
-        'european-climates': {'k': 60, 'classifier': RandomForestClassifier},
-        'mushroom': {'k': 9,'classifier': RandomForestClassifier}
+        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': RandomForestClassifier, 'parameters' : {}},
+        'dry-climates': {'k': [28, 38, 34], 'classifier': RandomForestClassifier, 'parameters' : {}},
+        'european-climates': {'k': [20, 40], 'classifier': RandomForestClassifier, 'parameters' : {}},
+        'mushroom': {'k': [7, 2],'classifier': RandomForestClassifier}
     },
     'sdsa_rf_not_update': {
-        'climates': {'k': 266, 'classifier': RandomForestClassifier, 'update': False},
-        'dry-climates': {'k': 100, 'classifier': RandomForestClassifier, 'update': False},
-        'european-climates': {'k': 60, 'classifier': RandomForestClassifier, 'update': False},
-        'mushroom': {'k': 9,'classifier': RandomForestClassifier, 'update': False}
+        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': RandomForestClassifier, 'update': False, 'parameters' : {}},
+        'dry-climates': {'k': [28, 38, 34], 'classifier': RandomForestClassifier, 'update': False, 'parameters' : {}},
+        'european-climates': {'k': [20, 40], 'classifier': RandomForestClassifier, 'update': False, 'parameters' : {}},
+        'mushroom': {'k': [7, 2],'classifier': RandomForestClassifier, 'update': False, 'parameters' : {}}
     },
     'sdsa_svc': {
-        'climates': {'k': 266, 'classifier': SVC},
-        'dry-climates': {'k': 100, 'classifier': SVC},
-        'european-climates': {'k': 60, 'classifier': SVC},
-        'mushroom': {'k': 9,'classifier': SVC}
+        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': SVC, 'parameters' : {}},
+        'dry-climates': {'k': [28, 38, 34], 'classifier': SVC, 'parameters' : {}},
+        'european-climates': {'k': [20, 40], 'classifier': SVC, 'parameters' : {}},
+        'mushroom': {'k':[7, 2],'classifier': SVC, 'parameters' : {}}
     },
     'sdsa_svc_not_update': {
-        'climates': {'k': 266, 'classifier': SVC, 'update': False},
-        'dry-climates': {'k': 100, 'classifier': SVC, 'update': False},
-        'european-climates': {'k': 60, 'classifier': SVC, 'update': False},
-        'mushroom': {'k': 9,'classifier': SVC, 'update': False}
+        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': SVC, 'update': False, 'parameters' : {}},
+        'dry-climates': {'k': [28, 38, 34], 'classifier': SVC, 'update': False, 'parameters' : {}},
+        'european-climates': {'k': [20, 40], 'classifier': SVC, 'update': False, 'parameters' : {}},
+        'mushroom': {'k': [7, 2],'classifier': SVC, 'update': False, 'parameters' : {}}
     },
     'sdsa_lr': {
-        'climates': {'k': 266, 'classifier': LogisticRegression},
-        'dry-climates': {'k': 100, 'classifier': LogisticRegression},
-        'european-climates': {'k': 60, 'classifier': LogisticRegression},
-        'mushroom': {'k': 9,'classifier': LogisticRegression}
+        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': LogisticRegression, 'parameters' : {'max_iter' : 120000}},
+        'dry-climates': {'k': [28, 38, 34], 'classifier': LogisticRegression, 'parameters' : {'max_iter' : 120000}},
+        'european-climates': {'k': [20, 40], 'classifier': LogisticRegression, 'parameters' : {'max_iter' : 120000}},
+        'mushroom': {'k': [7, 2],'classifier': LogisticRegression, 'parameters' : {'max_iter' : 120000}}
     },
     'sdsa_lr_not_update': {
-        'climates': {'k': 266, 'classifier': LogisticRegression,  'update': False},
-        'dry-climates': {'k': 100, 'classifier': LogisticRegression,  'update': False},
-        'european-climates': {'k': 60, 'classifier': LogisticRegression,  'update': False},
-        'mushroom': {'k': 9,'classifier': LogisticRegression,  'update': False}
+        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': LogisticRegression,  'update': False, 'parameters' : {'max_iter' : 120000}},
+        'dry-climates': {'k': [28, 38, 34], 'classifier': LogisticRegression,  'update': False, 'parameters' : {'max_iter' : 120000}},
+        'european-climates': {'k': [20, 40], 'classifier': LogisticRegression,  'update': False, 'parameters' : {'max_iter' : 120000}},
+        'mushroom': {'k': [7, 2],'classifier': LogisticRegression,  'update': False, 'parameters' : {'max_iter' : 120000}}
     }
 }
 

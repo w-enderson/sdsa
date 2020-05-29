@@ -17,10 +17,11 @@ from sklearn.linear_model import LogisticRegression
 
 class SDSA:
 
-    def __init__ (self, k, update = True, classifier = DecisionTreeClassifier):
+    def __init__ (self, k, update = True, classifier = DecisionTreeClassifier, parameters = None):
         self.k = k
         self.update = update
         self.classifier = classifier
+        self.parameters = parameters
 
     def fit(self, X, Y):    
         #treinamento
@@ -43,51 +44,55 @@ class SDSA:
         # medias_max = medias[:,1::2]
         #print(medias)
 
-        medias = kmeanspp(X, self.k)
-
-        if self.update == True:
-            for i in range(100):
-
-                # d_min = cdist(X[:,::2], medias_min)
-                # d_max = cdist(X[:,1::2], medias_max)    
-                # distance = d_min + d_max
-                D = distances(X, medias)
-                C  = np.argmin(D, axis=1)
-
-                #print(distance)
-                #print(C)
-                # minimos = np.min(distance, axis=1)
-                #print(minimos)
-
-                # medias = []
-                # for c in range(self.k): 
-                #     if np.any(C==c):
-                #       medias.append(np.mean(X[(C == c)], axis = 0))                    
-                # medias = np.array(medias)
-
-                for c in range(self.k): 
-                    if np.any(C==c):
-                      medias[c] = np.mean(X[(C == c)], axis = 0)     
-                # medias_min = medias[:,::2]
-                # medias_max = medias[:,1::2]
-                # d_min = cdist(X[:,::2], medias_min)
-                # d_max = cdist(X[:,1::2], medias_max)
-                # D = d_min + d_max
+        media_prot = []
         
-        # d_min = cdist(X[:,::2], medias_min)
-        # d_max = cdist(X[:,1::2], medias_max)
-        # D = d_min + d_max
-        D = distances(X, medias)
+        for i in self.k:  
 
-        if self.classifier in [SVC, LogisticRegression]:
-            clf = self.classifier(max_iter = 120000)
-        else:
-            clf = self.classifier()
+            medias = kmeanspp(X, i)
 
+            if self.update == True:
+                for i in range(100):
+
+                    # d_min = cdist(X[:,::2], medias_min)
+                    # d_max = cdist(X[:,1::2], medias_max)    
+                    # distance = d_min + d_max
+                    D = distances(X, medias)
+                    C  = np.argmin(D, axis=1)
+
+                    #print(distance)
+                    #print(C)
+                    # minimos = np.min(distance, axis=1)
+                    #print(minimos)
+
+                    # medias = []
+                    # for c in range(self.k): 
+                    #     if np.any(C==c):
+                    #       medias.append(np.mean(X[(C == c)], axis = 0))                    
+                    # medias = np.array(medias)
+
+                    for c in range(i): 
+                        if np.any(C==c):
+                            medias[c] = np.mean(X[(C == c)], axis = 0)     
+                    # medias_min = medias[:,::2]
+                    # medias_max = medias[:,1::2]
+                    # d_min = cdist(X[:,::2], medias_min)
+                    # d_max = cdist(X[:,1::2], medias_max)
+                    # D = d_min + d_max
+            
+            # d_min = cdist(X[:,::2], medias_min)
+            # d_max = cdist(X[:,1::2], medias_max)
+            # D = d_min + d_max        
+            media_prot.append(medias)  
+
+        prots = np.vstack(media_prot)
+
+        D = distances(X, prots)
+   
+        clf = self.classifier(**self.parameters)
 
         clf.fit(D,Y)
         self.clf = clf
-        self.medias = medias
+        self.medias = prots
         return self
 
     def accuracy(self, X, Y):
