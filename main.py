@@ -76,7 +76,7 @@ parameters = {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': RandomForestClassifier, 'parameters' : {}},
         'dry-climates': {'k': [28, 38, 34], 'classifier': RandomForestClassifier, 'parameters' : {}},
         'european-climates': {'k': [20, 40], 'classifier': RandomForestClassifier, 'parameters' : {}},
-        'mushroom': {'k': [7, 2],'classifier': RandomForestClassifier}
+        'mushroom': {'k': [7, 2],'classifier': RandomForestClassifier, 'parameters' : {}}
     },
     'sdsa_rf_not_update': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': RandomForestClassifier, 'update': False, 'parameters' : {}},
