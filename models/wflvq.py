@@ -25,7 +25,7 @@ class WFLVQ:
             train_y,
             self.n_prototypes_
         )
-
+        
         k, n, p = len(prototypes_y), len(train_X), int(prototypes_X.shape[1] / 2)
 
         t, t_without_progress = 0, 0
@@ -69,14 +69,18 @@ class WFLVQ:
                     prototype_weights[correct] * np.prod(deltas[correct], axis=1)
                 ).reshape(-1, 1) ** (1 / p)
                 feature_weights[correct] = prod / deltas[correct]
+                
 
                 # features update step
                 correct = (2 * correct - 1.0).reshape(-1, 1)
                 deg = deg.reshape(-1, 1)
+                
                 prototypes_X += correct * deg * rates * (x - prototypes_X)
-                rates = rates / (1.0 + (correct*rates))
+                prototypes_X = np.clip(prototypes_X, 0, 1)
+                
+                rates = rates / (1.0 + (correct * rates))
 
-                rates = np.clip(rates, 0.00005, 0.999999)
+                rates = np.clip(rates, 0.00005, 0.3)
                 if np.sum(rates == 0.00005) == k:
                     break
                 cycles += 1
@@ -92,7 +96,7 @@ class WFLVQ:
             else:
                 t_without_progress += 1
             prototype_weights = calculate_prototype_weights_(
-                X, y, prototypes_X, prototypes_y, feature_weights
+                train_X, train_y, prototypes_X, prototypes_y, feature_weights
             )
             validation_error = new_error
 
@@ -100,11 +104,11 @@ class WFLVQ:
             saved_prototypes_X,
             saved_prototypes_y
         )
+        
         self.feature_weights_ = saved_weights
         return self
 
     def predict(self, X):
-
         return predict_(
             X, 
             self.prototypes_[0], 
@@ -113,7 +117,6 @@ class WFLVQ:
         )
 
     def accuracy(self, X, y):
-        
         return accuracy_(
             X, 
             y, 
@@ -135,12 +138,16 @@ def calculate_distances_(X, prototypes_X, weights):
         (maxs_prots - maxs_X[:, np.newaxis]) ** 2
     ) * w).sum(axis=2)
 
-    return d_mins + d_maxs
+    d = d_mins + d_maxs
+    
+    
+    return d
 
 
 def calculate_degrees_(distances, eps=1e-10):
     d = (distances + eps) ** -2
-    return d / d.sum(axis=1).reshape(-1, 1)
+    deg = d / d.sum(axis=1).reshape(-1, 1)
+    return deg
 
 
 def calculate_criterion_(distances, degrees, prototypes_y, y):
@@ -205,4 +212,5 @@ def calculate_prototype_weights_(X, y, prototypes_X, prototypes_y, weights):
         class_weights[prototypes_y] * temp.prod(axis=1)
      ) ** (1 / np.bincount(prototypes_y)[prototypes_y])
     
-    return prod_prots / prot_totals
+    new_weights = prod_prots / prot_totals
+    return new_weights
