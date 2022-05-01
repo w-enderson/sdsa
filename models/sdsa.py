@@ -46,9 +46,9 @@ class SDSA:
 
         media_prot = []
         
-        for i in self.k:  
+        for i, n_prots in enumerate(self.k):  
 
-            medias = kmeanspp(X, i)
+            medias = kmeanspp(X[y==i], n_prots)
 
             if self.update == True:
                 for i in range(100):
