@@ -23,7 +23,7 @@ class SDSA:
         self.classifier = classifier
         self.parameters = parameters
 
-    def fit(self, X, Y):    
+    def fit(self, X, y):    
         #treinamento
         # sort = np.random.choice(range(len(X)), self.k)
         #print(sort)
@@ -47,16 +47,16 @@ class SDSA:
         media_prot = []
         
         for i, n_prots in enumerate(self.k):  
-
-            medias = kmeanspp(X[y==i], n_prots)
+            X_class = X[y==i]
+            medias = kmeanspp(X_class, n_prots)
 
             if self.update == True:
-                for i in range(100):
+                for t in range(100):
 
                     # d_min = cdist(X[:,::2], medias_min)
                     # d_max = cdist(X[:,1::2], medias_max)    
                     # distance = d_min + d_max
-                    D = distances(X, medias)
+                    D = distances(X_class, medias)
                     C  = np.argmin(D, axis=1)
 
                     #print(distance)
@@ -70,9 +70,9 @@ class SDSA:
                     #       medias.append(np.mean(X[(C == c)], axis = 0))                    
                     # medias = np.array(medias)
 
-                    for c in range(i): 
+                    for c in range(n_prots): 
                         if np.any(C==c):
-                            medias[c] = np.mean(X[(C == c)], axis = 0)     
+                            medias[c] = np.mean(X_class[C == c], axis = 0)     
                     # medias_min = medias[:,::2]
                     # medias_max = medias[:,1::2]
                     # d_min = cdist(X[:,::2], medias_min)
@@ -90,7 +90,7 @@ class SDSA:
    
         clf = self.classifier(**self.parameters)
 
-        clf.fit(D,Y)
+        clf.fit(D, y)
         self.clf = clf
         self.medias = prots
         return self
