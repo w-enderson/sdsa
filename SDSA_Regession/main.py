@@ -9,108 +9,37 @@ from multiprocessing import cpu_count, Pool
 import pandas as pd
 import numpy as np
 
-from sklearn.model_selection import StratifiedKFold
+
+from sklearn.model_selection import KFold
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
+from sklearn.svm import SVR
 from sklearn.linear_model import LogisticRegression
 
 from models.wflvq import WFLVQ
 from models.ivabc import IVABC
-from models.sdsa import SDSA
+from models.sdsa import SDSR
 
 classifiers = {
-      'wflvq': WFLVQ,
-      'ivabc': IVABC,
-      'sdsa' : SDSA,
-      'sdsa_not_update' : SDSA,
-      'sdsa_rf' : SDSA,
-      'sdsa_rf_not_update' : SDSA,
-      'sdsa_svc' : SDSA,
-      'sdsa_svc_not_update' : SDSA,
-      'sdsa_lr' : SDSA,
-      'sdsa_lr_not_update' : SDSA
+      'sdsr_svr' : SDSR,
+      'sdsr_svr_not_update' : SDSR
 }
 
 parameters = {
-    'wflvq': {
-        'climates': {'n_prototypes': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40]},
-        'dry-climates': {'n_prototypes': [28, 38, 34]},
-        'european-climates': {'n_prototypes': [20, 40]},
-        'mushroom': {'n_prototypes': [7, 2]}
+    'sdsr_svr': {
+        'climates': {'k': 34, 'classifier': SVR, 'parameters' : {}},    
+        'akc-data': {'k': 28, 'classifier': SVR, 'parameters' : {}},
+        'scientific-production': {'k': 20, 'classifier': SVR, 'parameters' : {}},
+        'mushroom': {'k':7,'classifier': SVR, 'parameters' : {}}
     },
-    'ivabc': {
-        'climates': {
-            'n_prototypes': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40],
-            'k': 8,
-            'alpha': 1.0
-        },
-        'dry-climates': {
-            'n_prototypes': [28, 38, 34],
-            'k': 28,
-            'alpha': 0.5
-        },
-        'european-climates': {
-            'n_prototypes': [20, 40],
-            'k': 3,
-            'alpha': 0.2
-        },
-        'mushroom': {
-            'n_prototypes': [7, 2],
-            'k': 3,
-            'alpha': 0.0
-        }
-    },
-    'sdsa': {
-        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'parameters' : {}},
-        'dry-climates': {'k': [28, 38, 34], 'parameters' : {}},
-        'european-climates': {'k': [20, 40], 'parameters' : {}},
-        'mushroom': {'k': [7, 2], 'parameters' : {}}
-    },
-    'sdsa_not_update': {
-        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'update': False, 'parameters' : {}},
-        'dry-climates': {'k': [28, 38, 34], 'update': False, 'parameters' : {}},
-        'european-climates': {'k': [20, 40], 'update': False, 'parameters' : {}},
-        'mushroom': {'k': [7, 2],'update': False, 'parameters' : {}}
-    },
-    'sdsa_rf': {
-        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': RandomForestClassifier, 'parameters' : {}},
-        'dry-climates': {'k': [28, 38, 34], 'classifier': RandomForestClassifier, 'parameters' : {}},
-        'european-climates': {'k': [20, 40], 'classifier': RandomForestClassifier, 'parameters' : {}},
-        'mushroom': {'k': [7, 2],'classifier': RandomForestClassifier, 'parameters' : {}}
-    },
-    'sdsa_rf_not_update': {
-        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': RandomForestClassifier, 'update': False, 'parameters' : {}},
-        'dry-climates': {'k': [28, 38, 34], 'classifier': RandomForestClassifier, 'update': False, 'parameters' : {}},
-        'european-climates': {'k': [20, 40], 'classifier': RandomForestClassifier, 'update': False, 'parameters' : {}},
-        'mushroom': {'k': [7, 2],'classifier': RandomForestClassifier, 'update': False, 'parameters' : {}}
-    },
-    'sdsa_svc': {
-        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': SVC, 'parameters' : {}},
-        'dry-climates': {'k': [28, 38, 34], 'classifier': SVC, 'parameters' : {}},
-        'european-climates': {'k': [20, 40], 'classifier': SVC, 'parameters' : {}},
-        'mushroom': {'k':[7, 2],'classifier': SVC, 'parameters' : {}}
-    },
-    'sdsa_svc_not_update': {
-        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': SVC, 'update': False, 'parameters' : {}},
-        'dry-climates': {'k': [28, 38, 34], 'classifier': SVC, 'update': False, 'parameters' : {}},
-        'european-climates': {'k': [20, 40], 'classifier': SVC, 'update': False, 'parameters' : {}},
-        'mushroom': {'k': [7, 2],'classifier': SVC, 'update': False, 'parameters' : {}}
-    },
-    'sdsa_lr': {
-        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': LogisticRegression, 'parameters' : {'max_iter' : 120000}},
-        'dry-climates': {'k': [28, 38, 34], 'classifier': LogisticRegression, 'parameters' : {'max_iter' : 120000}},
-        'european-climates': {'k': [20, 40], 'classifier': LogisticRegression, 'parameters' : {'max_iter' : 120000}},
-        'mushroom': {'k': [7, 2],'classifier': LogisticRegression, 'parameters' : {'max_iter' : 120000}}
-    },
-    'sdsa_lr_not_update': {
-        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': LogisticRegression,  'update': False, 'parameters' : {'max_iter' : 120000}},
-        'dry-climates': {'k': [28, 38, 34], 'classifier': LogisticRegression,  'update': False, 'parameters' : {'max_iter' : 120000}},
-        'european-climates': {'k': [20, 40], 'classifier': LogisticRegression,  'update': False, 'parameters' : {'max_iter' : 120000}},
-        'mushroom': {'k': [7, 2],'classifier': LogisticRegression,  'update': False, 'parameters' : {'max_iter' : 120000}}
+    'sdsr_svr_not_update': {
+        'climates': {'k': 12, 'classifier': SVR, 'update': False, 'parameters' : {}},
+        'akc-data': {'k': 34, 'classifier': SVR, 'update': False, 'parameters' : {}},
+        'scientific-production': {'k': 20, 'classifier': SVR, 'update': False, 'parameters' : {}},
+        'mushroom': {'k': 7,'classifier': SVR, 'update': False, 'parameters' : {}}
     }
 }
 
-columns = ['dataset', 'n_classes', 'n_features', 'n_samples', 'classifier', 'mc',
+columns = ['dataset', 'n_classes', 'n_features', 'n_samples', 'regression_model', 'mc',
            'test_fold', 'acc', 'exec_time']
 
 
@@ -129,7 +58,7 @@ def parse_arguments():
     parser.add_argument('-c', '--classifiers', dest='classifier_names',
                         type=comma_separated_strings,
                         default=['wflvq', 'ivabc','sdsa', 'sdsa_not_update', 'sdsa_rf', 'sdsa_rf_not_update',
-                         'sdsa_svc','sdsa_svc_not_update','sdsa_lr', 'sdsa_lr_not_update'],
+                         'sdsa_svc','sdsa_svc_not_update','sdsa_lr', 'sdsa_lr_not_update','sdsr_svr'],
                         help='''Classifiers to use for evaluation in a comma
                         separated list of strings. From the following
                         options: ''' + ', '.join(classifiers.keys()))
@@ -144,7 +73,7 @@ def parse_arguments():
                         help='''Path to store all the results''')
     parser.add_argument('-d', '--datasets', dest='datasets',
                         type=comma_separated_strings,
-                        default=['climates', 'dry-climates', 'european-climates', 'mushroom'],
+                        default=['climates', 'akc-data', 'scientific-production', 'mushroom'],
                         help='''Comma separated dataset names''')
     parser.add_argument('-w', '--workers', dest='n_workers', type=int,
                         default=-1,
@@ -193,27 +122,27 @@ def compute_all(args):
         exec_time : float
             Mean execution time
     '''
-    (dataset, n_folds, mc, classifier_name, results_path) = args
+    (dataset, n_folds, mc, regression_model_name, results_path) = args
 
-    classifier = classifiers[classifier_name]
-    params = parameters[classifier_name][dataset]
+    classifier = classifiers[regression_model_name]
+    params = parameters[regression_model_name][dataset]
     
     data = pd.read_csv('./datasets/{}.csv'.format(dataset)) 
 
-    X = data.drop('target', axis=1).values                                                                                                                                         
+    X = data.drop(['y_min','y_max'], axis=1).values                                                                                                                                         
 
-    y = data['target'].values
+    y = data[['y_min','y_max']].values
 
-    skf = StratifiedKFold(n_splits=n_folds, shuffle=True, random_state=mc)
+    skf = KFold(n_splits=n_folds, shuffle=True, random_state=mc)
     n_classes = len(np.unique(y))
     
     results = []
 
     fold_id = 0
-    for train_idx, test_idx in skf.split(X, y):
+    for train_idx, test_idx in skf.split(X):
         print(
             'Computing: classifier: {}, dataset: {}, mc: {} fold: {}'.format(
-                classifier_name, dataset, mc, fold_id
+                regression_model_name, dataset, mc, fold_id
             )
         )
         x_train, y_train = X[train_idx], y[train_idx]
@@ -226,10 +155,11 @@ def compute_all(args):
 
         exec_time = end - start
 
-        acc = c.accuracy(x_test, y_test)
+        #acc = c.accuracy(x_test, y_test)
+        rsquare = c.r_square(y_train, y_test)
         results.append(
-            [dataset, n_classes, X.shape[1]/2, X.shape[0], classifier_name, mc,
-           fold_id, acc, exec_time]
+            [dataset, n_classes, X.shape[1]/2, X.shape[0], regression_model_name, mc,
+           fold_id, rsquare, exec_time]
         )
 
         fold_id += 1
@@ -247,9 +177,9 @@ def main(mc_iterations, n_folds, classifier_names, results_path,
     classifier_names.sort()
     results_path_root = results_path
 
-    for classifier_name in classifier_names:
+    for regression_model_name in classifier_names:
         all_results = []
-        results_path = os.path.join(results_path_root, classifier_name)
+        results_path = os.path.join(results_path_root, regression_model_name)
 
         if not os.path.exists(results_path):
             os.makedirs(results_path)
@@ -257,7 +187,7 @@ def main(mc_iterations, n_folds, classifier_names, results_path,
         for dataset in dataset_names:
             mcs = np.arange(mc_iterations)
 
-            args = [[dataset], [n_folds], mcs, [classifier_name], [results_path]]
+            args = [[dataset], [n_folds], mcs, [regression_model_name], [results_path]]
             args = list(itertools.product(*args))
 
             if n_workers == -1:

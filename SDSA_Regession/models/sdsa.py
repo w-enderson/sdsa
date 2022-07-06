@@ -6,7 +6,7 @@ from scipy.spatial.distance import cdist
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.utils.extmath import stable_cumsum
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
+from sklearn.svm import SVR
 from sklearn.linear_model import LogisticRegression
 # from sklearn.model_selection import train_test_split
 # from sklearn.model_selection import StratifiedKFold
@@ -14,101 +14,80 @@ from sklearn.linear_model import LogisticRegression
 # from sklearn.svm import SVC
 # from sklearn.linear_model import LogisticRegression
 
+class CenterRangeRegression:
+    def __init__(self):
+        self.center_model = None
+        self.range_model = None
+    def fit(self, D, y):
+        pass
 
-class SDSA:
+    def predict(self, D):
+        pred_centers = self.center_model.predict(D)
+        pred_rangers = self.range_model.predict(D)
+        y_min = np.array(pred_centers) - [pred_rangers.T/2]
+        y_max = np.array(pred_centers) + [pred_rangers.T/2]
+        return y_min, y_max
 
-    def __init__ (self, k, update = True, classifier = DecisionTreeClassifier, parameters = None):
+
+def transform_center_range(y):
+    center_model = np.sum(y, axis = 1)/2
+    range_model = np.diff(y)
+    return center_model, range_model
+
+
+class CenterRangeSVR(CenterRangeRegression):
+    def fit(self, D, y):
+       center, ranger = transform_center_range(y)
+       self.center_model = SVR().fit(D, center)
+       self.center_model = SVR().fit(D, ranger)
+       return self
+
+class SDSR:
+
+    def __init__ (self, k, update = True, classifier = CenterRangeSVR, parameters = None):
         self.k = k
         self.update = update
         self.classifier = classifier
         self.parameters = parameters
 
     def fit(self, X, y):    
-        #treinamento
-        # sort = np.random.choice(range(len(X)), self.k)
-        #print(sort)
-        # n = X[sort]
-        #print(n)
-
-        # distance = cdist(X, n)
-        # C  = np.argmin(distance, axis=1)
-        #print(C)
-
-        # medias = []
-        # for c in range(self.k): 
-        #     if np.any(C==c):
-        #         medias.append(np.mean(X[(C == c)], axis = 0))
-        # medias = np.array(medias)
-
-        # medias_min = medias[:,::2]
-        # medias_max = medias[:,1::2]
-        #print(medias)
 
         media_prot = []
         
-        for i, n_prots in enumerate(self.k):  
-            X_class = X[y==i]
-            medias = kmeanspp(X_class, n_prots)
+        medias = kmeanspp(X, self.k)
 
-            if self.update == True:
-                for t in range(100):
-
-                    # d_min = cdist(X[:,::2], medias_min)
-                    # d_max = cdist(X[:,1::2], medias_max)    
-                    # distance = d_min + d_max
-                    D = distances(X_class, medias)
-                    C  = np.argmin(D, axis=1)
-
-                    #print(distance)
-                    #print(C)
-                    # minimos = np.min(distance, axis=1)
-                    #print(minimos)
-
-                    # medias = []
-                    # for c in range(self.k): 
-                    #     if np.any(C==c):
-                    #       medias.append(np.mean(X[(C == c)], axis = 0))                    
-                    # medias = np.array(medias)
-
-                    for c in range(n_prots): 
-                        if np.any(C==c):
-                            medias[c] = np.mean(X_class[C == c], axis = 0)     
-                    # medias_min = medias[:,::2]
-                    # medias_max = medias[:,1::2]
-                    # d_min = cdist(X[:,::2], medias_min)
-                    # d_max = cdist(X[:,1::2], medias_max)
-                    # D = d_min + d_max
-            
-            # d_min = cdist(X[:,::2], medias_min)
-            # d_max = cdist(X[:,1::2], medias_max)
-            # D = d_min + d_max        
-            media_prot.append(medias)  
+        if self.update == True:
+            for t in range(100):
+                D = distances(X, medias)
+                C  = np.argmin(D, axis=1)
+ 
+        media_prot.append(medias)  
 
         prots = np.vstack(media_prot)
 
         D = distances(X, prots)
    
-        clf = self.classifier(**self.parameters)
+        rm = self.classifier(**self.parameters)
 
-        clf.fit(D, y)
-        self.clf = clf
+        rm.fit(D, y) # y matriz com duas colunas (min e max)
+        self.rm = rm
         self.medias = prots
         return self
 
     def accuracy(self, X, Y):
-        #teste e retorna acuracia
-        #predições para o teste
-
-        # D_min = cdist(X[:, ::2], self.medias[:,::2])
-        # D_max = cdist(X[:, 1::2], self.medias[:,1::2])
-
-        # D = D_min + D_max
 
         D = distances(X, self.medias)
         predicoes = self.clf.predict(D)
         
         accuracy = np.sum(predicoes == Y)/len(predicoes == Y)
         return accuracy    
+    
+    def r_square(self, y, rm):
+        SST = np.var(np.diff(y))
+        SSReg = np.var(np.diff(rm))
+        Rsquared = SSReg/SST
+
+        return Rsquared
 
 
 def distances(matrix1, matrix2):
