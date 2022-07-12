@@ -18,6 +18,7 @@ from sklearn.linear_model import LogisticRegression
 from models.wflvq import WFLVQ
 from models.ivabc import IVABC
 from models.sdsa import SDSR
+from models.sdsa import CenterRangeSVR
 
 classifiers = {
       'sdsr_svr' : SDSR,
@@ -26,16 +27,16 @@ classifiers = {
 
 parameters = {
     'sdsr_svr': {
-        'climates': {'k': 34, 'classifier': SVR, 'parameters' : {}},    
-        'akc-data': {'k': 28, 'classifier': SVR, 'parameters' : {}},
-        'scientific-production': {'k': 20, 'classifier': SVR, 'parameters' : {}},
-        'mushroom': {'k':7,'classifier': SVR, 'parameters' : {}}
+        'climates': {'k': 34, 'classifier': CenterRangeSVR, 'parameters' : {}},    
+        'akc-data': {'k': 28, 'classifier': CenterRangeSVR, 'parameters' : {}},
+        'scientific-production': {'k': 20, 'classifier': CenterRangeSVR, 'parameters' : {}},
+        'mushroom': {'k':7,'classifier': CenterRangeSVR, 'parameters' : {}}
     },
     'sdsr_svr_not_update': {
-        'climates': {'k': 12, 'classifier': SVR, 'update': False, 'parameters' : {}},
-        'akc-data': {'k': 34, 'classifier': SVR, 'update': False, 'parameters' : {}},
-        'scientific-production': {'k': 20, 'classifier': SVR, 'update': False, 'parameters' : {}},
-        'mushroom': {'k': 7,'classifier': SVR, 'update': False, 'parameters' : {}}
+        'climates': {'k': 12, 'classifier': CenterRangeSVR, 'update': False, 'parameters' : {}},
+        'akc-data': {'k': 34, 'classifier': CenterRangeSVR, 'update': False, 'parameters' : {}},
+        'scientific-production': {'k': 20, 'classifier': CenterRangeSVR, 'update': False, 'parameters' : {}},
+        'mushroom': {'k': 7,'classifier': CenterRangeSVR, 'update': False, 'parameters' : {}}
     }
 }
 
@@ -57,8 +58,7 @@ def parse_arguments():
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-c', '--classifiers', dest='classifier_names',
                         type=comma_separated_strings,
-                        default=['wflvq', 'ivabc','sdsa', 'sdsa_not_update', 'sdsa_rf', 'sdsa_rf_not_update',
-                         'sdsa_svc','sdsa_svc_not_update','sdsa_lr', 'sdsa_lr_not_update','sdsr_svr'],
+                        default=['wflvq', 'ivabc','sdsr_svr'],
                         help='''Classifiers to use for evaluation in a comma
                         separated list of strings. From the following
                         options: ''' + ', '.join(classifiers.keys()))
@@ -156,10 +156,11 @@ def compute_all(args):
         exec_time = end - start
 
         #acc = c.accuracy(x_test, y_test)
-        rsquare = c.r_square(y_train, y_test)
+        #rsquare = c.r_square(x_test, y_test)
+        mmre = c.mmre(x_test, y_test)
         results.append(
             [dataset, n_classes, X.shape[1]/2, X.shape[0], regression_model_name, mc,
-           fold_id, rsquare, exec_time]
+           fold_id, mmre, exec_time]
         )
 
         fold_id += 1
@@ -199,8 +200,9 @@ def main(mc_iterations, n_folds, classifier_names, results_path,
                 if n_workers > len(args):
                     n_workers = len(args)
 
-                p = Pool(n_workers)
-                map_f = p.map
+                #p = Pool(n_workers)
+                #map_f = p.map
+                map_f = map
 
             dfs = map_f(compute_all, args)
             all_results.extend(dfs)

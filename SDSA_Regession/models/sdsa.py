@@ -24,14 +24,14 @@ class CenterRangeRegression:
     def predict(self, D):
         pred_centers = self.center_model.predict(D)
         pred_rangers = self.range_model.predict(D)
-        y_min = np.array(pred_centers) - [pred_rangers.T/2]
-        y_max = np.array(pred_centers) + [pred_rangers.T/2]
+        y_min = np.array(pred_centers) - [pred_rangers/2]
+        y_max = np.array(pred_centers) + [pred_rangers/2]
         return y_min, y_max
 
 
 def transform_center_range(y):
     center_model = np.sum(y, axis = 1)/2
-    range_model = np.diff(y)
+    range_model = np.diff(y).ravel()
     return center_model, range_model
 
 
@@ -39,7 +39,7 @@ class CenterRangeSVR(CenterRangeRegression):
     def fit(self, D, y):
        center, ranger = transform_center_range(y)
        self.center_model = SVR().fit(D, center)
-       self.center_model = SVR().fit(D, ranger)
+       self.range_model = SVR().fit(D, ranger)
        return self
 
 class SDSR:
@@ -82,12 +82,23 @@ class SDSR:
         accuracy = np.sum(predicoes == Y)/len(predicoes == Y)
         return accuracy    
     
-    def r_square(self, y, rm):
-        SST = np.var(np.diff(y))
-        SSReg = np.var(np.diff(rm))
-        Rsquared = SSReg/SST
+    
+    # def r_square(self, y, rm):
+    #     SST = np.var(np.diff(y))
+    #     SSReg = np.var(np.diff(rm))
+    #     Rsquared = SSReg/SST
 
-        return Rsquared
+    #     return Rsquared
+    
+    def mmre(self, X, Y):
+
+        D = distances(X, self.medias)
+
+        y_predict = self.rm.predict(D)
+        #print(y_predict)
+
+        mmre = np.sum(((Y[:,0] - y_predict[0])**2 + (Y[:,1] - y_predict[1])**2))/(len(Y)*2)
+        return mmre
 
 
 def distances(matrix1, matrix2):
