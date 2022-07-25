@@ -1,18 +1,14 @@
 import scipy.sparse as sp
-# from sklearn.datasets import load_iris
 import random
+import pandas as pd
 import numpy as np
 from scipy.spatial.distance import cdist
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.utils.extmath import stable_cumsum
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.svm import SVR
-from sklearn.linear_model import LogisticRegression
-# from sklearn.model_selection import train_test_split
-# from sklearn.model_selection import StratifiedKFold
-# from sklearn.ensemble import RandomForestClassifier
-# from sklearn.svm import SVC
-# from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LinearRegression
+import statsmodels.api as sm 
 
 class CenterRangeRegression:
     def __init__(self):
@@ -42,6 +38,51 @@ class CenterRangeSVR(CenterRangeRegression):
        self.range_model = SVR().fit(D, ranger)
        return self
 
+class CenterRangeRF(CenterRangeRegression):
+    def fit(self, D, y):
+       center, ranger = transform_center_range(y)
+       self.center_model = RandomForestRegressor().fit(D, center)
+       self.range_model = RandomForestRegressor().fit(D, ranger)
+       return self
+
+class CenterRangeLinear(CenterRangeRegression):
+    def fit(self, D, y):
+       center, ranger = transform_center_range(y)
+       self.center_model = LinearRegression().fit(D, center)
+       self.range_model = LinearRegression().fit(D, ranger)
+       return self
+
+class CenterRangeLinearComparition():
+    def __init__(self):
+        self.center_model = None
+        self.range_model = None
+    def fit(self, X, y):
+       center, ranger = transform_center_range(y)
+
+       self.center_model = LinearRegression().fit(D, center)
+       self.range_model = LinearRegression().fit(D, ranger)
+       return self
+    def predict(self, X_ranger, X_center):
+        pred_centers = self.center_model.predict(D)
+        pred_rangers = self.range_model.predict(D)
+        y_min = np.array(pred_centers) - [pred_rangers/2]
+        y_max = np.array(pred_centers) + [pred_rangers/2]
+        return y_min, y_max
+
+class CenterRangeOLS():
+    def __init__(self):
+        self.ols_model = None
+    def fit(self, D, y):
+       center, ranger = transform_center_range(y)
+       self.ols_model = sm.OLS(pd.DataFrame([center, ranger]).T, D).fit()
+       return self
+    def predict(self, D):
+        pred_ols = self.ols_model.predict(D)
+        y_min = np.array(pred_ols[:,0]) - [pred_ols[:,1]/2]
+        y_max = np.array(pred_ols[:,0]) + [pred_ols[:,1]/2]
+        return y_min, y_max
+
+
 class SDSR:
 
     def __init__ (self, k, update = True, classifier = CenterRangeSVR, parameters = None):
@@ -53,23 +94,24 @@ class SDSR:
     def fit(self, X, y):    
 
         media_prot = []
-        
+
         medias = kmeanspp(X, self.k)
 
         if self.update == True:
             for t in range(100):
                 D = distances(X, medias)
                 C  = np.argmin(D, axis=1)
- 
+
         media_prot.append(medias)  
 
         prots = np.vstack(media_prot)
 
         D = distances(X, prots)
-   
+
         rm = self.classifier(**self.parameters)
 
         rm.fit(D, y) # y matriz com duas colunas (min e max)
+
         self.rm = rm
         self.medias = prots
         return self
@@ -93,9 +135,7 @@ class SDSR:
     def mmre(self, X, Y):
 
         D = distances(X, self.medias)
-
         y_predict = self.rm.predict(D)
-        #print(y_predict)
 
         mmre = np.sum(((Y[:,0] - y_predict[0])**2 + (Y[:,1] - y_predict[1])**2))/(len(Y)*2)
         return mmre

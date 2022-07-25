@@ -19,10 +19,16 @@ from models.wflvq import WFLVQ
 from models.ivabc import IVABC
 from models.sdsa import SDSR
 from models.sdsa import CenterRangeSVR
+from models.sdsa import CenterRangeRF
+from models.sdsa import CenterRangeLinear
+from models.sdsa import CenterRangeOLS
 
 classifiers = {
       'sdsr_svr' : SDSR,
-      'sdsr_svr_not_update' : SDSR
+      'sdsr_svr_not_update' : SDSR,
+      'sdsr_rf' : SDSR,
+      'sdsr_linear': SDSR,
+      'sdsr_ols' : SDSR
 }
 
 parameters = {
@@ -37,6 +43,24 @@ parameters = {
         'akc-data': {'k': 34, 'classifier': CenterRangeSVR, 'update': False, 'parameters' : {}},
         'scientific-production': {'k': 20, 'classifier': CenterRangeSVR, 'update': False, 'parameters' : {}},
         'mushroom': {'k': 7,'classifier': CenterRangeSVR, 'update': False, 'parameters' : {}}
+    },
+    'sdsr_rf': {
+        'climates': {'k': 12, 'classifier': CenterRangeRF, 'parameters' : {}},
+        'akc-data': {'k': 34, 'classifier': CenterRangeRF,  'parameters' : {}},
+        'scientific-production': {'k': 20, 'classifier': CenterRangeRF, 'parameters' : {}},
+        'mushroom': {'k': 7,'classifier': CenterRangeRF,  'parameters' : {}}
+    },
+    'sdsr_linear': {
+        'climates': {'k': 12, 'classifier': CenterRangeLinear, 'parameters' : {}},
+        'akc-data': {'k': 34, 'classifier': CenterRangeLinear,  'parameters' : {}},
+        'scientific-production': {'k': 20, 'classifier': CenterRangeLinear, 'parameters' : {}},
+        'mushroom': {'k': 7,'classifier': CenterRangeLinear,  'parameters' : {}}
+    },
+       'sdsr_ols': {
+        'climates': {'k': 12, 'classifier': CenterRangeOLS, 'parameters' : {}},
+        'akc-data': {'k': 34, 'classifier': CenterRangeOLS,  'parameters' : {}},
+        'scientific-production': {'k': 20, 'classifier': CenterRangeOLS, 'parameters' : {}},
+        'mushroom': {'k': 7,'classifier': CenterRangeOLS,  'parameters' : {}}
     }
 }
 
@@ -58,7 +82,7 @@ def parse_arguments():
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-c', '--classifiers', dest='classifier_names',
                         type=comma_separated_strings,
-                        default=['wflvq', 'ivabc','sdsr_svr'],
+                        default=['wflvq', 'ivabc','sdsr_svr','sdsr_rf','sdsr_linear','sdsr_ols'],
                         help='''Classifiers to use for evaluation in a comma
                         separated list of strings. From the following
                         options: ''' + ', '.join(classifiers.keys()))
@@ -200,9 +224,9 @@ def main(mc_iterations, n_folds, classifier_names, results_path,
                 if n_workers > len(args):
                     n_workers = len(args)
 
-                #p = Pool(n_workers)
-                #map_f = p.map
-                map_f = map
+                p = Pool(n_workers)
+                map_f = p.map
+                #map_f = map
 
             dfs = map_f(compute_all, args)
             all_results.extend(dfs)

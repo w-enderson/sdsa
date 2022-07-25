@@ -1,0 +1,11 @@
+,dataset,n_classes,n_features,n_samples,regression_model,mc,test_fold,acc,exec_time
+0,scientific-production,73,32.0,5630,sdsr_linear,6,0,210625.7613798989,5.9657251834869385
+1,scientific-production,73,32.0,5630,sdsr_linear,6,1,217162.08641718977,4.442260026931763
+2,scientific-production,73,32.0,5630,sdsr_linear,6,2,115978.7415893255,5.779221773147583
+3,scientific-production,73,32.0,5630,sdsr_linear,6,3,231145.15904316376,4.533110857009888
+4,scientific-production,73,32.0,5630,sdsr_linear,6,4,116249.85037044469,4.1095130443573
+5,scientific-production,73,32.0,5630,sdsr_linear,6,5,133046.60867451926,5.570915937423706
+6,scientific-production,73,32.0,5630,sdsr_linear,6,6,321483.7712765595,5.793145179748535
+7,scientific-production,73,32.0,5630,sdsr_linear,6,7,319173.0818922797,4.293929815292358
+8,scientific-production,73,32.0,5630,sdsr_linear,6,8,268873.3817210247,4.899759292602539
+9,scientific-production,73,32.0,5630,sdsr_linear,6,9,139237.69734184837,5.082363843917847
