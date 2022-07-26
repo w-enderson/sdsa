@@ -56,15 +56,15 @@ class CenterRangeLinearComparition():
     def __init__(self):
         self.center_model = None
         self.range_model = None
-    def fit(self, X, y):
+    def fit(self, X_centers, X_rangers, y):
        center, ranger = transform_center_range(y)
 
-       self.center_model = LinearRegression().fit(D, center)
-       self.range_model = LinearRegression().fit(D, ranger)
+       self.center_model = LinearRegression().fit(X_centers, center)
+       self.range_model = LinearRegression().fit(X_rangers, ranger)
        return self
-    def predict(self, X_ranger, X_center):
-        pred_centers = self.center_model.predict(D)
-        pred_rangers = self.range_model.predict(D)
+    def predict(self, X_centers, X_rangers):
+        pred_centers = self.center_model.predict(X_centers)
+        pred_rangers = self.range_model.predict(X_rangers)
         y_min = np.array(pred_centers) - [pred_rangers/2]
         y_max = np.array(pred_centers) + [pred_rangers/2]
         return y_min, y_max
@@ -90,39 +90,59 @@ class SDSR:
         self.update = update
         self.classifier = classifier
         self.parameters = parameters
+    
 
     def fit(self, X, y):    
-
-        media_prot = []
-
-        medias = kmeanspp(X, self.k)
-
-        if self.update == True:
-            for t in range(100):
-                D = distances(X, medias)
-                C  = np.argmin(D, axis=1)
-
-        media_prot.append(medias)  
-
-        prots = np.vstack(media_prot)
-
-        D = distances(X, prots)
-
-        rm = self.classifier(**self.parameters)
-
-        rm.fit(D, y) # y matriz com duas colunas (min e max)
-
-        self.rm = rm
-        self.medias = prots
-        return self
-
-    def accuracy(self, X, Y):
-
-        D = distances(X, self.medias)
-        predicoes = self.clf.predict(D)
         
-        accuracy = np.sum(predicoes == Y)/len(predicoes == Y)
-        return accuracy    
+        #print(X)
+        #print(X[:,0:2])
+        if self.classifier == CenterRangeLinearComparition:
+
+                X_centers, X_rangers = transform_X_center_ranger(X)
+             
+                rm = self.classifier(**self.parameters)
+
+                rm.fit(X_centers, X_rangers, y) # y matriz com duas colunas (min e max)
+
+                self.rm = rm
+        
+        else:
+
+            media_prot = []
+
+            medias = kmeanspp(X, self.k)
+
+            if self.update == True:
+                for t in range(100):
+                    D = distances(X, medias)
+                    C  = np.argmin(D, axis=1)
+
+            media_prot.append(medias)  
+
+            prots = np.vstack(media_prot)
+
+            D = distances(X, prots)
+
+            rm = self.classifier(**self.parameters)
+
+            rm.fit(D, y) # y matriz com duas colunas (min e max)
+
+            self.rm = rm
+            self.medias = prots
+        return self
+  
+     
+    # def accuracy(self, X, Y):
+
+    #     if self.classifier == CenterRangeLinearComparition:
+    #         X_centers, X_rangers = transform_X_center_ranger(X)
+    #         predicoes = self.clf.predict(X_centers, X_rangers)
+    #     else:
+    #         D = distances(X, self.medias)
+    #         predicoes = self.clf.predict(D)
+        
+    #     accuracy = np.sum(predicoes == Y)/len(predicoes == Y)
+    #     return accuracy    
     
     
     # def r_square(self, y, rm):
@@ -134,12 +154,28 @@ class SDSR:
     
     def mmre(self, X, Y):
 
-        D = distances(X, self.medias)
-        y_predict = self.rm.predict(D)
+        if self.classifier == CenterRangeLinearComparition:
+            X_centers, X_rangers = transform_X_center_ranger(X)
+            y_predict = self.rm.predict(X_centers, X_rangers)
+        else:
+            D = distances(X, self.medias)
+            y_predict = self.rm.predict(D)
 
         mmre = np.sum(((Y[:,0] - y_predict[0])**2 + (Y[:,1] - y_predict[1])**2))/(len(Y)*2)
         return mmre
 
+
+def transform_X_center_ranger(X):
+
+    X_centers = pd.DataFrame()
+    X_rangers = pd.DataFrame()
+
+    for i, j in zip(range(0,X.shape[1],2), range(int(X.shape[1]/2))):
+        
+        X_centers['x_{}'.format(j)] =  transform_center_range(X[:,i:i+2])[0]
+        X_rangers['x_{}'.format(j)] =  transform_center_range(X[:,i:i+2])[1]
+    
+    return X_centers, X_rangers
 
 def distances(matrix1, matrix2):
     d_min = cdist(matrix1[:,::2], matrix2[:,::2])

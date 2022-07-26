@@ -22,13 +22,15 @@ from models.sdsa import CenterRangeSVR
 from models.sdsa import CenterRangeRF
 from models.sdsa import CenterRangeLinear
 from models.sdsa import CenterRangeOLS
+from models.sdsa import CenterRangeLinearComparition
 
 classifiers = {
       'sdsr_svr' : SDSR,
       'sdsr_svr_not_update' : SDSR,
       'sdsr_rf' : SDSR,
       'sdsr_linear': SDSR,
-      'sdsr_ols' : SDSR
+      'sdsr_ols' : SDSR,
+      'sdsr_linear_comparition': SDSR
 }
 
 parameters = {
@@ -61,6 +63,12 @@ parameters = {
         'akc-data': {'k': 34, 'classifier': CenterRangeOLS,  'parameters' : {}},
         'scientific-production': {'k': 20, 'classifier': CenterRangeOLS, 'parameters' : {}},
         'mushroom': {'k': 7,'classifier': CenterRangeOLS,  'parameters' : {}}
+    },
+     'sdsr_linear_comparition': {
+        'climates': {'k': 12, 'classifier': CenterRangeLinearComparition, 'parameters' : {}},
+        'akc-data': {'k': 34, 'classifier': CenterRangeLinearComparition,  'parameters' : {}},
+        'scientific-production': {'k': 20, 'classifier': CenterRangeLinearComparition, 'parameters' : {}},
+        'mushroom': {'k': 7,'classifier': CenterRangeLinearComparition,  'parameters' : {}}
     }
 }
 
@@ -82,7 +90,7 @@ def parse_arguments():
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-c', '--classifiers', dest='classifier_names',
                         type=comma_separated_strings,
-                        default=['wflvq', 'ivabc','sdsr_svr','sdsr_rf','sdsr_linear','sdsr_ols'],
+                        default=['wflvq', 'ivabc','sdsr_svr','sdsr_rf','sdsr_linear','sdsr_ols','sdsr_linear_comparition'],
                         help='''Classifiers to use for evaluation in a comma
                         separated list of strings. From the following
                         options: ''' + ', '.join(classifiers.keys()))
