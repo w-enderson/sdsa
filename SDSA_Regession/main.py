@@ -11,64 +11,91 @@ import numpy as np
 
 
 from sklearn.model_selection import KFold
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVR
 from sklearn.linear_model import LogisticRegression
 
 from models.wflvq import WFLVQ
 from models.ivabc import IVABC
-from models.sdsa import SDSR
-from models.sdsa import CenterRangeSVR
-from models.sdsa import CenterRangeRF
-from models.sdsa import CenterRangeLinear
-from models.sdsa import CenterRangeOLS
-from models.sdsa import CenterRangeLinearComparition
+from models.sdsr import SDSR
+from models.sdsr import CenterRangeSVR
+from models.sdsr import CenterRangeRF
+from models.sdsr import CenterRangeLinear
+from models.sdsr import CenterRangeOLS
+from models.sdsr import CenterRangeLinearComparition
 
-classifiers = {
+regressors = {
       'sdsr_svr' : SDSR,
       'sdsr_svr_not_update' : SDSR,
       'sdsr_rf' : SDSR,
+      'sdsr_rf_not_update': SDSR,
       'sdsr_linear': SDSR,
-      'sdsr_ols' : SDSR,
-      'sdsr_linear_comparition': SDSR
+      'sdsr_linear_not_update': SDSR,
+      'sdsr_ols': SDSR,
+      'sdsr_ols_not_update': SDSR,
+      'sdsr_linear_comparition': SDSR,
+      'sdsr_linear_comparition_not_update': SDSR
 }
 
 parameters = {
     'sdsr_svr': {
-        'climates': {'k': 34, 'classifier': CenterRangeSVR, 'parameters' : {}},    
-        'akc-data': {'k': 28, 'classifier': CenterRangeSVR, 'parameters' : {}},
-        'scientific-production': {'k': 20, 'classifier': CenterRangeSVR, 'parameters' : {}},
-        'mushroom': {'k':7,'classifier': CenterRangeSVR, 'parameters' : {}}
+        'climates': {'k': 10, 'regressor': CenterRangeSVR, 'parameters' : {}},    
+        'akc-data': {'k': 10, 'regressor': CenterRangeSVR, 'parameters' : {}},
+        'scientific-production': {'k': 10, 'regressor': CenterRangeSVR, 'parameters' : {}},
+        'mushroom': {'k': 10,'regressor': CenterRangeSVR, 'parameters' : {}}
     },
     'sdsr_svr_not_update': {
-        'climates': {'k': 12, 'classifier': CenterRangeSVR, 'update': False, 'parameters' : {}},
-        'akc-data': {'k': 34, 'classifier': CenterRangeSVR, 'update': False, 'parameters' : {}},
-        'scientific-production': {'k': 20, 'classifier': CenterRangeSVR, 'update': False, 'parameters' : {}},
-        'mushroom': {'k': 7,'classifier': CenterRangeSVR, 'update': False, 'parameters' : {}}
+        'climates': {'k': 10, 'regressor': CenterRangeSVR, 'update': False, 'parameters' : {}},
+        'akc-data': {'k': 10, 'regressor': CenterRangeSVR, 'update': False, 'parameters' : {}},
+        'scientific-production': {'k': 10, 'regressor': CenterRangeSVR, 'update': False, 'parameters' : {}},
+        'mushroom': {'k': 10,'regressor': CenterRangeSVR, 'update': False, 'parameters' : {}}
     },
     'sdsr_rf': {
-        'climates': {'k': 12, 'classifier': CenterRangeRF, 'parameters' : {}},
-        'akc-data': {'k': 34, 'classifier': CenterRangeRF,  'parameters' : {}},
-        'scientific-production': {'k': 20, 'classifier': CenterRangeRF, 'parameters' : {}},
-        'mushroom': {'k': 7,'classifier': CenterRangeRF,  'parameters' : {}}
+        'climates': {'k': 10, 'regressor': CenterRangeRF, 'parameters' : {}},
+        'akc-data': {'k': 10, 'regressor': CenterRangeRF,  'parameters' : {}},
+        'scientific-production': {'k': 10, 'regressor': CenterRangeRF, 'parameters' : {}},
+        'mushroom': {'k': 10,'regressor': CenterRangeRF,  'parameters' : {}}
+    },
+    'sdsr_rf_not_update': {
+        'climates': {'k': 10, 'regressor': CenterRangeRF, 'update': False, 'parameters' : {}},
+        'akc-data': {'k': 10, 'regressor': CenterRangeRF, 'update': False, 'parameters' : {}},
+        'scientific-production': {'k': 10, 'regressor': CenterRangeRF, 'update': False, 'parameters' : {}},
+        'mushroom': {'k': 10,'regressor': CenterRangeRF,  'update': False, 'parameters' : {}}
     },
     'sdsr_linear': {
-        'climates': {'k': 12, 'classifier': CenterRangeLinear, 'parameters' : {}},
-        'akc-data': {'k': 34, 'classifier': CenterRangeLinear,  'parameters' : {}},
-        'scientific-production': {'k': 20, 'classifier': CenterRangeLinear, 'parameters' : {}},
-        'mushroom': {'k': 7,'classifier': CenterRangeLinear,  'parameters' : {}}
+        'climates': {'k': 10, 'regressor': CenterRangeLinear, 'parameters' : {}},
+        'akc-data': {'k': 10, 'regressor': CenterRangeLinear,  'parameters' : {}},
+        'scientific-production': {'k': 10, 'regressor': CenterRangeLinear, 'parameters' : {}},
+        'mushroom': {'k': 10,'regressor': CenterRangeLinear,  'parameters' : {}}
+    },
+    'sdsr_linear_not_update': {
+        'climates': {'k': 10, 'regressor': CenterRangeLinear, 'update': False, 'parameters' : {}},
+        'akc-data': {'k': 10, 'regressor': CenterRangeLinear, 'update': False,  'parameters' : {}},
+        'scientific-production': {'k': 10, 'regressor': CenterRangeLinear, 'update': False,  'parameters' : {}},
+        'mushroom': {'k': 10,'regressor': CenterRangeLinear,  'update': False, 'parameters' : {}}
     },
        'sdsr_ols': {
-        'climates': {'k': 12, 'classifier': CenterRangeOLS, 'parameters' : {}},
-        'akc-data': {'k': 34, 'classifier': CenterRangeOLS,  'parameters' : {}},
-        'scientific-production': {'k': 20, 'classifier': CenterRangeOLS, 'parameters' : {}},
-        'mushroom': {'k': 7,'classifier': CenterRangeOLS,  'parameters' : {}}
+        'climates': {'k': 10, 'regressor': CenterRangeOLS, 'parameters' : {}},
+        'akc-data': {'k': 10, 'regressor': CenterRangeOLS,  'parameters' : {}},
+        'scientific-production': {'k': 10, 'regressor': CenterRangeOLS, 'parameters' : {}},
+        'mushroom': {'k': 10,'regressor': CenterRangeOLS,  'parameters' : {}}
+    },
+    'sdsr_ols_not_update': {
+        'climates': {'k': 10, 'regressor': CenterRangeOLS, 'update': False, 'parameters' : {}},
+        'akc-data': {'k': 10, 'regressor': CenterRangeOLS,  'update': False, 'parameters' : {}},
+        'scientific-production': {'k': 10, 'regressor': CenterRangeOLS, 'update': False, 'parameters' : {}},
+        'mushroom': {'k': 10,'regressor': CenterRangeOLS, 'update': False, 'parameters' : {}}
     },
      'sdsr_linear_comparition': {
-        'climates': {'k': 12, 'classifier': CenterRangeLinearComparition, 'parameters' : {}},
-        'akc-data': {'k': 34, 'classifier': CenterRangeLinearComparition,  'parameters' : {}},
-        'scientific-production': {'k': 20, 'classifier': CenterRangeLinearComparition, 'parameters' : {}},
-        'mushroom': {'k': 7,'classifier': CenterRangeLinearComparition,  'parameters' : {}}
+        'climates': {'k': 10, 'regressor': CenterRangeLinearComparition, 'parameters' : {}},
+        'akc-data': {'k': 10, 'regressor': CenterRangeLinearComparition,  'parameters' : {}},
+        'scientific-production': {'k': 10, 'regressor': CenterRangeLinearComparition, 'parameters' : {}},
+        'mushroom': {'k': 10,'regressor': CenterRangeLinearComparition,  'parameters' : {}}
+    },
+     'sdsr_linear_comparition_not_update': {
+        'climates': {'k': 10, 'regressor': CenterRangeLinearComparition, 'update': False, 'parameters' : {}},
+        'akc-data': {'k': 10, 'regressor': CenterRangeLinearComparition,  'update': False, 'parameters' : {}},
+        'scientific-production': {'k': 10, 'regressor': CenterRangeLinearComparition, 'update': False, 'parameters' : {}},
+        'mushroom': {'k': 10,'regressor': CenterRangeLinearComparition,  'update': False, 'parameters' : {}}
     }
 }
 
@@ -88,12 +115,14 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description='''Runs all the experiments
                                      with the given arguments''',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('-c', '--classifiers', dest='classifier_names',
+    parser.add_argument('-c', '--regressors', dest='regressors_names',
                         type=comma_separated_strings,
-                        default=['wflvq', 'ivabc','sdsr_svr','sdsr_rf','sdsr_linear','sdsr_ols','sdsr_linear_comparition'],
+                        default=['wflvq', 'ivabc','sdsr_svr', 'sdsr_svr_not_update','sdsr_rf', 'sdsr_rf_not_update',
+                        'sdsr_linear','sdsr_linear_not_update','sdsr_ols','sdsr_ols_not_update','sdsr_linear_comparition',
+                        'sdsr_linear_comparition_not_update'],
                         help='''Classifiers to use for evaluation in a comma
                         separated list of strings. From the following
-                        options: ''' + ', '.join(classifiers.keys()))
+                        options: ''' + ', '.join(regressors.keys()))
     parser.add_argument('-i', '--iterations', dest='mc_iterations', type=int,
                         default=10,
                         help='Number of Monte Carlo iterations')
@@ -156,7 +185,7 @@ def compute_all(args):
     '''
     (dataset, n_folds, mc, regression_model_name, results_path) = args
 
-    classifier = classifiers[regression_model_name]
+    regressor = regressors[regression_model_name]
     params = parameters[regression_model_name][dataset]
     
     data = pd.read_csv('./datasets/{}.csv'.format(dataset)) 
@@ -173,14 +202,14 @@ def compute_all(args):
     fold_id = 0
     for train_idx, test_idx in skf.split(X):
         print(
-            'Computing: classifier: {}, dataset: {}, mc: {} fold: {}'.format(
+            'Computing: regressor: {}, dataset: {}, mc: {} fold: {}'.format(
                 regression_model_name, dataset, mc, fold_id
             )
         )
         x_train, y_train = X[train_idx], y[train_idx]
         x_test, y_test = X[test_idx], y[test_idx]
 
-        c = classifier(**params)
+        c = regressor(**params)
         start = time.time()
         c.fit(x_train, y_train)
         end = time.time()
@@ -201,16 +230,16 @@ def compute_all(args):
     return df
 
 
-def main(mc_iterations, n_folds, classifier_names, results_path,
+def main(mc_iterations, n_folds, regressors_names, results_path,
 		 datasets, n_workers):
 
     dataset_names = datasets
     dataset_names.sort()
 
-    classifier_names.sort()
+    regressors_names.sort()
     results_path_root = results_path
 
-    for regression_model_name in classifier_names:
+    for regression_model_name in regressors_names:
         all_results = []
         results_path = os.path.join(results_path_root, regression_model_name)
 

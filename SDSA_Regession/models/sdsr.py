@@ -3,7 +3,6 @@ import random
 import pandas as pd
 import numpy as np
 from scipy.spatial.distance import cdist
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.utils.extmath import stable_cumsum
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.svm import SVR
@@ -85,10 +84,10 @@ class CenterRangeOLS():
 
 class SDSR:
 
-    def __init__ (self, k, update = True, classifier = CenterRangeSVR, parameters = None):
+    def __init__ (self, k, update = True, regressor = CenterRangeSVR, parameters = None):
         self.k = k
         self.update = update
-        self.classifier = classifier
+        self.regressor = regressor
         self.parameters = parameters
     
 
@@ -96,11 +95,11 @@ class SDSR:
         
         #print(X)
         #print(X[:,0:2])
-        if self.classifier == CenterRangeLinearComparition:
+        if self.regressor == CenterRangeLinearComparition:
 
                 X_centers, X_rangers = transform_X_center_ranger(X)
              
-                rm = self.classifier(**self.parameters)
+                rm = self.regressor(**self.parameters)
 
                 rm.fit(X_centers, X_rangers, y) # y matriz com duas colunas (min e max)
 
@@ -123,26 +122,13 @@ class SDSR:
 
             D = distances(X, prots)
 
-            rm = self.classifier(**self.parameters)
+            rm = self.regressor(**self.parameters)
 
             rm.fit(D, y) # y matriz com duas colunas (min e max)
 
             self.rm = rm
             self.medias = prots
         return self
-  
-     
-    # def accuracy(self, X, Y):
-
-    #     if self.classifier == CenterRangeLinearComparition:
-    #         X_centers, X_rangers = transform_X_center_ranger(X)
-    #         predicoes = self.clf.predict(X_centers, X_rangers)
-    #     else:
-    #         D = distances(X, self.medias)
-    #         predicoes = self.clf.predict(D)
-        
-    #     accuracy = np.sum(predicoes == Y)/len(predicoes == Y)
-    #     return accuracy    
     
     
     # def r_square(self, y, rm):
@@ -154,7 +140,7 @@ class SDSR:
     
     def mmre(self, X, Y):
 
-        if self.classifier == CenterRangeLinearComparition:
+        if self.regressor == CenterRangeLinearComparition:
             X_centers, X_rangers = transform_X_center_ranger(X)
             y_predict = self.rm.predict(X_centers, X_rangers)
         else:

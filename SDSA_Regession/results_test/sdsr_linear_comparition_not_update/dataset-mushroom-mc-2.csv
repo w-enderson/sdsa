@@ -1,0 +1,11 @@
+,dataset,n_classes,n_features,n_samples,regression_model,mc,test_fold,acc,exec_time
+0,mushroom,30,2.0,264,sdsr_linear_comparition_not_update,2,0,0.9984097304646193,0.00673365592956543
+1,mushroom,30,2.0,264,sdsr_linear_comparition_not_update,2,1,0.5231536717541301,0.008404970169067383
+2,mushroom,30,2.0,264,sdsr_linear_comparition_not_update,2,2,0.8159464782360496,0.006829738616943359
+3,mushroom,30,2.0,264,sdsr_linear_comparition_not_update,2,3,1.207885002079841,0.006871461868286133
+4,mushroom,30,2.0,264,sdsr_linear_comparition_not_update,2,4,0.46314553643645606,0.009258270263671875
+5,mushroom,30,2.0,264,sdsr_linear_comparition_not_update,2,5,0.4161361740368691,0.006600141525268555
+6,mushroom,30,2.0,264,sdsr_linear_comparition_not_update,2,6,1.0793900076595588,0.009486675262451172
+7,mushroom,30,2.0,264,sdsr_linear_comparition_not_update,2,7,1.098132878466845,0.00761866569519043
+8,mushroom,30,2.0,264,sdsr_linear_comparition_not_update,2,8,0.31112198345211595,0.006269693374633789
+9,mushroom,30,2.0,264,sdsr_linear_comparition_not_update,2,9,0.6231626391503104,0.006099224090576172
