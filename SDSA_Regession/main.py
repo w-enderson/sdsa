@@ -14,8 +14,8 @@ from sklearn.model_selection import KFold
 from sklearn.svm import SVR
 from sklearn.linear_model import LogisticRegression
 
-from models.wflvq import WFLVQ
-from models.ivabc import IVABC
+#from models.wflvq import WFLVQ
+#from models.ivabc import IVABC
 from models.sdsr import SDSR
 from models.sdsr import CenterRangeSVR
 from models.sdsr import CenterRangeRF
@@ -117,7 +117,7 @@ def parse_arguments():
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-c', '--regressors', dest='regressors_names',
                         type=comma_separated_strings,
-                        default=['wflvq', 'ivabc','sdsr_svr', 'sdsr_svr_not_update','sdsr_rf', 'sdsr_rf_not_update',
+                        default=['sdsr_svr', 'sdsr_svr_not_update','sdsr_rf', 'sdsr_rf_not_update',
                         'sdsr_linear','sdsr_linear_not_update','sdsr_ols','sdsr_ols_not_update','sdsr_linear_comparition',
                         'sdsr_linear_comparition_not_update'],
                         help='''Classifiers to use for evaluation in a comma
