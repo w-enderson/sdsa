@@ -5,6 +5,7 @@ import numpy as np
 from scipy.spatial.distance import cdist
 from sklearn.utils.extmath import stable_cumsum
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.tree import DecisionTreeRegressor
 from sklearn.svm import SVR
 from sklearn.linear_model import LinearRegression
 import statsmodels.api as sm 
@@ -37,11 +38,19 @@ class CenterRangeSVR(CenterRangeRegression):
        self.range_model = SVR().fit(D, ranger)
        return self
 
+       
+class CenterRangeDT(CenterRangeRegression):
+    def fit(self, D, y):
+       center, ranger = transform_center_range(y)
+       self.center_model = DecisionTreeRegressor().fit(D, center)
+       self.range_model = DecisionTreeRegressor().fit(D, ranger)
+       return self       
+
 class CenterRangeRF(CenterRangeRegression):
     def fit(self, D, y):
        center, ranger = transform_center_range(y)
-       self.center_model = RandomForestRegressor().fit(D, center)
-       self.range_model = RandomForestRegressor().fit(D, ranger)
+       self.center_model = RandomForestRegressor(n_estimators = 10).fit(D, center)
+       self.range_model = RandomForestRegressor(n_estimators = 10).fit(D, ranger)
        return self
 
 class CenterRangeLinear(CenterRangeRegression):
@@ -96,7 +105,7 @@ class SDSR:
         #print(X)
         #print(X[:,0:2])
         if self.regressor == CenterRangeLinearComparition:
-
+               
                 X_centers, X_rangers = transform_X_center_ranger(X)
              
                 rm = self.regressor(**self.parameters)
