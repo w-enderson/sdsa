@@ -43,75 +43,75 @@ regressors = {
 parameters = {
     'sdsr_svr': {
         'climates': {'k': 10, 'regressor': CenterRangeSVR, 'parameters' : {}},    
-        'akc-data': {'k': 7, 'regressor': CenterRangeSVR, 'parameters' : {}},
+        'akc-data': {'k': 10, 'regressor': CenterRangeSVR, 'parameters' : {}},
         'scientific-production': {'k': 10, 'regressor': CenterRangeSVR, 'parameters' : {}},
-        'mushroom': {'k': 2,'regressor': CenterRangeSVR, 'parameters' : {}}
+        'mushroom': {'k': 10,'regressor': CenterRangeSVR, 'parameters' : {}}
     },
     'sdsr_svr_not_update': {
         'climates': {'k': 10, 'regressor': CenterRangeSVR, 'update': False, 'parameters' : {}},
-        'akc-data': {'k': 7, 'regressor': CenterRangeSVR, 'update': False, 'parameters' : {}},
+        'akc-data': {'k': 10, 'regressor': CenterRangeSVR, 'update': False, 'parameters' : {}},
         'scientific-production': {'k': 10, 'regressor': CenterRangeSVR, 'update': False, 'parameters' : {}},
-        'mushroom': {'k': 2,'regressor': CenterRangeSVR, 'update': False, 'parameters' : {}}
+        'mushroom': {'k': 10,'regressor': CenterRangeSVR, 'update': False, 'parameters' : {}}
     },
     'sdsr_rf': {
         'climates': {'k': 10, 'regressor': CenterRangeRF, 'parameters' : {}},
-        'akc-data': {'k': 7, 'regressor': CenterRangeRF,  'parameters' : {}},
+        'akc-data': {'k': 10, 'regressor': CenterRangeRF,  'parameters' : {}},
         'scientific-production': {'k': 10, 'regressor': CenterRangeRF, 'parameters' : {}},
-        'mushroom': {'k': 2,'regressor': CenterRangeRF,  'parameters' : {}}
+        'mushroom': {'k': 10,'regressor': CenterRangeRF,  'parameters' : {}}
     },
     'sdsr_rf_not_update': {
         'climates': {'k': 10, 'regressor': CenterRangeRF, 'update': False, 'parameters' : {}},
-        'akc-data': {'k': 7, 'regressor': CenterRangeRF, 'update': False, 'parameters' : {}},
+        'akc-data': {'k': 10, 'regressor': CenterRangeRF, 'update': False, 'parameters' : {}},
         'scientific-production': {'k': 10, 'regressor': CenterRangeRF, 'update': False, 'parameters' : {}},
-        'mushroom': {'k': 2,'regressor': CenterRangeRF,  'update': False, 'parameters' : {}}
+        'mushroom': {'k': 10,'regressor': CenterRangeRF,  'update': False, 'parameters' : {}}
     },
     'sdsr_linear': {
         'climates': {'k': 10, 'regressor': CenterRangeLinear, 'parameters' : {}},
         'akc-data': {'k': 10, 'regressor': CenterRangeLinear,  'parameters' : {}},
         'scientific-production': {'k': 10, 'regressor': CenterRangeLinear, 'parameters' : {}},
-        'mushroom': {'k': 2,'regressor': CenterRangeLinear,  'parameters' : {}}
+        'mushroom': {'k': 10,'regressor': CenterRangeLinear,  'parameters' : {}}
     },
     'sdsr_linear_not_update': {
         'climates': {'k': 10, 'regressor': CenterRangeLinear, 'update': False, 'parameters' : {}},
-        'akc-data': {'k': 7, 'regressor': CenterRangeLinear, 'update': False,  'parameters' : {}},
+        'akc-data': {'k': 10, 'regressor': CenterRangeLinear, 'update': False,  'parameters' : {}},
         'scientific-production': {'k': 10, 'regressor': CenterRangeLinear, 'update': False,  'parameters' : {}},
-        'mushroom': {'k': 2,'regressor': CenterRangeLinear,  'update': False, 'parameters' : {}}
+        'mushroom': {'k': 10,'regressor': CenterRangeLinear,  'update': False, 'parameters' : {}}
     },
        'sdsr_ols': {
         'climates': {'k': 10, 'regressor': CenterRangeOLS, 'parameters' : {}},
-        'akc-data': {'k': 7, 'regressor': CenterRangeOLS,  'parameters' : {}},
+        'akc-data': {'k': 10, 'regressor': CenterRangeOLS,  'parameters' : {}},
         'scientific-production': {'k': 10, 'regressor': CenterRangeOLS, 'parameters' : {}},
-        'mushroom': {'k': 2,'regressor': CenterRangeOLS,  'parameters' : {}}
+        'mushroom': {'k': 10,'regressor': CenterRangeOLS,  'parameters' : {}}
     },
     'sdsr_ols_not_update': {
         'climates': {'k': 10, 'regressor': CenterRangeOLS, 'update': False, 'parameters' : {}},
         'akc-data': {'k': 10, 'regressor': CenterRangeOLS,  'update': False, 'parameters' : {}},
         'scientific-production': {'k': 10, 'regressor': CenterRangeOLS, 'update': False, 'parameters' : {}},
-        'mushroom': {'k': 2,'regressor': CenterRangeOLS, 'update': False, 'parameters' : {}}
+        'mushroom': {'k': 10,'regressor': CenterRangeOLS, 'update': False, 'parameters' : {}}
     },
      'sdsr_linear_comparition': {
         'climates': {'k': 10, 'regressor': CenterRangeLinearComparition, 'parameters' : {}},
-        'akc-data': {'k': 7, 'regressor': CenterRangeLinearComparition,  'parameters' : {}},
+        'akc-data': {'k': 10, 'regressor': CenterRangeLinearComparition,  'parameters' : {}},
         'scientific-production': {'k': 10, 'regressor': CenterRangeLinearComparition, 'parameters' : {}},
-        'mushroom': {'k': 2,'regressor': CenterRangeLinearComparition,  'parameters' : {}}
+        'mushroom': {'k': 10,'regressor': CenterRangeLinearComparition,  'parameters' : {}}
     },
      'sdsr_linear_comparition_not_update': {
         'climates': {'k': 10, 'regressor': CenterRangeLinearComparition, 'update': False, 'parameters' : {}},
-        'akc-data': {'k': 7, 'regressor': CenterRangeLinearComparition,  'update': False, 'parameters' : {}},
+        'akc-data': {'k': 10, 'regressor': CenterRangeLinearComparition,  'update': False, 'parameters' : {}},
         'scientific-production': {'k': 10, 'regressor': CenterRangeLinearComparition, 'update': False, 'parameters' : {}},
-        'mushroom': {'k': 2,'regressor': CenterRangeLinearComparition,  'update': False, 'parameters' : {}}
+        'mushroom': {'k': 10,'regressor': CenterRangeLinearComparition,  'update': False, 'parameters' : {}}
     },
      'sdsr_dt': {
         'climates': {'k': 10, 'regressor': CenterRangeDT,  'parameters' : {}},
-        'akc-data': {'k': 7, 'regressor': CenterRangeDT,   'parameters' : {}},
+        'akc-data': {'k': 10, 'regressor': CenterRangeDT,   'parameters' : {}},
         'scientific-production': {'k': 10, 'regressor': CenterRangeDT, 'parameters' : {}},
-        'mushroom': {'k': 2,'regressor': CenterRangeDT,  'parameters' : {}}
+        'mushroom': {'k': 10,'regressor': CenterRangeDT,  'parameters' : {}}
     },
     'sdsr_dt_not_update': {
         'climates': {'k': 10, 'regressor': CenterRangeDT, 'update': False, 'parameters' : {}},
-        'akc-data': {'k': 7, 'regressor': CenterRangeDT,  'update': False, 'parameters' : {}},
+        'akc-data': {'k': 10, 'regressor': CenterRangeDT,  'update': False, 'parameters' : {}},
         'scientific-production': {'k': 10, 'regressor': CenterRangeDT, 'update': False, 'parameters' : {}},
-        'mushroom': {'k': 2,'regressor': CenterRangeDT,  'update': False, 'parameters' : {}}
+        'mushroom': {'k': 10,'regressor': CenterRangeDT,  'update': False, 'parameters' : {}}
     }
 }
 
