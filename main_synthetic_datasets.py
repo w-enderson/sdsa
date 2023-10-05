@@ -34,30 +34,52 @@ classifiers = {
       'sdsa_lr_not_update' : SDSA
 }
 
-parameters_synthetic = {
-    'sdsa_rf': {'dataset1': {"gaussians": np.array([
-                [99, 9, 99, 169, 200, 0],
-                [108, 9, 99, 169, 200, 1]
-            ])},
-            'dataset2':   {"gaussians": np.array([
-                [99, 9, 99, 169, 200, 0],
-                [104, 16, 138, 16, 150, 0],
-                [104, 16, 60, 16, 150, 1],
-                [108, 9, 99, 169, 200, 1]
-            ])},
-            'dataset3': {"gaussians": np.array([
-                        [99, 9, 99, 169, 44, 25, 200, 0],
-                        [104, 16, 138, 16, 44, 25, 150, 0],
-                        [104, 16, 60, 16, 41, 25, 150, 1],
-                        [108, 9, 99, 169, 41, 25, 200, 1]
-            ])},
-            'dataset4': { "gaussians": np.array([
-                        [99, 9, 99, 169, 200, 0],
-                        [104, 16, 118, 16, 150, 0],
-                        [104, 16, 80, 16, 150, 1],
-                        [100, 9, 99, 169, 200, 1]
-                    ])}
-}}
+# parameters_synthetic = {
+#     'sdsa_rf': {'dataset1': {"gaussians": np.array([
+#                 [99, 9, 99, 169, 200, 0],
+#                 [108, 9, 99, 169, 200, 1]
+#             ])},
+#             'dataset2':   {"gaussians": np.array([
+#                 [99, 9, 99, 169, 200, 0],
+#                 [104, 16, 138, 16, 150, 0],
+#                 [104, 16, 60, 16, 150, 1],
+#                 [108, 9, 99, 169, 200, 1]
+#             ])},
+#             'dataset3': {"gaussians": np.array([
+#                         [99, 9, 99, 169, 44, 25, 200, 0],
+#                         [104, 16, 138, 16, 44, 25, 150, 0],
+#                         [104, 16, 60, 16, 41, 25, 150, 1],
+#                         [108, 9, 99, 169, 41, 25, 200, 1]
+#             ])},
+#             'dataset4': { "gaussians": np.array([
+#                         [99, 9, 99, 169, 200, 0],
+#                         [104, 16, 118, 16, 150, 0],
+#                         [104, 16, 80, 16, 150, 1],
+#                         [100, 9, 99, 169, 200, 1]
+#                     ])}},
+
+#         'sdsa_rf_not_update': {'dataset1': {"gaussians": np.array([
+#                 [99, 9, 99, 169, 200, 0],
+#                 [108, 9, 99, 169, 200, 1]
+#             ])},
+#             'dataset2':   {"gaussians": np.array([
+#                 [99, 9, 99, 169, 200, 0],
+#                 [104, 16, 138, 16, 150, 0],
+#                 [104, 16, 60, 16, 150, 1],
+#                 [108, 9, 99, 169, 200, 1]
+#             ])},
+#             'dataset3': {"gaussians": np.array([
+#                         [99, 9, 99, 169, 44, 25, 200, 0],
+#                         [104, 16, 138, 16, 44, 25, 150, 0],
+#                         [104, 16, 60, 16, 41, 25, 150, 1],
+#                         [108, 9, 99, 169, 41, 25, 200, 1]
+#             ])},
+#             'dataset4': { "gaussians": np.array([
+#                         [99, 9, 99, 169, 200, 0],
+#                         [104, 16, 118, 16, 150, 0],
+#                         [104, 16, 80, 16, 150, 1],
+#                         [100, 9, 99, 169, 200, 1]
+#                     ])}}}
 
 parameters = {
     'sdsa_rf': {
@@ -77,6 +99,36 @@ parameters = {
                     'classifier': RandomForestClassifier, 
                     'parameters' : {}
                    }
+    },
+    'sdsa_rf_not_update': {
+        'dataset1': {'k': [4, 2], 'update': False, 'classifier': RandomForestClassifier,  'parameters' : {}},
+        'dataset2': {'k': [28, 38],'update': False, 'classifier': RandomForestClassifier,  'parameters' : {}},
+        'dataset3': {'k': [28, 38], 'update': False, 'classifier': RandomForestClassifier,  'parameters' : {}},
+        'dataset4': {'k': [20, 40], 'update': False, 'classifier': RandomForestClassifier,  'parameters' : {}}
+    },
+    'sdsa_svc': {
+        'dataset1': {'k': [4, 2], 'update': True, 'classifier': SVC,  'parameters' : {}},
+        'dataset2': {'k': [28, 38],'update': True, 'classifier': SVC,  'parameters' : {}},
+        'dataset3': {'k': [28, 38], 'update': True, 'classifier': SVC,  'parameters' : {}},
+        'dataset4': {'k': [20, 40], 'update': True, 'classifier': SVC,  'parameters' : {}}
+    },
+    'sdsa_svc_not_update': {
+        'dataset1': {'k': [4, 2], 'update': False, 'classifier': SVC,  'parameters' : {}},
+        'dataset2': {'k': [28, 38],'update': False, 'classifier': SVC,  'parameters' : {}},
+        'dataset3': {'k': [28, 38], 'update': False, 'classifier': SVC,  'parameters' : {}},
+        'dataset4': {'k': [20, 40], 'update': False, 'classifier': SVC,  'parameters' : {}}
+    },
+    'sdsa_lr': {
+        'dataset1': {'k': [4, 2], 'update': True, 'classifier': LogisticRegression,  'parameters' : {}},
+        'dataset2': {'k': [28, 38],'update': True, 'classifier': LogisticRegression,  'parameters' : {}},
+        'dataset3': {'k': [28, 38], 'update': True, 'classifier': LogisticRegression,  'parameters' : {}},
+        'dataset4': {'k': [20, 40], 'update': True, 'classifier': LogisticRegression,  'parameters' : {}}
+    },
+    'sdsa_lr_not_update': {
+        'dataset1': {'k': [4, 2], 'update': False, 'classifier': LogisticRegression,  'parameters' : {}},
+        'dataset2': {'k': [28, 38],'update': False, 'classifier': LogisticRegression,  'parameters' : {}},
+        'dataset3': {'k': [28, 38], 'update': False, 'classifier': LogisticRegression,  'parameters' : {}},
+        'dataset4': {'k': [20, 40], 'update': False, 'classifier': LogisticRegression,  'parameters' : {}}
     }
 }
 
@@ -147,7 +199,7 @@ def parse_arguments():
                         help='''Path to store all the results''')
     parser.add_argument('-d', '--datasets', dest='datasets',
                         type=comma_separated_strings,
-                        default=['climates', 'dry-climates', 'european-climates', 'mushroom'],
+                        default=['dataset1', 'dataset2', 'dataset3', 'dataset4'],
                         help='''Comma separated dataset names''')
     parser.add_argument('-w', '--workers', dest='n_workers', type=int,
                         default=-1,
@@ -201,22 +253,22 @@ def compute_all(args):
     classifier = classifiers[classifier_name]
     params = parameters[classifier_name][dataset]
 
-    
-    data =  generate_multivariate_gaussians(parameters_synthetic[classifier_name][dataset]["gaussians"], 10)
-    X, y = data.data, data.target
+    # data =  generate_multivariate_gaussians(parameters_synthetic[classifier_name][dataset]["gaussians"], 10)
+    # X, y = data.data, data.target
 
-    if dataset == 'dataset3':
-        df = pd.DataFrame(data=X,columns=["x1_min","x1_max","x2_min","x2_max","x3_min","x3_max"])
-        df['target'] = y
-    else:
-        df = pd.DataFrame(data=X,columns=["x1_min","x1_max","x2_min","x2_max"])
-        df['target'] = y
-    df.to_csv("synthetic_datasets\synthetic-{}.csv".format(dataset), index=False)
-
+    # if dataset == 'dataset3':
+    #     df = pd.DataFrame(data=X,columns=["x1_min","x1_max","x2_min","x2_max","x3_min","x3_max"])
+    #     df['target'] = y
+    # else:
+    #     df = pd.DataFrame(data=X,columns=["x1_min","x1_max","x2_min","x2_max"])
+    #     df['target'] = y
+    #     df.to_csv("synthetic_datasets\synthetic-{}.csv".format(dataset), index=False)
     
     data = pd.read_csv('./synthetic_datasets/synthetic-{}.csv'.format(dataset)) 
+    # X, y = data.data, data.target
 
-    params = parameters['sdsa_rf'][dataset]
+    # params = parameters['sdsa_rf'][dataset]
+    params = parameters[classifier_name][dataset]
     # data =  generate_multivariate_gaussians(parameters_synthetic[classifier_name][dataset]["gaussians"], 10)
 
     # X, y = data.data, data.target
