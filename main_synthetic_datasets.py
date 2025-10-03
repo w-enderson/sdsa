@@ -107,18 +107,18 @@ parameters = {
         },
         'dataset2': {
             'n_prototypes': [35, 35],
-            'k': 3,
-            'alpha': 0.0
+            'k': 10,
+            'alpha': 0.3
         },
         'dataset3': {
             'n_prototypes': [35, 35],
-            'k': 3,
-            'alpha': 0.0
+            'k': 10,
+            'alpha': 0.3
         },
         'dataset4': {
             'n_prototypes': [35, 35],
-            'k': 3,
-            'alpha': 0.0
+            'k': 10,
+            'alpha': 0.3
         },
     },
     'sdsa_rf': {
