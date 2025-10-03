@@ -10,9 +10,16 @@ import pandas as pd
 import numpy as np
 
 from sklearn.model_selection import StratifiedKFold
+
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
+
+from sklearn.neighbors import KNeighborsClassifier
+from xgboost import XGBClassifier
+from lightgbm import LGBMClassifier
+from catboost import CatBoostClassifier
+
 
 from models.wflvq import WFLVQ
 from models.ivabc import IVABC
@@ -28,7 +35,15 @@ classifiers = {
       'sdsa_svc' : SDSA,
       'sdsa_svc_not_update' : SDSA,
       'sdsa_lr' : SDSA,
-      'sdsa_lr_not_update' : SDSA
+      'sdsa_lr_not_update' : SDSA,
+      'sdsa_knn' : SDSA,
+      'sdsa_knn_not_update' : SDSA,
+      'sdsa_xgb': SDSA,
+      'sdsa_xgb_not_update': SDSA,
+      'sdsa_lgbm': SDSA,
+      'sdsa_lgbm_not_update': SDSA,
+      'sdsa_cat': SDSA,
+      'sdsa_cat_not_update': SDSA,
 }
 
 parameters = {
@@ -107,6 +122,54 @@ parameters = {
         'dry-climates': {'k': [28, 38, 34], 'classifier': LogisticRegression,  'update': False, 'parameters' : {'max_iter' : 120000}},
         'european-climates': {'k': [20, 40], 'classifier': LogisticRegression,  'update': False, 'parameters' : {'max_iter' : 120000}},
         'mushroom': {'k': [7, 2],'classifier': LogisticRegression,  'update': False, 'parameters' : {'max_iter' : 120000}}
+    },
+    'sdsa_knn': {
+        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': KNeighborsClassifier, 'parameters' : {'n_neighbors' : 5}},
+        'dry-climates': {'k': [28, 38, 34], 'classifier': KNeighborsClassifier, 'parameters' : {'n_neighbors' : 5}},
+        'european-climates': {'k': [20, 40], 'classifier': KNeighborsClassifier, 'parameters' : {'n_neighbors' : 5}},
+        'mushroom': {'k': [7, 2], 'classifier': KNeighborsClassifier,'parameters' : {'n_neighbors' : 5}}
+    },
+    'sdsa_knn_not_update': {
+        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': KNeighborsClassifier,  'update': False, 'parameters' : {'n_neighbors' : 5}},
+        'dry-climates': {'k': [28, 38, 34], 'classifier': KNeighborsClassifier,  'update': False, 'parameters' : {'n_neighbors' : 5}},
+        'european-climates': {'k': [20, 40], 'classifier': KNeighborsClassifier,  'update': False, 'parameters' : {'n_neighbors' : 5}},
+        'mushroom': {'k': [7, 2],'classifier': KNeighborsClassifier,  'update': False, 'parameters' : {'n_neighbors' : 5}}
+    },
+    'sdsa_xgb': {
+        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': XGBClassifier, 'parameters': {}},
+        'dry-climates': {'k': [28, 38, 34], 'classifier': XGBClassifier, 'parameters': {}},
+        'european-climates': {'k': [20, 40], 'classifier': XGBClassifier, 'parameters': {}},
+        'mushroom': {'k': [7, 2], 'classifier': XGBClassifier, 'parameters': {}}
+    },
+    'sdsa_xgb_not_update': {
+        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': XGBClassifier, 'update': False, 'parameters': {}},
+        'dry-climates': {'k': [28, 38, 34], 'classifier': XGBClassifier, 'update': False, 'parameters': {}},
+        'european-climates': {'k': [20, 40], 'classifier': XGBClassifier, 'update': False, 'parameters': {}},
+        'mushroom': {'k': [7, 2], 'classifier': XGBClassifier, 'update': False, 'parameters': {}}
+    },
+    'sdsa_lgbm': {
+        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': LGBMClassifier, 'parameters': {}},
+        'dry-climates': {'k': [28, 38, 34], 'classifier': LGBMClassifier, 'parameters': {}},
+        'european-climates': {'k': [20, 40], 'classifier': LGBMClassifier, 'parameters': {}},
+        'mushroom': {'k': [7, 2], 'classifier': LGBMClassifier, 'parameters': {}}
+    },
+    'sdsa_lgbm_not_update': {
+        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': LGBMClassifier, 'update': False, 'parameters': {}},
+        'dry-climates': {'k': [28, 38, 34], 'classifier': LGBMClassifier, 'update': False, 'parameters': {}},
+        'european-climates': {'k': [20, 40], 'classifier': LGBMClassifier, 'update': False, 'parameters': {}},
+        'mushroom': {'k': [7, 2], 'classifier': LGBMClassifier, 'update': False, 'parameters': {}}
+    },
+    'sdsa_cat': {
+        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': CatBoostClassifier, 'parameters': {}},
+        'dry-climates': {'k': [28, 38, 34], 'classifier': CatBoostClassifier, 'parameters': {}},
+        'european-climates': {'k': [20, 40], 'classifier': CatBoostClassifier, 'parameters': {}},  
+        'mushroom': {'k': [7, 2], 'classifier': CatBoostClassifier, 'parameters': {}}
+    },
+    'sdsa_cat_not_update': {
+        'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': CatBoostClassifier, 'update': False, 'parameters': {}},
+        'dry-climates': {'k': [28, 38, 34], 'classifier': CatBoostClassifier, 'update': False, 'parameters': {}},
+        'european-climates': {'k': [20, 40], 'classifier': CatBoostClassifier, 'update': False, 'parameters': {}},
+        'mushroom': {'k': [7, 2], 'classifier': CatBoostClassifier, 'update': False, 'parameters': {}}
     }
 }
 

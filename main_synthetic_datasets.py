@@ -18,12 +18,21 @@ from multiprocessing import cpu_count, Pool
 import pandas as pd
 import numpy as np
 
+from models.ivabc import IVABC
+
+
 from sklearn.model_selection import StratifiedKFold
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import GradientBoostingClassifier
+from xgboost import XGBClassifier
+from lightgbm import LGBMClassifier
+from catboost import CatBoostClassifier
 
 classifiers = {
+      'ivabc': IVABC,
       'sdsa' : SDSA,
       'sdsa_not_update' : SDSA,
       'sdsa_rf' : SDSA,
@@ -31,7 +40,15 @@ classifiers = {
       'sdsa_svc' : SDSA,
       'sdsa_svc_not_update' : SDSA,
       'sdsa_lr' : SDSA,
-      'sdsa_lr_not_update' : SDSA
+      'sdsa_lr_not_update' : SDSA,
+      'sdsa_knn' : SDSA,
+      'sdsa_knn_not_update' : SDSA,
+      'sdsa_xgb': SDSA,
+      'sdsa_xgb_not_update': SDSA,
+      'sdsa_lgbm': SDSA,
+      'sdsa_lgbm_not_update': SDSA,
+      'sdsa_cat': SDSA,
+      'sdsa_cat_not_update': SDSA,
 }
 
 # parameters_synthetic = {
@@ -82,6 +99,28 @@ classifiers = {
 #                     ])}}}
 
 parameters = {
+    'ivabc':{
+        'dataset1': {
+            'n_prototypes': [20, 20],
+            'k': 3,
+            'alpha': 0.2
+        },
+        'dataset2': {
+            'n_prototypes': [35, 35],
+            'k': 3,
+            'alpha': 0.0
+        },
+        'dataset3': {
+            'n_prototypes': [35, 35],
+            'k': 3,
+            'alpha': 0.0
+        },
+        'dataset4': {
+            'n_prototypes': [35, 35],
+            'k': 3,
+            'alpha': 0.0
+        },
+    },
     'sdsa_rf': {
         'dataset1': {'k': [4, 2], 'update': True, 
                     'classifier': RandomForestClassifier, 
@@ -129,7 +168,58 @@ parameters = {
         'dataset2': {'k': [28, 38],'update': False, 'classifier': LogisticRegression,  'parameters' : {}},
         'dataset3': {'k': [28, 38], 'update': False, 'classifier': LogisticRegression,  'parameters' : {}},
         'dataset4': {'k': [20, 40], 'update': False, 'classifier': LogisticRegression,  'parameters' : {}}
+    },
+    'sdsa_knn': {
+        'dataset1': {'k': [4, 2], 'update': True, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
+        'dataset2': {'k': [28, 38],'update': True, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
+        'dataset3': {'k': [28, 38], 'update': True, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
+        'dataset4': {'k': [20, 40], 'update': True, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}}
+    },
+    'sdsa_knn_not_update': {
+        'dataset1': {'k': [4, 2], 'update': False, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
+        'dataset2': {'k': [28, 38],'update': False, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
+        'dataset3': {'k': [28, 38], 'update': False, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
+        'dataset4': {'k': [20, 40], 'update': False, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}}
+    },
+    'sdsa_xgb': {
+        'dataset1': {'k': [4, 2], 'update': True, 'classifier': XGBClassifier, 'parameters': {}},
+        'dataset2': {'k': [28, 38], 'update': True, 'classifier': XGBClassifier, 'parameters': {}},
+        'dataset3': {'k': [28, 38], 'update': True, 'classifier': XGBClassifier, 'parameters': {}},
+        'dataset4': {'k': [20, 40], 'update': True, 'classifier': XGBClassifier, 'parameters': {}}
+    },
+    'sdsa_xgb_not_update': {
+        'dataset1': {'k': [4, 2], 'update': False, 'classifier': XGBClassifier, 'parameters': {}},
+        'dataset2': {'k': [28, 38], 'update': False, 'classifier': XGBClassifier, 'parameters': {}},
+        'dataset3': {'k': [28, 38], 'update': False, 'classifier': XGBClassifier, 'parameters': {}},
+        'dataset4': {'k': [20, 40], 'update': False, 'classifier': XGBClassifier, 'parameters': {}}
+    },
+
+    'sdsa_lgbm': {
+        'dataset1': {'k': [4, 2], 'update': True, 'classifier': LGBMClassifier, 'parameters': {}},
+        'dataset2': {'k': [28, 38], 'update': True, 'classifier': LGBMClassifier, 'parameters': {}},
+        'dataset3': {'k': [28, 38], 'update': True, 'classifier': LGBMClassifier, 'parameters': {}},
+        'dataset4': {'k': [20, 40], 'update': True, 'classifier': LGBMClassifier, 'parameters': {}}
+    },
+    'sdsa_lgbm_not_update': {
+        'dataset1': {'k': [4, 2], 'update': False, 'classifier': LGBMClassifier, 'parameters': {}},
+        'dataset2': {'k': [28, 38], 'update': False, 'classifier': LGBMClassifier, 'parameters': {}},
+        'dataset3': {'k': [28, 38], 'update': False, 'classifier': LGBMClassifier, 'parameters': {}},
+        'dataset4': {'k': [20, 40], 'update': False, 'classifier': LGBMClassifier, 'parameters': {}}
+    },
+
+    'sdsa_cat': {
+        'dataset1': {'k': [4, 2], 'update': True, 'classifier': CatBoostClassifier, 'parameters': {}},
+        'dataset2': {'k': [28, 38], 'update': True, 'classifier': CatBoostClassifier, 'parameters': {}},
+        'dataset3': {'k': [28, 38], 'update': True, 'classifier': CatBoostClassifier, 'parameters': {}},
+        'dataset4': {'k': [20, 40], 'update': True, 'classifier': CatBoostClassifier, 'parameters': {}}
+    },
+    'sdsa_cat_not_update': {
+        'dataset1': {'k': [4, 2], 'update': False, 'classifier': CatBoostClassifier, 'parameters': {}},
+        'dataset2': {'k': [28, 38], 'update': False, 'classifier': CatBoostClassifier, 'parameters': {}},
+        'dataset3': {'k': [28, 38], 'update': False, 'classifier': CatBoostClassifier, 'parameters': {}},
+        'dataset4': {'k': [20, 40], 'update': False, 'classifier': CatBoostClassifier, 'parameters': {}}
     }
+
 }
 
 
@@ -263,10 +353,8 @@ def compute_all(args):
     #     df = pd.DataFrame(data=X,columns=["x1_min","x1_max","x2_min","x2_max"])
     #     df['target'] = y
     #     df.to_csv("synthetic_datasets\synthetic-{}.csv".format(dataset), index=False)
-    
     data = pd.read_csv('./synthetic_datasets/synthetic-{}.csv'.format(dataset)) 
     # X, y = data.data, data.target
-
     # params = parameters['sdsa_rf'][dataset]
     params = parameters[classifier_name][dataset]
     # data =  generate_multivariate_gaussians(parameters_synthetic[classifier_name][dataset]["gaussians"], 10)
