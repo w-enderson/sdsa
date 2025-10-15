@@ -57,7 +57,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 # Carregar dataset 3
-df = pd.read_csv("synthetic_datasets/synthetic-dataset3.csv")
+df = pd.read_csv("../synthetic_datasets/synthetic-dataset3.csv")
 
 fig = plt.figure(figsize=(10,8))
 ax = fig.add_subplot(111, projection='3d')

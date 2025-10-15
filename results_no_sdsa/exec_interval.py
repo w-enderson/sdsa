@@ -95,7 +95,7 @@ df_resumo = (
 # ------------------------------------------------------
 # Salvar resultados em CSV
 # ------------------------------------------------------
-os.makedirs("results_no_sdsa", exist_ok=True)
+os.makedirs("", exist_ok=True)
 
 df_todos.to_csv("results_no_sdsa/resultados_gerais.csv", index=False)
 df_resumo.to_csv("results_no_sdsa/resultados_resumidos.csv", index=False)

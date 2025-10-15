@@ -3,7 +3,7 @@ import os
 
 def combine_results():
     # Path to the results directory
-    results_path = "results_test"
+    results_path = "../results_test"
     
     # List to store all dataframes
     all_dfs = []
