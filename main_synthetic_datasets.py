@@ -1,5 +1,4 @@
 from __future__ import division
-import numpy as np
 from sklearn.model_selection import StratifiedShuffleSplit
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -370,7 +369,7 @@ def compute_all(args):
     # X, y = data.data, data.target
     # params = parameters['sdsa_rf'][dataset]
     params = parameters[classifier_name][dataset]
-    # data =  generate_multivariate_gaussians(parameters_synthetic[classifier_name][dataset]["gaussians"], 10)
+    # data =  generat e_multivariate_gaussians(parameters_synthetic[classifier_name][dataset]["gaussians"], 10)
 
     # X, y = data.data, data.target
 

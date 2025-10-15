@@ -113,19 +113,19 @@ class SDSA:
 
 def euclidean_dist(matrix1, matrix2):
     d_min = cdist(matrix1[:,::2], matrix2[:,::2])
-    print("dmin: ", d_min)
+    # print("dmin: ", d_min)
     d_max = cdist(matrix1[:,1::2], matrix2[:,1::2])
     return d_min + d_max
 
 def sqeuclidean_dist(matrix1, matrix2):
     d_min = cdist(matrix1[:, ::2], matrix2[:, ::2], metric='sqeuclidean')
-    print("dmin: ", d_min)
+    # print("dmin: ", d_min)
     d_max = cdist(matrix1[:, 1::2], matrix2[:, 1::2], metric='sqeuclidean')
     return d_min + d_max
 
 def city_block_dist(matrix1, matrix2):
     d_min = cdist(matrix1[:,::2], matrix2[:,::2], metric='cityblock')
-    print("dmin: ", d_min)
+    # print("dmin: ", d_min)
     d_max = cdist(matrix1[:,1::2], matrix2[:,1::2], metric='cityblock')
     return d_min + d_max
 
