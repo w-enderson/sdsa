@@ -56,7 +56,7 @@ class SDSA:
                     # d_min = cdist(X[:,::2], medias_min)
                     # d_max = cdist(X[:,1::2], medias_max)    
                     # distance = d_min + d_max
-                    D = distances(X_class, medias)
+                    D = euclidean_dist(X_class, medias)
                     C  = np.argmin(D, axis=1)
 
                     #print(distance)
@@ -86,7 +86,7 @@ class SDSA:
 
         prots = np.vstack(media_prot)
 
-        D = distances(X, prots)
+        D = euclidean_dist(X, prots)
    
         clf = self.classifier(**self.parameters)
 
@@ -104,16 +104,29 @@ class SDSA:
 
         # D = D_min + D_max
 
-        D = distances(X, self.medias)
+        D = euclidean_dist(X, self.medias)
         predicoes = self.clf.predict(D)
         
         accuracy = np.sum(predicoes == Y)/len(predicoes == Y)
         return accuracy    
 
 
-def distances(matrix1, matrix2):
+def euclidean_dist(matrix1, matrix2):
     d_min = cdist(matrix1[:,::2], matrix2[:,::2])
+    print("dmin: ", d_min)
     d_max = cdist(matrix1[:,1::2], matrix2[:,1::2])
+    return d_min + d_max
+
+def sqeuclidean_dist(matrix1, matrix2):
+    d_min = cdist(matrix1[:, ::2], matrix2[:, ::2], metric='sqeuclidean')
+    print("dmin: ", d_min)
+    d_max = cdist(matrix1[:, 1::2], matrix2[:, 1::2], metric='sqeuclidean')
+    return d_min + d_max
+
+def city_block_dist(matrix1, matrix2):
+    d_min = cdist(matrix1[:,::2], matrix2[:,::2], metric='cityblock')
+    print("dmin: ", d_min)
+    d_max = cdist(matrix1[:,1::2], matrix2[:,1::2], metric='cityblock')
     return d_min + d_max
 
 
@@ -164,7 +177,7 @@ def kmeanspp(X, n_clusters, n_local_trials=None):
         centers[0] = X[center_id]
 
     # Initialize list of closest distances and calculate current potential
-    closest_dist_sq = distances(centers[0, np.newaxis], X)
+    closest_dist_sq = euclidean_dist(centers[0, np.newaxis], X)
     current_pot = closest_dist_sq.sum()
 
     # Pick the remaining n_clusters-1 points
@@ -176,7 +189,7 @@ def kmeanspp(X, n_clusters, n_local_trials=None):
                                         rand_vals)
 
         # Compute distances to center candidates
-        distance_to_candidates = distances(X[candidate_ids], X)
+        distance_to_candidates = euclidean_dist(X[candidate_ids], X)
 
         # Decide which candidate is the best
         best_candidate = None

@@ -28,8 +28,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from xgboost import XGBClassifier
-from lightgbm import LGBMClassifier
-from catboost import CatBoostClassifier
+# from lightgbm import LGBMClassifier
+# from catboost import CatBoostClassifier
 
 classifiers = {
       'ivabc': IVABC,
@@ -121,104 +121,116 @@ parameters = {
             'alpha': 0.3
         },
     },
+    'sdsa': {
+        'dataset1': {'k': [20, 20], 'update': True, 'classifier': SVC,  'parameters' : {}},
+        'dataset2': {'k': [35, 35],'update': True, 'classifier': SVC,  'parameters' : {}},
+        'dataset3': {'k': [35, 35], 'update': True, 'classifier': SVC,  'parameters' : {}},
+        'dataset4': {'k': [35, 35], 'update': True, 'classifier': SVC,  'parameters' : {}}
+    },
+    'sdsa_not_update': {
+        'dataset1': {'k': [20, 20], 'update': False, 'classifier': SVC,  'parameters' : {}},
+        'dataset2': {'k': [35, 35],'update': False, 'classifier': SVC,  'parameters' : {}},
+        'dataset3': {'k': [35, 35], 'update': False, 'classifier': SVC,  'parameters' : {}},
+        'dataset4': {'k': [35, 35], 'update': False, 'classifier': SVC,  'parameters' : {}}
+    },
     'sdsa_rf': {
-        'dataset1': {'k': [4, 2], 'update': True, 
+        'dataset1': {'k': [20, 20], 'update': True,
                     'classifier': RandomForestClassifier, 
                     'parameters' : {}
         },
-        'dataset2': {'k': [28, 38], 'update': True, 
+        'dataset2': {'k': [35, 35], 'update': True,
                     'classifier': RandomForestClassifier, 
                     'parameters' : {}
           },
-        'dataset3': {'k': [28, 38], 'update': True, 
+        'dataset3': {'k': [35, 35], 'update': True,
                     'classifier': RandomForestClassifier, 
                     'parameters' : {}
                     },
-        'dataset4': {'k': [20, 40], 'update': True,  
+        'dataset4': {'k': [35, 35], 'update': True,
                     'classifier': RandomForestClassifier, 
                     'parameters' : {}
                    }
     },
     'sdsa_rf_not_update': {
-        'dataset1': {'k': [4, 2], 'update': False, 'classifier': RandomForestClassifier,  'parameters' : {}},
-        'dataset2': {'k': [28, 38],'update': False, 'classifier': RandomForestClassifier,  'parameters' : {}},
-        'dataset3': {'k': [28, 38], 'update': False, 'classifier': RandomForestClassifier,  'parameters' : {}},
-        'dataset4': {'k': [20, 40], 'update': False, 'classifier': RandomForestClassifier,  'parameters' : {}}
+        'dataset1': {'k': [20, 20], 'update': False, 'classifier': RandomForestClassifier,  'parameters' : {}},
+        'dataset2': {'k': [35, 35],'update': False, 'classifier': RandomForestClassifier,  'parameters' : {}},
+        'dataset3': {'k': [35, 35], 'update': False, 'classifier': RandomForestClassifier,  'parameters' : {}},
+        'dataset4': {'k': [35, 35], 'update': False, 'classifier': RandomForestClassifier,  'parameters' : {}}
     },
     'sdsa_svc': {
-        'dataset1': {'k': [4, 2], 'update': True, 'classifier': SVC,  'parameters' : {}},
-        'dataset2': {'k': [28, 38],'update': True, 'classifier': SVC,  'parameters' : {}},
-        'dataset3': {'k': [28, 38], 'update': True, 'classifier': SVC,  'parameters' : {}},
-        'dataset4': {'k': [20, 40], 'update': True, 'classifier': SVC,  'parameters' : {}}
+        'dataset1': {'k': [20, 20], 'update': True, 'classifier': SVC,  'parameters' : {}},
+        'dataset2': {'k': [35, 35],'update': True, 'classifier': SVC,  'parameters' : {}},
+        'dataset3': {'k': [35, 35], 'update': True, 'classifier': SVC,  'parameters' : {}},
+        'dataset4': {'k': [35, 35], 'update': True, 'classifier': SVC,  'parameters' : {}}
     },
     'sdsa_svc_not_update': {
-        'dataset1': {'k': [4, 2], 'update': False, 'classifier': SVC,  'parameters' : {}},
-        'dataset2': {'k': [28, 38],'update': False, 'classifier': SVC,  'parameters' : {}},
-        'dataset3': {'k': [28, 38], 'update': False, 'classifier': SVC,  'parameters' : {}},
-        'dataset4': {'k': [20, 40], 'update': False, 'classifier': SVC,  'parameters' : {}}
+        'dataset1': {'k': [20, 20], 'update': False, 'classifier': SVC,  'parameters' : {}},
+        'dataset2': {'k': [35, 35],'update': False, 'classifier': SVC,  'parameters' : {}},
+        'dataset3': {'k': [35, 35], 'update': False, 'classifier': SVC,  'parameters' : {}},
+        'dataset4': {'k': [35, 35], 'update': False, 'classifier': SVC,  'parameters' : {}}
     },
     'sdsa_lr': {
-        'dataset1': {'k': [4, 2], 'update': True, 'classifier': LogisticRegression,  'parameters' : {}},
-        'dataset2': {'k': [28, 38],'update': True, 'classifier': LogisticRegression,  'parameters' : {}},
-        'dataset3': {'k': [28, 38], 'update': True, 'classifier': LogisticRegression,  'parameters' : {}},
-        'dataset4': {'k': [20, 40], 'update': True, 'classifier': LogisticRegression,  'parameters' : {}}
+        'dataset1': {'k': [20, 20], 'update': True, 'classifier': LogisticRegression,  'parameters' : {'max_iter' : 120000}},
+        'dataset2': {'k': [35, 35],'update': True, 'classifier': LogisticRegression,  'parameters' : {'max_iter' : 120000}},
+        'dataset3': {'k': [35, 35], 'update': True, 'classifier': LogisticRegression,  'parameters' : {'max_iter' : 120000}},
+        'dataset4': {'k': [35, 35], 'update': True, 'classifier': LogisticRegression,  'parameters' : {'max_iter' : 120000}}
     },
     'sdsa_lr_not_update': {
-        'dataset1': {'k': [4, 2], 'update': False, 'classifier': LogisticRegression,  'parameters' : {}},
-        'dataset2': {'k': [28, 38],'update': False, 'classifier': LogisticRegression,  'parameters' : {}},
-        'dataset3': {'k': [28, 38], 'update': False, 'classifier': LogisticRegression,  'parameters' : {}},
-        'dataset4': {'k': [20, 40], 'update': False, 'classifier': LogisticRegression,  'parameters' : {}}
+        'dataset1': {'k': [20, 20], 'update': False, 'classifier': LogisticRegression,  'parameters' : {'max_iter' : 120000}},
+        'dataset2': {'k': [35, 35],'update': False, 'classifier': LogisticRegression,  'parameters' : {'max_iter' : 120000}},
+        'dataset3': {'k': [35, 35], 'update': False, 'classifier': LogisticRegression,  'parameters' : {'max_iter' : 120000}},
+        'dataset4': {'k': [35, 35], 'update': False, 'classifier': LogisticRegression,  'parameters' : {'max_iter' : 120000}}
     },
     'sdsa_knn': {
-        'dataset1': {'k': [4, 2], 'update': True, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
-        'dataset2': {'k': [28, 38],'update': True, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
-        'dataset3': {'k': [28, 38], 'update': True, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
-        'dataset4': {'k': [20, 40], 'update': True, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}}
+        'dataset1': {'k': [20, 20], 'update': True, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
+        'dataset2': {'k': [35, 35],'update': True, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
+        'dataset3': {'k': [35, 35], 'update': True, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
+        'dataset4': {'k': [35, 35], 'update': True, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}}
     },
     'sdsa_knn_not_update': {
-        'dataset1': {'k': [4, 2], 'update': False, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
-        'dataset2': {'k': [28, 38],'update': False, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
-        'dataset3': {'k': [28, 38], 'update': False, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
-        'dataset4': {'k': [20, 40], 'update': False, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}}
+        'dataset1': {'k': [20, 20], 'update': False, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
+        'dataset2': {'k': [35, 35],'update': False, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
+        'dataset3': {'k': [35, 35], 'update': False, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
+        'dataset4': {'k': [35, 35], 'update': False, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}}
     },
     'sdsa_xgb': {
-        'dataset1': {'k': [4, 2], 'update': True, 'classifier': XGBClassifier, 'parameters': {}},
-        'dataset2': {'k': [28, 38], 'update': True, 'classifier': XGBClassifier, 'parameters': {}},
-        'dataset3': {'k': [28, 38], 'update': True, 'classifier': XGBClassifier, 'parameters': {}},
-        'dataset4': {'k': [20, 40], 'update': True, 'classifier': XGBClassifier, 'parameters': {}}
+        'dataset1': {'k': [20, 20], 'update': True, 'classifier': XGBClassifier, 'parameters': {}},
+        'dataset2': {'k': [35, 35], 'update': True, 'classifier': XGBClassifier, 'parameters': {}},
+        'dataset3': {'k': [35, 35], 'update': True, 'classifier': XGBClassifier, 'parameters': {}},
+        'dataset4': {'k': [35, 35], 'update': True, 'classifier': XGBClassifier, 'parameters': {}}
     },
     'sdsa_xgb_not_update': {
-        'dataset1': {'k': [4, 2], 'update': False, 'classifier': XGBClassifier, 'parameters': {}},
-        'dataset2': {'k': [28, 38], 'update': False, 'classifier': XGBClassifier, 'parameters': {}},
-        'dataset3': {'k': [28, 38], 'update': False, 'classifier': XGBClassifier, 'parameters': {}},
-        'dataset4': {'k': [20, 40], 'update': False, 'classifier': XGBClassifier, 'parameters': {}}
+        'dataset1': {'k': [20, 20], 'update': False, 'classifier': XGBClassifier, 'parameters': {}},
+        'dataset2': {'k': [35, 35], 'update': False, 'classifier': XGBClassifier, 'parameters': {}},
+        'dataset3': {'k': [35, 35], 'update': False, 'classifier': XGBClassifier, 'parameters': {}},
+        'dataset4': {'k': [35, 35], 'update': False, 'classifier': XGBClassifier, 'parameters': {}}
     },
 
-    'sdsa_lgbm': {
-        'dataset1': {'k': [4, 2], 'update': True, 'classifier': LGBMClassifier, 'parameters': {}},
-        'dataset2': {'k': [28, 38], 'update': True, 'classifier': LGBMClassifier, 'parameters': {}},
-        'dataset3': {'k': [28, 38], 'update': True, 'classifier': LGBMClassifier, 'parameters': {}},
-        'dataset4': {'k': [20, 40], 'update': True, 'classifier': LGBMClassifier, 'parameters': {}}
-    },
-    'sdsa_lgbm_not_update': {
-        'dataset1': {'k': [4, 2], 'update': False, 'classifier': LGBMClassifier, 'parameters': {}},
-        'dataset2': {'k': [28, 38], 'update': False, 'classifier': LGBMClassifier, 'parameters': {}},
-        'dataset3': {'k': [28, 38], 'update': False, 'classifier': LGBMClassifier, 'parameters': {}},
-        'dataset4': {'k': [20, 40], 'update': False, 'classifier': LGBMClassifier, 'parameters': {}}
-    },
-
-    'sdsa_cat': {
-        'dataset1': {'k': [4, 2], 'update': True, 'classifier': CatBoostClassifier, 'parameters': {}},
-        'dataset2': {'k': [28, 38], 'update': True, 'classifier': CatBoostClassifier, 'parameters': {}},
-        'dataset3': {'k': [28, 38], 'update': True, 'classifier': CatBoostClassifier, 'parameters': {}},
-        'dataset4': {'k': [20, 40], 'update': True, 'classifier': CatBoostClassifier, 'parameters': {}}
-    },
-    'sdsa_cat_not_update': {
-        'dataset1': {'k': [4, 2], 'update': False, 'classifier': CatBoostClassifier, 'parameters': {}},
-        'dataset2': {'k': [28, 38], 'update': False, 'classifier': CatBoostClassifier, 'parameters': {}},
-        'dataset3': {'k': [28, 38], 'update': False, 'classifier': CatBoostClassifier, 'parameters': {}},
-        'dataset4': {'k': [20, 40], 'update': False, 'classifier': CatBoostClassifier, 'parameters': {}}
-    }
+    # 'sdsa_lgbm': {
+    #     'dataset1': {'k': [20, 20], 'update': True, 'classifier': LGBMClassifier, 'parameters': {}},
+    #     'dataset2': {'k': [35, 35], 'update': True, 'classifier': LGBMClassifier, 'parameters': {}},
+    #     'dataset3': {'k': [35, 35], 'update': True, 'classifier': LGBMClassifier, 'parameters': {}},
+    #     'dataset4': {'k': [35, 35], 'update': True, 'classifier': LGBMClassifier, 'parameters': {}}
+    # },
+    # 'sdsa_lgbm_not_update': {
+    #     'dataset1': {'k': [20, 20], 'update': False, 'classifier': LGBMClassifier, 'parameters': {}},
+    #     'dataset2': {'k': [35, 35], 'update': False, 'classifier': LGBMClassifier, 'parameters': {}},
+    #     'dataset3': {'k': [35, 35], 'update': False, 'classifier': LGBMClassifier, 'parameters': {}},
+    #     'dataset4': {'k': [35, 35], 'update': False, 'classifier': LGBMClassifier, 'parameters': {}}
+    # },
+    #
+    # 'sdsa_cat': {
+    #     'dataset1': {'k': [20, 20], 'update': True, 'classifier': CatBoostClassifier, 'parameters': {}},
+    #     'dataset2': {'k': [35, 35], 'update': True, 'classifier': CatBoostClassifier, 'parameters': {}},
+    #     'dataset3': {'k': [35, 35], 'update': True, 'classifier': CatBoostClassifier, 'parameters': {}},
+    #     'dataset4': {'k': [35, 35], 'update': True, 'classifier': CatBoostClassifier, 'parameters': {}}
+    # },
+    # 'sdsa_cat_not_update': {
+    #     'dataset1': {'k': [20, 20], 'update': False, 'classifier': CatBoostClassifier, 'parameters': {}},
+    #     'dataset2': {'k': [35, 35], 'update': False, 'classifier': CatBoostClassifier, 'parameters': {}},
+    #     'dataset3': {'k': [35, 35], 'update': False, 'classifier': CatBoostClassifier, 'parameters': {}},
+    #     'dataset4': {'k': [35, 35], 'update': False, 'classifier': CatBoostClassifier, 'parameters': {}}
+    # }
 
 }
 
@@ -274,7 +286,8 @@ def parse_arguments():
     parser.add_argument('-c', '--classifiers', dest='classifier_names',
                         type=comma_separated_strings,
                         default=['sdsa', 'sdsa_not_update', 'sdsa_rf', 'sdsa_rf_not_update',
-                         'sdsa_svc','sdsa_svc_not_update','sdsa_lr', 'sdsa_lr_not_update'],
+                         'sdsa_svc','sdsa_svc_not_update','sdsa_lr', 'sdsa_lr_not_update', 'sdsa_xgb', 'sdsa_xgb_not_update',
+                         'sdsa_knn_not_update', 'sdsa_knn'],
                         help='''Classifiers to use for evaluation in a comma
                         separated list of strings. From the following
                         options: ''' + ', '.join(classifiers.keys()))
