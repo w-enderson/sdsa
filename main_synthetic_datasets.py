@@ -2,6 +2,7 @@ from __future__ import division
 from sklearn.model_selection import StratifiedShuffleSplit
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 
 from util.functions import generate_multivariate_gaussians
@@ -13,9 +14,6 @@ import os
 # Parallelization
 import itertools
 from multiprocessing import cpu_count, Pool
-
-import pandas as pd
-import numpy as np
 
 from models.ivabc import IVABC
 
