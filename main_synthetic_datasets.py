@@ -289,7 +289,8 @@ def parse_arguments():
                         separated list of strings. From the following
                         options: ''' + ', '.join(classifiers.keys()))
     parser.add_argument('-i', '--iterations', dest='mc_iterations', type=int,
-                        default=10,
+
+
                         help='Number of Monte Carlo iterations')
     parser.add_argument('-f', '--folds', dest='n_folds', type=int,
                         default=10,

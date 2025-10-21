@@ -1,13 +1,20 @@
 import pandas as pd
 import os
+import re
 
 def combine_results():
     # Path to the results directory
     results_path = "../results_test"
     
+    # Regex pattern to match filenames like: dataset-<anything>-mc-<number>.csv
+    pattern = re.compile(r'^dataset-.*-mc-\d+\.csv$', re.IGNORECASE)
+
     # List to store all dataframes
     all_dfs = []
-    
+    processed = 0
+    ignored = 0
+    errors = 0
+
     # Check if directory exists
     if not os.path.exists(results_path):
         raise FileNotFoundError(f"Directory '{results_path}' not found")
@@ -19,18 +26,24 @@ def combine_results():
         # Check if it's a directory
         if os.path.isdir(subdir_path):
             for file in os.listdir(subdir_path):
-                if file.endswith('.csv'):
+                # Only consider CSV files that match the pattern
+                if file.lower().endswith('.csv') and pattern.match(file):
                     file_path = os.path.join(subdir_path, file)
                     try:
                         # Read each CSV file
                         df = pd.read_csv(file_path)
-                        # Add filename and directory name as columns if needed
-                        # df['source_file'] = file
-                        # df['algorithm'] = subdir
+                        # Optionally add filename and directory name as columns
+                        df['source_file'] = file
+                        df['algorithm'] = subdir
                         all_dfs.append(df)
+                        processed += 1
                     except Exception as e:
+                        errors += 1
                         print(f"Error reading file {file}: {str(e)}")
-    
+                else:
+                    # Ignore files that do not match the dataset-...-mc-<n>.csv pattern
+                    ignored += 1
+
     # Combine all dataframes
     if all_dfs:
         combined_df = pd.concat(all_dfs, ignore_index=True)
@@ -39,9 +52,11 @@ def combine_results():
         output_path = "combined_results.csv"
         combined_df.to_csv(output_path, index=False, float_format="%.6f")
         print(f"Combined results saved to {output_path}")
+        print(f"Processed: {processed}, Ignored: {ignored}, Errors: {errors}")
         return combined_df
     else:
-        print("No CSV files found in the results directory")
+        print("No CSV files found in the results directory matching the required pattern")
+        print(f"Processed: {processed}, Ignored: {ignored}, Errors: {errors}")
         return None
 
 def calculate_statistics(df):
