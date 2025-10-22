@@ -27,9 +27,12 @@ from sklearn.ensemble import GradientBoostingClassifier
 from xgboost import XGBClassifier
 # from lightgbm import LGBMClassifier
 # from catboost import CatBoostClassifier
+from models.knn import IntervalKNN
+
 
 classifiers = {
       'ivabc': IVABC,
+      'knn': IntervalKNN,
       'sdsa' : SDSA,
       'sdsa_not_update' : SDSA,
       'sdsa_rf' : SDSA,
@@ -118,6 +121,12 @@ parameters = {
             'alpha': 0.3
         },
     },
+    'knn': {
+            'dataset1': {},
+            'dataset2': {},
+            'dataset3': {},
+            'dataset4': {}
+        },
     'sdsa': {
         'dataset1': {'k': [20, 20], 'update': True, 'classifier': SVC,  'parameters' : {}},
         'dataset2': {'k': [35, 35],'update': True, 'classifier': SVC,  'parameters' : {}},
@@ -289,8 +298,7 @@ def parse_arguments():
                         separated list of strings. From the following
                         options: ''' + ', '.join(classifiers.keys()))
     parser.add_argument('-i', '--iterations', dest='mc_iterations', type=int,
-
-
+                        default=10,
                         help='Number of Monte Carlo iterations')
     parser.add_argument('-f', '--folds', dest='n_folds', type=int,
                         default=10,
@@ -459,6 +467,3 @@ def main(mc_iterations, n_folds, classifier_names, results_path,
 if __name__ == '__main__':
     args = parse_arguments()
     main(**vars(args))
-
-    
-

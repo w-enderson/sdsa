@@ -106,15 +106,20 @@ class SDSA:
 
         D = euclidean_dist(X, self.medias)
         predicoes = self.clf.predict(D)
-        
+
         accuracy = np.sum(predicoes == Y)/len(predicoes == Y)
-        return accuracy    
+        return accuracy
 
 
 def euclidean_dist(matrix1, matrix2):
-    d_min = cdist(matrix1[:,::2], matrix2[:,::2])
+    # d_min = cdist(matrix1[:,::2], matrix2[:,::2])
+    # # print("dmin: ", d_min)
+    # d_max = cdist(matrix1[:,1::2], matrix2[:,1::2])
+    # return d_min + d_max
+
+    d_min = cdist(matrix1[:,::2], matrix2[:,::2], metric='cityblock')
     # print("dmin: ", d_min)
-    d_max = cdist(matrix1[:,1::2], matrix2[:,1::2])
+    d_max = cdist(matrix1[:,1::2], matrix2[:,1::2], metric='cityblock')
     return d_min + d_max
 
 def sqeuclidean_dist(matrix1, matrix2):
@@ -128,6 +133,10 @@ def city_block_dist(matrix1, matrix2):
     # print("dmin: ", d_min)
     d_max = cdist(matrix1[:,1::2], matrix2[:,1::2], metric='cityblock')
     return d_min + d_max
+
+
+# Interval k-NN classifier used to live here; implementation was moved to models/knn.py
+# to avoid duplication. Use `from models.knn import IntervalKNN` when you need the class.
 
 
 def kmeanspp(X, n_clusters, n_local_trials=None):

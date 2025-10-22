@@ -22,10 +22,12 @@ from xgboost import XGBClassifier
 from models.wflvq import WFLVQ
 from models.ivabc import IVABC
 from models.sdsa import SDSA
+from models.knn import IntervalKNN
 
 classifiers = {
       'wflvq': WFLVQ,
       'ivabc': IVABC,
+      'knn': IntervalKNN,
       'sdsa' : SDSA,
       'sdsa_not_update' : SDSA,
       'sdsa_rf' : SDSA,
@@ -68,6 +70,12 @@ parameters = {
             'k': 3,
             'alpha': 0.0
         }
+    },
+    'knn': {
+        'climates': {},
+        'dry-climates': {},
+        'european-climates': {},
+        'mushroom': {}
     },
     'sdsa': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'parameters' : {}},
