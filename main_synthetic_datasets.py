@@ -140,22 +140,10 @@ parameters = {
         'dataset4': {'k': [35, 35], 'update': False, 'classifier': SVC,  'parameters' : {}}
     },
     'sdsa_rf': {
-        'dataset1': {'k': [20, 20], 'update': True,
-                    'classifier': RandomForestClassifier, 
-                    'parameters' : {}
-        },
-        'dataset2': {'k': [35, 35], 'update': True,
-                    'classifier': RandomForestClassifier, 
-                    'parameters' : {}
-          },
-        'dataset3': {'k': [35, 35], 'update': True,
-                    'classifier': RandomForestClassifier, 
-                    'parameters' : {}
-                    },
-        'dataset4': {'k': [35, 35], 'update': True,
-                    'classifier': RandomForestClassifier, 
-                    'parameters' : {}
-                   }
+        'dataset1': {'k': [20, 20], 'update': True,'classifier': RandomForestClassifier, 'parameters' : {}},
+        'dataset2': {'k': [35, 35], 'update': True,'classifier': RandomForestClassifier, 'parameters' : {}},
+        'dataset3': {'k': [35, 35], 'update': True,'classifier': RandomForestClassifier, 'parameters' : {}},
+        'dataset4': {'k': [35, 35], 'update': True,'classifier': RandomForestClassifier,'parameters' : {}}
     },
     'sdsa_rf_not_update': {
         'dataset1': {'k': [20, 20], 'update': False, 'classifier': RandomForestClassifier,  'parameters' : {}},
@@ -314,6 +302,9 @@ def parse_arguments():
                         default=-1,
                         help='''Number of jobs to run concurrently. -1 to use all
                                 available CPUs''')
+    parser.add_argument('--distance', dest='distance', type=str,
+                        default=['euclidean', 'sqeuclidean','cityblock', 'hausdorff'],
+                        help='''Distance metric to use. Options are: Euclidean, City_Block, Hausdorff. Default is Euclidean.''')
     return parser.parse_args()
 
 
@@ -357,10 +348,11 @@ def compute_all(args):
         exec_time : float
             Mean execution time
     '''
-    (dataset, n_folds, mc, classifier_name, results_path) = args
+    (dataset, n_folds, mc, classifier_name, results_path, distance) = args
 
     classifier = classifiers[classifier_name]
     params = parameters[classifier_name][dataset]
+
 
     # data =  generate_multivariate_gaussians(parameters_synthetic[classifier_name][dataset]["gaussians"], 10)
     # X, y = data.data, data.target
@@ -376,6 +368,8 @@ def compute_all(args):
     # X, y = data.data, data.target
     # params = parameters['sdsa_rf'][dataset]
     params = parameters[classifier_name][dataset]
+    params['dist'] = distance
+
     # data =  generat e_multivariate_gaussians(parameters_synthetic[classifier_name][dataset]["gaussians"], 10)
 
     # X, y = data.data, data.target
@@ -393,8 +387,8 @@ def compute_all(args):
     fold_id = 0
     for train_idx, test_idx in skf.split(X, y):
         print(
-            'Computing: classifier: {}, dataset: {}, mc: {} fold: {}'.format(
-                classifier_name, dataset, mc, fold_id
+            'Computing: classifier: {}, dataset: {}, dist: {}, mc: {} fold: {}'.format(
+                classifier_name, dataset, distance, mc, fold_id
             )
         )
         x_train, y_train = X[train_idx], y[train_idx]
@@ -416,7 +410,7 @@ def compute_all(args):
 
         fold_id += 1
     df = pd.DataFrame(data=results, columns=columns)
-    df.to_csv(os.path.join(results_path, 'dataset-{}-mc-{}.csv'.format(dataset, mc)))
+    df.to_csv(os.path.join(results_path, 'dataset-{}-dist-{}-mc-{}.csv'.format(dataset, distance, mc)))
     return df
 
 

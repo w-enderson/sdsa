@@ -17,11 +17,12 @@ from sklearn.linear_model import LogisticRegression
 
 class SDSA:
 
-    def __init__ (self, k, update = True, classifier = DecisionTreeClassifier, parameters = None):
+    def __init__ (self, k, dist='euclidean',update = True, classifier = DecisionTreeClassifier, parameters = None):
         self.k = k
         self.update = update
         self.classifier = classifier
         self.parameters = parameters
+        self.dist = dist
 
     def fit(self, X, y):    
         #treinamento
@@ -56,7 +57,7 @@ class SDSA:
                     # d_min = cdist(X[:,::2], medias_min)
                     # d_max = cdist(X[:,1::2], medias_max)    
                     # distance = d_min + d_max
-                    D = euclidean_dist(X_class, medias)
+                    D = distance(X_class, medias, dist=self.dist)
                     C  = np.argmin(D, axis=1)
 
                     #print(distance)
@@ -86,7 +87,7 @@ class SDSA:
 
         prots = np.vstack(media_prot)
 
-        D = euclidean_dist(X, prots)
+        D = distance(X, prots, dist=self.dist)
    
         clf = self.classifier(**self.parameters)
 
@@ -104,23 +105,41 @@ class SDSA:
 
         # D = D_min + D_max
 
-        D = euclidean_dist(X, self.medias)
+        D = distance(X, self.medias, self.dist)
         predicoes = self.clf.predict(D)
 
         accuracy = np.sum(predicoes == Y)/len(predicoes == Y)
         return accuracy
 
 
-def euclidean_dist(matrix1, matrix2):
-    # d_min = cdist(matrix1[:,::2], matrix2[:,::2])
-    # # print("dmin: ", d_min)
-    # d_max = cdist(matrix1[:,1::2], matrix2[:,1::2])
-    # return d_min + d_max
+def distance(matrix1, matrix2, dist):
 
-    d_min = cdist(matrix1[:,::2], matrix2[:,::2], metric='cityblock')
-    # print("dmin: ", d_min)
-    d_max = cdist(matrix1[:,1::2], matrix2[:,1::2], metric='cityblock')
-    return d_min + d_max
+    if dist== 'euclidean':
+        # Euclidean Distance
+        d_min = cdist(matrix1[:,::2], matrix2[:,::2])
+        # print("dmin: ", d_min)
+        d_max = cdist(matrix1[:,1::2], matrix2[:,1::2])
+        return d_min + d_max
+    elif dist== 'sqeuclidean':
+        # Squared Euclidean Distance
+        d_min = cdist(matrix1[:, ::2], matrix2[:, ::2], metric='sqeuclidean')
+        # print("dmin: ", d_min)
+        d_max = cdist(matrix1[:, 1::2], matrix2[:, 1::2], metric='sqeuclidean')
+        return d_min + d_max
+    elif dist== 'cityblock':
+        # City Block Distance
+        d_min = cdist(matrix1[:,::2], matrix2[:,::2], metric='cityblock')
+        # print("dmin: ", d_min)
+        d_max = cdist(matrix1[:,1::2], matrix2[:,1::2], metric='cityblock')
+        return d_min + d_max
+    elif dist== 'hausdorff':
+        # Hausdorff Distance
+        d_min = cdist(matrix1[:, ::2], matrix2[:, ::2], metric='cityblock')
+        d_max = cdist(matrix1[:, 1::2], matrix2[:, 1::2], metric='cityblock')
+        d_matrix = np.maximum(d_min, d_max)
+        return d_matrix
+    else:
+        raise ValueError("Unsupported distance metric")
 
 def sqeuclidean_dist(matrix1, matrix2):
     d_min = cdist(matrix1[:, ::2], matrix2[:, ::2], metric='sqeuclidean')
@@ -186,7 +205,7 @@ def kmeanspp(X, n_clusters, n_local_trials=None):
         centers[0] = X[center_id]
 
     # Initialize list of closest distances and calculate current potential
-    closest_dist_sq = euclidean_dist(centers[0, np.newaxis], X)
+    closest_dist_sq = distance(centers[0, np.newaxis], X, dist='euclidean')
     current_pot = closest_dist_sq.sum()
 
     # Pick the remaining n_clusters-1 points
@@ -198,7 +217,7 @@ def kmeanspp(X, n_clusters, n_local_trials=None):
                                         rand_vals)
 
         # Compute distances to center candidates
-        distance_to_candidates = euclidean_dist(X[candidate_ids], X)
+        distance_to_candidates = distance(X[candidate_ids], X, dist='euclidean')
 
         # Decide which candidate is the best
         best_candidate = None
