@@ -67,7 +67,7 @@ class SDSA:
 
 def distance(matrix1, matrix2, dist):
     if dist not in ['euclidean', 'sqeuclidean', 'cityblock', 'hausdorff']:
-        raise ValueError("Distância não permitida")
+        raise ValueError(f"Distância não permitida: {dist}")
     
     distancia = dist if dist!="hausdorff" else "cityblock"
 

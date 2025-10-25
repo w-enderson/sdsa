@@ -74,7 +74,11 @@ parameters = {
         'climates': {},
         'dry-climates': {},
         'european-climates': {},
-        'mushroom': {}
+        'mushroom': {},
+        'dataset1': {},
+        'dataset2': {},
+        'dataset3': {},
+        'dataset4': {}
     },
     'sdsa': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'parameters' : {}},
@@ -215,10 +219,11 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description='''Runs all the experiments
                                      with the given arguments''',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
     parser.add_argument('-c', '--classifiers', dest='classifier_names',
                         type=comma_separated_strings,
                         default=['wflvq', 'ivabc','sdsa', 'sdsa_not_update', 'sdsa_rf', 'sdsa_rf_not_update',
-                         'sdsa_svc','sdsa_svc_not_update','sdsa_lr', 'sdsa_lr_not_update'],
+                         'sdsa_svc','sdsa_svc_not_update','sdsa_lr', 'sdsa_lr_not_update', 'sdsa_xgb', 'sdsa_xgb_not_update'],
                         help='''Classifiers to use for evaluation in a comma
                         separated list of strings. From the following
                         options: ''' + ', '.join(classifiers.keys()))
@@ -233,13 +238,14 @@ def parse_arguments():
                         help='''Path to store all the results''')
     parser.add_argument('-d', '--datasets', dest='datasets',
                         type=comma_separated_strings,
-                        default=['climates', 'dry-climates', 'european-climates', 'mushroom','dataset1', 'dataset2', 'dataset3', 'dataset4'],
+                        default=['climates', 'dry-climates', 'european-climates', 'mushroom',
+                        'dataset1', 'dataset2', 'dataset3', 'dataset4'],
                         help='''Comma separated dataset names''')
     parser.add_argument('-w', '--workers', dest='n_workers', type=int,
                         default=-1,
                         help='''Number of jobs to run concurrently. -1 to use all
                                 available CPUs''')
-    parser.add_argument('--distance', dest='distance', type=str,
+    parser.add_argument('--distances', dest='distances', type=comma_separated_strings,
                         default=['euclidean', 'sqeuclidean','cityblock', 'hausdorff'],
                         help='''Distance metric to use. Options are: Euclidean, City_Block, Hausdorff. Default is Euclidean.''')
     return parser.parse_args()
@@ -289,12 +295,14 @@ def compute_all(args):
 
     classifier = classifiers[classifier_name]
     params = parameters[classifier_name][dataset]
-    params['dist'] = distance
+
+    if distance:
+        params['dist'] = distance
+
 
     data = pd.read_csv('./datasets/{}.csv'.format(dataset)) 
 
-    X = data.drop('target', axis=1).values                                                                                                                                         
-
+    X = data.drop('target', axis=1).values
     y = data['target'].values
 
     skf = StratifiedKFold(n_splits=n_folds, shuffle=True, random_state=mc)
@@ -313,6 +321,7 @@ def compute_all(args):
         x_test, y_test = X[test_idx], y[test_idx]
 
         c = classifier(**params)
+
         start = time.time()
         c.fit(x_train, y_train)
         end = time.time()
@@ -326,19 +335,31 @@ def compute_all(args):
         )
 
         fold_id += 1
+
     df = pd.DataFrame(data=results, columns=columns)
-    df.to_csv(os.path.join(results_path, 'dataset-{}-dist-{}-mc-{}.csv'.format(dataset, distance, mc)))
+
+    if distance:
+        filename = 'dataset-{}-dist-{}-mc-{}.csv'.format(dataset, distance, mc)
+    else:
+        filename = 'dataset-{}-mc-{}.csv'.format(dataset, mc)
+
+    df.to_csv(os.path.join(results_path, filename))
+
     return df
 
 
 def main(mc_iterations, n_folds, classifier_names, results_path,
-		 datasets, n_workers, distance):
+		 datasets, n_workers, distances):
 
     dataset_names = datasets
-    dataset_names.sort()
+    distance_names = distances
 
+    dataset_names.sort()
     classifier_names.sort()
+
+
     results_path_root = results_path
+
 
     for classifier_name in classifier_names:
         all_results = []
@@ -348,11 +369,13 @@ def main(mc_iterations, n_folds, classifier_names, results_path,
             os.makedirs(results_path)
         
         for dataset in dataset_names:
-            for d in distance:
+            for d in distance_names:
+                
+                dist = d if "sdsa" in classifier_name else None 
 
                 mcs = np.arange(mc_iterations)
 
-                args = [[dataset], [n_folds], mcs, [classifier_name], [results_path], [d]]
+                args = [ [dataset], [n_folds], mcs, [classifier_name], [results_path], [dist] ]
                 args = list(itertools.product(*args))
 
                 if n_workers == -1:
@@ -369,6 +392,10 @@ def main(mc_iterations, n_folds, classifier_names, results_path,
 
                 dfs = map_f(compute_all, args)
                 all_results.extend(dfs)
+
+                if not dist:
+                    break
+
         all_results = pd.concat(all_results)
         all_results.to_csv(
             os.path.join(
