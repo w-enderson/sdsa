@@ -1,0 +1,11 @@
+,dataset,n_classes,n_features,n_samples,classifier,mc,test_fold,acc,exec_time
+0,dataset1,2,2.0,400,knn,6,0,0.95,0.002018451690673828
+1,dataset1,2,2.0,400,knn,6,1,0.875,0.0
+2,dataset1,2,2.0,400,knn,6,2,1.0,0.0
+3,dataset1,2,2.0,400,knn,6,3,0.95,0.0
+4,dataset1,2,2.0,400,knn,6,4,1.0,0.0
+5,dataset1,2,2.0,400,knn,6,5,0.975,0.006988048553466797
+6,dataset1,2,2.0,400,knn,6,6,0.95,0.002011537551879883
+7,dataset1,2,2.0,400,knn,6,7,0.95,0.0
+8,dataset1,2,2.0,400,knn,6,8,0.925,0.0
+9,dataset1,2,2.0,400,knn,6,9,0.975,0.0

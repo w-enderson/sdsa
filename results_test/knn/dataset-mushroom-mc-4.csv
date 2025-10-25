@@ -1,0 +1,11 @@
+,dataset,n_classes,n_features,n_samples,classifier,mc,test_fold,acc,exec_time
+0,mushroom,2,3.0,154,knn,4,0,0.625,0.0
+1,mushroom,2,3.0,154,knn,4,1,0.5625,0.0
+2,mushroom,2,3.0,154,knn,4,2,0.5,0.0
+3,mushroom,2,3.0,154,knn,4,3,0.625,0.0
+4,mushroom,2,3.0,154,knn,4,4,0.6,0.0
+5,mushroom,2,3.0,154,knn,4,5,0.5333333333333333,0.0
+6,mushroom,2,3.0,154,knn,4,6,0.7333333333333333,0.0010023117065429688
+7,mushroom,2,3.0,154,knn,4,7,0.6,0.00043320655822753906
+8,mushroom,2,3.0,154,knn,4,8,0.6,0.0
+9,mushroom,2,3.0,154,knn,4,9,0.7333333333333333,0.0
