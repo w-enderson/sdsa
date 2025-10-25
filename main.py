@@ -2,7 +2,6 @@ import argparse
 import time
 import os
 
-# Parallelization
 import itertools
 from multiprocessing import cpu_count, Pool
 
@@ -14,7 +13,6 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
-
 from sklearn.neighbors import KNeighborsClassifier
 from xgboost import XGBClassifier
 
@@ -23,6 +21,7 @@ from models.wflvq import WFLVQ
 from models.ivabc import IVABC
 from models.sdsa import SDSA
 from models.knn import IntervalKNN
+
 
 classifiers = {
       'wflvq': WFLVQ,

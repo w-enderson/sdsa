@@ -1,18 +1,8 @@
 import scipy.sparse as sp
-# from sklearn.datasets import load_iris
-import random
 import numpy as np
 from scipy.spatial.distance import cdist
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.utils.extmath import stable_cumsum
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
-from sklearn.linear_model import LogisticRegression
-# from sklearn.model_selection import train_test_split
-# from sklearn.model_selection import StratifiedKFold
-# from sklearn.ensemble import RandomForestClassifier
-# from sklearn.svm import SVC
-# from sklearn.linear_model import LogisticRegression
 
 
 class SDSA:
@@ -23,87 +13,48 @@ class SDSA:
         self.classifier = classifier
         self.parameters = parameters
         self.dist = dist
-
-    def fit(self, X, y):    
-        #treinamento
-        # sort = np.random.choice(range(len(X)), self.k)
-        #print(sort)
-        # n = X[sort]
-        #print(n)
-
-        # distance = cdist(X, n)
-        # C  = np.argmin(distance, axis=1)
-        #print(C)
-
-        # medias = []
-        # for c in range(self.k): 
-        #     if np.any(C==c):
-        #         medias.append(np.mean(X[(C == c)], axis = 0))
-        # medias = np.array(medias)
-
-        # medias_min = medias[:,::2]
-        # medias_max = medias[:,1::2]
-        #print(medias)
-
+    
+    def get_prototypes(self, X, y):
         media_prot = []
         
         for i, n_prots in enumerate(self.k):  
             X_class = X[y==i]
             medias = kmeanspp(X_class, n_prots)
 
-            if self.update == True:
+            if self.update:
                 for t in range(100):
 
-                    # d_min = cdist(X[:,::2], medias_min)
-                    # d_max = cdist(X[:,1::2], medias_max)    
-                    # distance = d_min + d_max
                     D = distance(X_class, medias, dist=self.dist)
                     C  = np.argmin(D, axis=1)
-
-                    #print(distance)
-                    #print(C)
-                    # minimos = np.min(distance, axis=1)
-                    #print(minimos)
-
-                    # medias = []
-                    # for c in range(self.k): 
-                    #     if np.any(C==c):
-                    #       medias.append(np.mean(X[(C == c)], axis = 0))                    
-                    # medias = np.array(medias)
 
                     for c in range(n_prots): 
                         if np.any(C==c):
                             medias[c] = np.mean(X_class[C == c], axis = 0)     
-                    # medias_min = medias[:,::2]
-                    # medias_max = medias[:,1::2]
-                    # d_min = cdist(X[:,::2], medias_min)
-                    # d_max = cdist(X[:,1::2], medias_max)
-                    # D = d_min + d_max
-            
-            # d_min = cdist(X[:,::2], medias_min)
-            # d_max = cdist(X[:,1::2], medias_max)
-            # D = d_min + d_max        
+             
             media_prot.append(medias)  
 
         prots = np.vstack(media_prot)
 
+        return prots
+        
+
+    def fit(self, X, y):    
+
+        prots = self.get_prototypes(X, y)
+
         D = distance(X, prots, dist=self.dist)
    
         clf = self.classifier(**self.parameters)
-
+   
         clf.fit(D, y)
+
         self.clf = clf
         self.medias = prots
         return self
 
+
+    
     def accuracy(self, X, Y):
-        #teste e retorna acuracia
-        #predições para o teste
-
-        # D_min = cdist(X[:, ::2], self.medias[:,::2])
-        # D_max = cdist(X[:, 1::2], self.medias[:,1::2])
-
-        # D = D_min + D_max
 
         D = distance(X, self.medias, self.dist)
         predicoes = self.clf.predict(D)
@@ -112,46 +63,21 @@ class SDSA:
         return accuracy
 
 
+
+
 def distance(matrix1, matrix2, dist):
+    if dist not in ['euclidean', 'sqeuclidean', 'cityblock', 'hausdorff']:
+        raise ValueError("Distância não permitida")
+    
+    distancia = dist if dist!="hausdorff" else "cityblock"
 
-    if dist== 'euclidean':
-        # Euclidean Distance
-        d_min = cdist(matrix1[:,::2], matrix2[:,::2])
-        # print("dmin: ", d_min)
-        d_max = cdist(matrix1[:,1::2], matrix2[:,1::2])
-        return d_min + d_max
-    elif dist== 'sqeuclidean':
-        # Squared Euclidean Distance
-        d_min = cdist(matrix1[:, ::2], matrix2[:, ::2], metric='sqeuclidean')
-        # print("dmin: ", d_min)
-        d_max = cdist(matrix1[:, 1::2], matrix2[:, 1::2], metric='sqeuclidean')
-        return d_min + d_max
-    elif dist== 'cityblock':
-        # City Block Distance
-        d_min = cdist(matrix1[:,::2], matrix2[:,::2], metric='cityblock')
-        # print("dmin: ", d_min)
-        d_max = cdist(matrix1[:,1::2], matrix2[:,1::2], metric='cityblock')
-        return d_min + d_max
-    elif dist== 'hausdorff':
-        # Hausdorff Distance
-        d_min = cdist(matrix1[:, ::2], matrix2[:, ::2], metric='cityblock')
-        d_max = cdist(matrix1[:, 1::2], matrix2[:, 1::2], metric='cityblock')
-        d_matrix = np.maximum(d_min, d_max)
-        return d_matrix
-    else:
-        raise ValueError("Unsupported distance metric")
+    d_min = cdist(matrix1[:,::2], matrix2[:,::2], metric= distancia)
+    d_max = cdist(matrix1[:,1::2], matrix2[:,1::2], metric= distancia)
 
-def sqeuclidean_dist(matrix1, matrix2):
-    d_min = cdist(matrix1[:, ::2], matrix2[:, ::2], metric='sqeuclidean')
-    # print("dmin: ", d_min)
-    d_max = cdist(matrix1[:, 1::2], matrix2[:, 1::2], metric='sqeuclidean')
-    return d_min + d_max
+    d_matrix = np.maximum(d_min, d_max) if dist=="hausdorff" else d_min + d_max
 
-def city_block_dist(matrix1, matrix2):
-    d_min = cdist(matrix1[:,::2], matrix2[:,::2], metric='cityblock')
-    # print("dmin: ", d_min)
-    d_max = cdist(matrix1[:,1::2], matrix2[:,1::2], metric='cityblock')
-    return d_min + d_max
+    return d_matrix
+
 
 
 # Interval k-NN classifier used to live here; implementation was moved to models/knn.py
