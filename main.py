@@ -250,7 +250,7 @@ def parse_arguments():
                         help='''Distance metric to use. Options are: Euclidean, City_Block, Hausdorff. Default is Euclidean.''')
     return parser.parse_args()
 
-
+    
 def compute_all(args):
     ''' Train a classifier with the specified dataset
 
@@ -317,18 +317,18 @@ def compute_all(args):
                 classifier_name, dataset, distance, mc, fold_id
             )
         )
-        x_train, y_train = X[train_idx], y[train_idx]
-        x_test, y_test = X[test_idx], y[test_idx]
+        X_train, y_train = X[train_idx], y[train_idx]
+        X_test, y_test = X[test_idx], y[test_idx]
 
         c = classifier(**params)
 
         start = time.time()
-        c.fit(x_train, y_train)
+        c.fit(X_train, y_train)
         end = time.time()
 
         exec_time = end - start
 
-        acc = c.accuracy(x_test, y_test)
+        acc = c.accuracy(X_test, y_test)
         results.append(
             [dataset, n_classes, X.shape[1]/2, X.shape[0], classifier_name, mc,
            fold_id, acc, exec_time]
@@ -396,12 +396,6 @@ def main(mc_iterations, n_folds, classifier_names, results_path,
                 if not dist:
                     break
 
-        all_results = pd.concat(all_results)
-        all_results.to_csv(
-            os.path.join(
-                results_path, '{}.csv'.format(','.join(dataset_names))
-            )
-        )
 
 
 if __name__ == '__main__':

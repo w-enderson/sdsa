@@ -2,7 +2,13 @@ from models.sdsa import SDSA
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
+
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from xgboost import XGBClassifier
+
 from models.sdsa import distance
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
@@ -21,42 +27,27 @@ X_train, X_test, y_train, y_test = train_test_split(
     random_state=10,
     stratify=y
 )
-c = SDSA(**{'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': LogisticRegression, 'parameters' : {'max_iter' : 120000}})
 
-prots= c.get_prototipes(X_train, y_train)
-D = distance(X, prots, dist="euclidean")
+# scaler = StandardScaler()
+# X_train_scaled = scaler.fit_transform(X_train)
+# X_test_scaled = scaler.transform(X_test)
+dist = 'euclidean'
+c = SDSA(**{'dist':dist, 'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': LogisticRegression, 'parameters' : {}})
 
-# min_distancias = D.min(axis=0)
-# max_distancias = D.max(axis=0)
-# plt.figure(figsize=(8, 6))
-# plt.scatter(min_distancias, max_distancias, alpha=0.7)
-
-# means = X_train.mean(axis=0)
-# stds = X_train.std(axis=0)
-# plt.figure(figsize=(8, 6))
-# plt.scatter(means, stds, alpha=0.7)
-
-print(D.max(axis=1))
-print(D.min(axis=1))
-
-print(D.shape)
-
-
+prots= c.get_prototypes(X_train, y_train)
+D = distance(X_train, prots, dist=dist)
+D2= distance(X_test, prots, dist=dist)
 
 scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled = scaler.transform(X_test)
+D_scaled = scaler.fit_transform(D)
+D2_scaled = scaler.transform(D2)
 
-
-model = LogisticRegression(max_iter=500)
-model.fit(X_train_scaled, y_train)
-model.fit(X_train, y_train)
+model = LogisticRegression(max_iter=120000)
+model.fit(D_scaled, y_train)
 print("\nModelo treinado com sucesso!")
 
-
-y_pred = model.predict(X_test_scaled)
+y_pred = model.predict(D2_scaled)
 accuracy = accuracy_score(y_test, y_pred)
-
 print(f"\nAcurácia: {accuracy * 100:.2f}%")
 
 # 2. Relatório de Classificação Completo

@@ -3,10 +3,10 @@ import pandas as pd
 import glob
 
 # Pasta raiz dos resultados
-root_path = 'results_test'
+root_path = 'results_test_scaled'
 
 # Pega todos os classificadores (pastas dentro de results_test)
-classifiers = ['sdsa', 'sdsa_knn']
+classifiers = ['sdsa_lr']
 
 # Distâncias que vamos considerar
 distances = ['euclidean', 'sqeuclidean', 'cityblock', 'hausdorff']
@@ -103,6 +103,6 @@ df_final = df_final[cols].round(4)
 df_final = df_final.sort_values('dataset').reset_index(drop=True)
 
 # Salva CSV final
-df_final.to_csv('./agregacaoo/summary_results.csv', index=False)
+df_final.to_csv('./agregacaoo/summary_results_scaled.csv', index=False)
 
 print("CSV final gerado: summary_results.csv")

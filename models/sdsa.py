@@ -4,6 +4,8 @@ from scipy.spatial.distance import cdist
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.utils.extmath import stable_cumsum
 
+from sklearn.preprocessing import StandardScaler
+
 
 class SDSA:
 
@@ -43,10 +45,13 @@ class SDSA:
         prots = self.get_prototypes(X, y)
 
         D = distance(X, prots, dist=self.dist)
-   
+        
+        self.scaler = StandardScaler()
+        D_scaled = self.scaler.fit_transform(D)
+
         clf = self.classifier(**self.parameters)
    
-        clf.fit(D, y)
+        clf.fit(D_scaled, y)
 
         self.clf = clf
         self.medias = prots
@@ -57,7 +62,9 @@ class SDSA:
     def accuracy(self, X, Y):
 
         D = distance(X, self.medias, self.dist)
-        predicoes = self.clf.predict(D)
+        D_scaled = self.scaler.transform(D)
+
+        predicoes = self.clf.predict(D_scaled)
 
         accuracy = np.sum(predicoes == Y)/len(predicoes == Y)
         return accuracy
