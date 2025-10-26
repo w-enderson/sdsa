@@ -44,8 +44,8 @@ classifiers = {
 parameters = {
     'wflvq': {
         'climates': {'n_prototypes': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40]},
-        'dry-climates': {'n_prototypes': [28, 38, 34]},
-        'european-climates': {'n_prototypes': [20, 40]},
+        'dry_climates': {'n_prototypes': [28, 38, 34]},
+        'european_climates': {'n_prototypes': [20, 40]},
         'mushroom': {'n_prototypes': [7, 2]}
     },
     'ivabc': {
@@ -54,12 +54,12 @@ parameters = {
             'k': 8,
             'alpha': 1.0
         },
-        'dry-climates': {
+        'dry_climates': {
             'n_prototypes': [28, 38, 34],
             'k': 28,
             'alpha': 0.5
         },
-        'european-climates': {
+        'european_climates': {
             'n_prototypes': [20, 40],
             'k': 3,
             'alpha': 0.2
@@ -72,8 +72,8 @@ parameters = {
     },
     'knn': {
         'climates': {},
-        'dry-climates': {},
-        'european-climates': {},
+        'dry_climates': {},
+        'european_climates': {},
         'mushroom': {},
         'dataset1': {},
         'dataset2': {},
@@ -82,8 +82,8 @@ parameters = {
     },
     'sdsa': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'parameters' : {}},
-        'dry-climates': {'k': [28, 38, 34], 'parameters' : {}},
-        'european-climates': {'k': [20, 40], 'parameters' : {}},
+        'dry_climates': {'k': [28, 38, 34], 'parameters' : {}},
+        'european_climates': {'k': [20, 40], 'parameters' : {}},
         'mushroom': {'k': [7, 2], 'parameters' : {}},
         'dataset1': {'k': [20, 20], 'update': True, 'classifier': SVC,  'parameters' : {}},
         'dataset2': {'k': [35, 35],'update': True, 'classifier': SVC,  'parameters' : {}},
@@ -92,8 +92,8 @@ parameters = {
     },
     'sdsa_not_update': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'update': False, 'parameters' : {}},
-        'dry-climates': {'k': [28, 38, 34], 'update': False, 'parameters' : {}},
-        'european-climates': {'k': [20, 40], 'update': False, 'parameters' : {}},
+        'dry_climates': {'k': [28, 38, 34], 'update': False, 'parameters' : {}},
+        'european_climates': {'k': [20, 40], 'update': False, 'parameters' : {}},
         'mushroom': {'k': [7, 2],'update': False, 'parameters' : {}},
         'dataset1': {'k': [20, 20], 'update': False, 'classifier': SVC,  'parameters' : {}},
         'dataset2': {'k': [35, 35],'update': False, 'classifier': SVC,  'parameters' : {}},
@@ -102,8 +102,8 @@ parameters = {
     },
     'sdsa_rf': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': RandomForestClassifier, 'parameters' : {}},
-        'dry-climates': {'k': [28, 38, 34], 'classifier': RandomForestClassifier, 'parameters' : {}},
-        'european-climates': {'k': [20, 40], 'classifier': RandomForestClassifier, 'parameters' : {}},
+        'dry_climates': {'k': [28, 38, 34], 'classifier': RandomForestClassifier, 'parameters' : {}},
+        'european_climates': {'k': [20, 40], 'classifier': RandomForestClassifier, 'parameters' : {}},
         'mushroom': {'k': [7, 2],'classifier': RandomForestClassifier, 'parameters' : {}},
         'dataset1': {'k': [20, 20], 'update': True, 'classifier': RandomForestClassifier, 'parameters': {}},
         'dataset2': {'k': [35, 35], 'update': True, 'classifier': RandomForestClassifier, 'parameters': {}},
@@ -112,8 +112,8 @@ parameters = {
     },
     'sdsa_rf_not_update': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': RandomForestClassifier, 'update': False, 'parameters' : {}},
-        'dry-climates': {'k': [28, 38, 34], 'classifier': RandomForestClassifier, 'update': False, 'parameters' : {}},
-        'european-climates': {'k': [20, 40], 'classifier': RandomForestClassifier, 'update': False, 'parameters' : {}},
+        'dry_climates': {'k': [28, 38, 34], 'classifier': RandomForestClassifier, 'update': False, 'parameters' : {}},
+        'european_climates': {'k': [20, 40], 'classifier': RandomForestClassifier, 'update': False, 'parameters' : {}},
         'mushroom': {'k': [7, 2],'classifier': RandomForestClassifier, 'update': False, 'parameters' : {}},
         'dataset1': {'k': [20, 20], 'update': False, 'classifier': RandomForestClassifier, 'parameters': {}},
         'dataset2': {'k': [35, 35], 'update': False, 'classifier': RandomForestClassifier, 'parameters': {}},
@@ -122,8 +122,8 @@ parameters = {
     },
     'sdsa_svc': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': SVC, 'parameters' : {}},
-        'dry-climates': {'k': [28, 38, 34], 'classifier': SVC, 'parameters' : {}},
-        'european-climates': {'k': [20, 40], 'classifier': SVC, 'parameters' : {}},
+        'dry_climates': {'k': [28, 38, 34], 'classifier': SVC, 'parameters' : {}},
+        'european_climates': {'k': [20, 40], 'classifier': SVC, 'parameters' : {}},
         'mushroom': {'k':[7, 2],'classifier': SVC, 'parameters' : {}},
         'dataset1': {'k': [20, 20], 'update': True, 'classifier': SVC, 'parameters': {}},
         'dataset2': {'k': [35, 35], 'update': True, 'classifier': SVC, 'parameters': {}},
@@ -132,8 +132,8 @@ parameters = {
     },
     'sdsa_svc_not_update': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': SVC, 'update': False, 'parameters' : {}},
-        'dry-climates': {'k': [28, 38, 34], 'classifier': SVC, 'update': False, 'parameters' : {}},
-        'european-climates': {'k': [20, 40], 'classifier': SVC, 'update': False, 'parameters' : {}},
+        'dry_climates': {'k': [28, 38, 34], 'classifier': SVC, 'update': False, 'parameters' : {}},
+        'european_climates': {'k': [20, 40], 'classifier': SVC, 'update': False, 'parameters' : {}},
         'mushroom': {'k': [7, 2],'classifier': SVC, 'update': False, 'parameters' : {}},
         'dataset1': {'k': [20, 20], 'update': False, 'classifier': SVC,  'parameters' : {}},
         'dataset2': {'k': [35, 35],'update': False, 'classifier': SVC,  'parameters' : {}},
@@ -142,8 +142,8 @@ parameters = {
     },
     'sdsa_lr': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': LogisticRegression, 'parameters' : {'max_iter' : 120000}},
-        'dry-climates': {'k': [28, 38, 34], 'classifier': LogisticRegression, 'parameters' : {'max_iter' : 120000}},
-        'european-climates': {'k': [20, 40], 'classifier': LogisticRegression, 'parameters' : {'max_iter' : 120000}},
+        'dry_climates': {'k': [28, 38, 34], 'classifier': LogisticRegression, 'parameters' : {'max_iter' : 120000}},
+        'european_climates': {'k': [20, 40], 'classifier': LogisticRegression, 'parameters' : {'max_iter' : 120000}},
         'mushroom': {'k': [7, 2],'classifier': LogisticRegression, 'parameters' : {'max_iter' : 120000}},
         'dataset1': {'k': [20, 20], 'update': True, 'classifier': LogisticRegression,'parameters': {'max_iter': 120000}},
         'dataset2': {'k': [35, 35], 'update': True, 'classifier': LogisticRegression,'parameters': {'max_iter': 120000}},
@@ -152,8 +152,8 @@ parameters = {
     },
     'sdsa_lr_not_update': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': LogisticRegression,  'update': False, 'parameters' : {'max_iter' : 120000}},
-        'dry-climates': {'k': [28, 38, 34], 'classifier': LogisticRegression,  'update': False, 'parameters' : {'max_iter' : 120000}},
-        'european-climates': {'k': [20, 40], 'classifier': LogisticRegression,  'update': False, 'parameters' : {'max_iter' : 120000}},
+        'dry_climates': {'k': [28, 38, 34], 'classifier': LogisticRegression,  'update': False, 'parameters' : {'max_iter' : 120000}},
+        'european_climates': {'k': [20, 40], 'classifier': LogisticRegression,  'update': False, 'parameters' : {'max_iter' : 120000}},
         'mushroom': {'k': [7, 2],'classifier': LogisticRegression,  'update': False, 'parameters' : {'max_iter' : 120000}},
         'dataset1': {'k': [20, 20], 'update': False, 'classifier': LogisticRegression,  'parameters' : {'max_iter' : 120000}},
         'dataset2': {'k': [35, 35],'update': False, 'classifier': LogisticRegression,  'parameters' : {'max_iter' : 120000}},
@@ -162,8 +162,8 @@ parameters = {
     },
     'sdsa_knn': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': KNeighborsClassifier, 'parameters' : {'n_neighbors' : 5}},
-        'dry-climates': {'k': [28, 38, 34], 'classifier': KNeighborsClassifier, 'parameters' : {'n_neighbors' : 5}},
-        'european-climates': {'k': [20, 40], 'classifier': KNeighborsClassifier, 'parameters' : {'n_neighbors' : 5}},
+        'dry_climates': {'k': [28, 38, 34], 'classifier': KNeighborsClassifier, 'parameters' : {'n_neighbors' : 5}},
+        'european_climates': {'k': [20, 40], 'classifier': KNeighborsClassifier, 'parameters' : {'n_neighbors' : 5}},
         'mushroom': {'k': [7, 2], 'classifier': KNeighborsClassifier,'parameters' : {'n_neighbors' : 5}},
         'dataset1': {'k': [20, 20], 'update': True, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
         'dataset2': {'k': [35, 35],'update': True, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
@@ -172,8 +172,8 @@ parameters = {
     },
     'sdsa_knn_not_update': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': KNeighborsClassifier,  'update': False, 'parameters' : {'n_neighbors' : 5}},
-        'dry-climates': {'k': [28, 38, 34], 'classifier': KNeighborsClassifier,  'update': False, 'parameters' : {'n_neighbors' : 5}},
-        'european-climates': {'k': [20, 40], 'classifier': KNeighborsClassifier,  'update': False, 'parameters' : {'n_neighbors' : 5}},
+        'dry_climates': {'k': [28, 38, 34], 'classifier': KNeighborsClassifier,  'update': False, 'parameters' : {'n_neighbors' : 5}},
+        'european_climates': {'k': [20, 40], 'classifier': KNeighborsClassifier,  'update': False, 'parameters' : {'n_neighbors' : 5}},
         'mushroom': {'k': [7, 2],'classifier': KNeighborsClassifier,  'update': False, 'parameters' : {'n_neighbors' : 5}},
         'dataset1': {'k': [20, 20], 'update': False, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
         'dataset2': {'k': [35, 35],'update': False, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
@@ -182,8 +182,8 @@ parameters = {
     },
     'sdsa_xgb': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': XGBClassifier, 'parameters': {}},
-        'dry-climates': {'k': [28, 38, 34], 'classifier': XGBClassifier, 'parameters': {}},
-        'european-climates': {'k': [20, 40], 'classifier': XGBClassifier, 'parameters': {}},
+        'dry_climates': {'k': [28, 38, 34], 'classifier': XGBClassifier, 'parameters': {}},
+        'european_climates': {'k': [20, 40], 'classifier': XGBClassifier, 'parameters': {}},
         'mushroom': {'k': [7, 2], 'classifier': XGBClassifier, 'parameters': {}},
         'dataset1': {'k': [20, 20], 'update': True, 'classifier': XGBClassifier, 'parameters': {}},
         'dataset2': {'k': [35, 35], 'update': True, 'classifier': XGBClassifier, 'parameters': {}},
@@ -192,8 +192,8 @@ parameters = {
     },
     'sdsa_xgb_not_update': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': XGBClassifier, 'update': False, 'parameters': {}},
-        'dry-climates': {'k': [28, 38, 34], 'classifier': XGBClassifier, 'update': False, 'parameters': {}},
-        'european-climates': {'k': [20, 40], 'classifier': XGBClassifier, 'update': False, 'parameters': {}},
+        'dry_climates': {'k': [28, 38, 34], 'classifier': XGBClassifier, 'update': False, 'parameters': {}},
+        'european_climates': {'k': [20, 40], 'classifier': XGBClassifier, 'update': False, 'parameters': {}},
         'mushroom': {'k': [7, 2], 'classifier': XGBClassifier, 'update': False, 'parameters': {}},
         'dataset1': {'k': [20, 20], 'update': False, 'classifier': XGBClassifier, 'parameters': {}},
         'dataset2': {'k': [35, 35], 'update': False, 'classifier': XGBClassifier, 'parameters': {}},
@@ -238,7 +238,7 @@ def parse_arguments():
                         help='''Path to store all the results''')
     parser.add_argument('-d', '--datasets', dest='datasets',
                         type=comma_separated_strings,
-                        default=['climates', 'dry-climates', 'european-climates', 'mushroom',
+                        default=['climates', 'dry_climates', 'european_climates', 'mushroom',
                         'dataset1', 'dataset2', 'dataset3', 'dataset4'],
                         help='''Comma separated dataset names''')
     parser.add_argument('-w', '--workers', dest='n_workers', type=int,

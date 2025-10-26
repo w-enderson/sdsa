@@ -67,7 +67,7 @@ classificadores = {
 # ------------------------------------------------------
 # Lista de datasets
 # ------------------------------------------------------
-datasets = ["mushroom", "climates", "dry-climates", "european-climates"]
+datasets = ["mushroom", "climates", "dry_climates", "european_climates"]
 
 # ------------------------------------------------------
 # Rodar todos os classificadores em todos os datasets
