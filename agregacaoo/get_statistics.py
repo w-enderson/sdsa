@@ -8,7 +8,7 @@ root_path = 'results_test_scaled'
 # Pega todos os classificadores (pastas dentro de results_test)
 classifiers = ['sdsa', 'sdsa_not_update', 'sdsa_lr', 'sdsa_lr_not_update', 
 'sdsa_knn', 'sdsa_knn_not_update', 'sdsa_svc', 'sdsa_svc_not_update',
-'sdsa_xgb'
+'sdsa_xgb', 'sdsa_xgb_not_update', 'sdsa_rf', 'sdsa_rf_not_update'
 ]
 
 # Distâncias que vamos considerar
@@ -100,7 +100,7 @@ for suffix in ['time_std']:
         if col_name in df_final.columns:
             cols.append(col_name)
 
-df_final = df_final[cols].round(4)
+df_final = df_final[cols].round(2)
 
 # Ordena por dataset
 df_final = df_final.sort_values('dataset').reset_index(drop=True)
