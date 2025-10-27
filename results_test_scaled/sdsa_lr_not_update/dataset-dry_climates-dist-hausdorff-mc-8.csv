@@ -1,0 +1,11 @@
+,dataset,n_classes,n_features,n_samples,classifier,mc,test_fold,acc,exec_time
+0,dry_climates,3,16.0,522,sdsa_lr_not_update,8,0,0.9622641509433962,0.13721752166748047
+1,dry_climates,3,16.0,522,sdsa_lr_not_update,8,1,0.9245283018867925,0.13010716438293457
+2,dry_climates,3,16.0,522,sdsa_lr_not_update,8,2,1.0,0.12873339653015137
+3,dry_climates,3,16.0,522,sdsa_lr_not_update,8,3,0.9230769230769231,0.12003207206726074
+4,dry_climates,3,16.0,522,sdsa_lr_not_update,8,4,0.9230769230769231,0.129655122756958
+5,dry_climates,3,16.0,522,sdsa_lr_not_update,8,5,0.9423076923076923,0.1327221393585205
+6,dry_climates,3,16.0,522,sdsa_lr_not_update,8,6,0.9615384615384616,0.12607431411743164
+7,dry_climates,3,16.0,522,sdsa_lr_not_update,8,7,0.9807692307692307,0.12263274192810059
+8,dry_climates,3,16.0,522,sdsa_lr_not_update,8,8,0.9807692307692307,0.1291956901550293
+9,dry_climates,3,16.0,522,sdsa_lr_not_update,8,9,0.9230769230769231,0.1251208782196045

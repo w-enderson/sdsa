@@ -1,0 +1,11 @@
+,dataset,n_classes,n_features,n_samples,classifier,mc,test_fold,acc,exec_time
+0,mushroom,2,3.0,154,sdsa_rf_not_update,3,0,0.75,0.29462265968322754
+1,mushroom,2,3.0,154,sdsa_rf_not_update,3,1,0.75,0.3282465934753418
+2,mushroom,2,3.0,154,sdsa_rf_not_update,3,2,0.75,0.3172261714935303
+3,mushroom,2,3.0,154,sdsa_rf_not_update,3,3,0.6875,0.2789912223815918
+4,mushroom,2,3.0,154,sdsa_rf_not_update,3,4,0.6666666666666666,0.3077371120452881
+5,mushroom,2,3.0,154,sdsa_rf_not_update,3,5,0.8,0.30692601203918457
+6,mushroom,2,3.0,154,sdsa_rf_not_update,3,6,0.7333333333333333,0.3074069023132324
+7,mushroom,2,3.0,154,sdsa_rf_not_update,3,7,0.6666666666666666,0.30433225631713867
+8,mushroom,2,3.0,154,sdsa_rf_not_update,3,8,0.6,0.3103816509246826
+9,mushroom,2,3.0,154,sdsa_rf_not_update,3,9,0.8,0.306549072265625

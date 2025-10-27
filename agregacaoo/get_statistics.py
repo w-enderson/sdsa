@@ -6,7 +6,10 @@ import glob
 root_path = 'results_test_scaled'
 
 # Pega todos os classificadores (pastas dentro de results_test)
-classifiers = ['sdsa_lr']
+classifiers = ['sdsa', 'sdsa_not_update', 'sdsa_lr', 'sdsa_lr_not_update', 
+'sdsa_knn', 'sdsa_knn_not_update', 'sdsa_svc', 'sdsa_svc_not_update',
+'sdsa_xgb'
+]
 
 # Distâncias que vamos considerar
 distances = ['euclidean', 'sqeuclidean', 'cityblock', 'hausdorff']

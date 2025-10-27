@@ -1,0 +1,11 @@
+,dataset,n_classes,n_features,n_samples,classifier,mc,test_fold,acc,exec_time
+0,european_climates,2,16.0,324,sdsa_knn,5,0,0.9393939393939394,0.4531123638153076
+1,european_climates,2,16.0,324,sdsa_knn,5,1,0.8181818181818182,0.453655481338501
+2,european_climates,2,16.0,324,sdsa_knn,5,2,0.8787878787878788,0.4490487575531006
+3,european_climates,2,16.0,324,sdsa_knn,5,3,0.9696969696969697,0.44036102294921875
+4,european_climates,2,16.0,324,sdsa_knn,5,4,0.96875,0.4381558895111084
+5,european_climates,2,16.0,324,sdsa_knn,5,5,1.0,0.43562912940979004
+6,european_climates,2,16.0,324,sdsa_knn,5,6,0.96875,0.44643640518188477
+7,european_climates,2,16.0,324,sdsa_knn,5,7,0.9375,0.6414146423339844
+8,european_climates,2,16.0,324,sdsa_knn,5,8,0.96875,0.637136697769165
+9,european_climates,2,16.0,324,sdsa_knn,5,9,0.9375,0.44487786293029785
