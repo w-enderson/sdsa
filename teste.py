@@ -6,13 +6,14 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
+import statsmodels.api as sm
+
 from sklearn.neighbors import KNeighborsClassifier
 from xgboost import XGBClassifier
 
 from models.sdsa import distance
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
-import matplotlib.pyplot as plt 
 
 data= pd.read_csv('datasets/climates.csv')
 
@@ -31,22 +32,22 @@ X_train, X_test, y_train, y_test = train_test_split(
 # scaler = StandardScaler()
 # X_train_scaled = scaler.fit_transform(X_train)
 # X_test_scaled = scaler.transform(X_test)
-dist = 'euclidean'
+dist = 'cityblock'
 c = SDSA(**{'dist':dist, 'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': LogisticRegression, 'parameters' : {}})
 
 prots= c.get_prototypes(X_train, y_train)
-D = distance(X_train, prots, dist=dist)
-D2= distance(X_test, prots, dist=dist)
+D_train = distance(X_train, prots, dist=dist)
+D_test = distance(X_test, prots, dist=dist)
 
 scaler = StandardScaler()
-D_scaled = scaler.fit_transform(D)
-D2_scaled = scaler.transform(D2)
+D_train_scaled = scaler.fit_transform(D_train)
+D_test_scaled = scaler.transform(D_test)
 
 model = LogisticRegression(max_iter=120000)
-model.fit(D_scaled, y_train)
+model.fit(D_train_scaled, y_train)
 print("\nModelo treinado com sucesso!")
 
-y_pred = model.predict(D2_scaled)
+y_pred = model.predict(D_test_scaled)
 accuracy = accuracy_score(y_test, y_pred)
 print(f"\nAcurácia: {accuracy * 100:.2f}%")
 
@@ -59,20 +60,4 @@ print(classification_report(y_test, y_pred))
 # Mostra quantos previu certo e quantos errou, e onde errou
 print("Matriz de Confusão:")
 print(confusion_matrix(y_test, y_pred))
-
-
-
-# start = time.time()
-# c.fit(X_train, y_train)
-# end = time.time()
-
-
-# acc = c.accuracy(x_test, y_test)
-# results.append(
-#     ["climates", n_classes, X.shape[1]/2, X.shape[0], "sdsa_lr", 10,
-#     fold_id, acc]
-# )
-
-# fold_id += 1
-
 
