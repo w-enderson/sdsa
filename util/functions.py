@@ -40,6 +40,12 @@ def generate_multivariate_gaussians(parameters, interval):
         n_g = quantities[gaussian]
         d = np.random.multivariate_normal(means, covs, n_g)
 
+
+        for example in d:
+            n = np.random.randint(1, 10, 20)
+
+
+
         delta = np.random.randint(1, interval, int(p / 2))
         data[init:end, ::2] = d - (delta / 2.0)
         data[init:end, 1::2] = d + (delta / 2.0)

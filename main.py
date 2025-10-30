@@ -68,6 +68,32 @@ parameters = {
             'n_prototypes': [7, 2],
             'k': 3,
             'alpha': 0.0
+        },
+        'dataset1': {
+            'n_prototypes': [20, 20],
+            'k': 3,
+            'alpha': 0.2
+        },
+        'dataset2': {
+            'n_prototypes': [35, 35],
+            'k': 10,
+            'alpha': 0.3
+        },
+        'dataset3': {
+            'n_prototypes': [35, 35],
+            'k': 10,
+            'alpha': 0.3
+        },
+        'dataset4': {
+            'n_prototypes': [35, 35],
+            'k': 10,
+            'alpha': 0.3
+        },
+        'dataset5': {
+            'n_prototypes': [20, 20],
+            'k':3,
+            'alpha':0.2
+
         }
     },
     'knn': {
@@ -78,27 +104,31 @@ parameters = {
         'dataset1': {},
         'dataset2': {},
         'dataset3': {},
-        'dataset4': {}
+        'dataset4': {},
+        'dataset5': {}
     },
     'sdsa': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'parameters' : {}},
         'dry_climates': {'k': [28, 38, 34], 'parameters' : {}},
         'european_climates': {'k': [20, 40], 'parameters' : {}},
         'mushroom': {'k': [7, 2], 'parameters' : {}},
-        'dataset1': {'k': [20, 20], 'update': True, 'classifier': SVC,  'parameters' : {}},
-        'dataset2': {'k': [35, 35],'update': True, 'classifier': SVC,  'parameters' : {}},
-        'dataset3': {'k': [35, 35], 'update': True, 'classifier': SVC,  'parameters' : {}},
-        'dataset4': {'k': [35, 35], 'update': True, 'classifier': SVC,  'parameters' : {}}
+        'dataset1': {'k': [20, 20], 'update': True, 'parameters' : {}},
+        'dataset2': {'k': [35, 35],'update': True, 'parameters' : {}},
+        'dataset3': {'k': [35, 35], 'update': True, 'parameters' : {}},
+        'dataset4': {'k': [35, 35], 'update': True, 'parameters' : {}},
+        'dataset5': {'k': [20, 20], 'update': True, 'parameters' : {}},
+
     },
     'sdsa_not_update': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'update': False, 'parameters' : {}},
         'dry_climates': {'k': [28, 38, 34], 'update': False, 'parameters' : {}},
         'european_climates': {'k': [20, 40], 'update': False, 'parameters' : {}},
         'mushroom': {'k': [7, 2],'update': False, 'parameters' : {}},
-        'dataset1': {'k': [20, 20], 'update': False, 'classifier': SVC,  'parameters' : {}},
-        'dataset2': {'k': [35, 35],'update': False, 'classifier': SVC,  'parameters' : {}},
-        'dataset3': {'k': [35, 35], 'update': False, 'classifier': SVC,  'parameters' : {}},
-        'dataset4': {'k': [35, 35], 'update': False, 'classifier': SVC,  'parameters' : {}}
+        'dataset1': {'k': [20, 20], 'update': False, 'parameters' : {}},
+        'dataset2': {'k': [35, 35],'update': False, 'parameters' : {}},
+        'dataset3': {'k': [35, 35], 'update': False, 'parameters' : {}},
+        'dataset4': {'k': [35, 35], 'update': False, 'parameters' : {}},
+        'dataset5': {'k': [20, 20], 'update': False, 'parameters' : {}},
     },
     'sdsa_rf': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': RandomForestClassifier, 'parameters' : {}},
@@ -108,7 +138,8 @@ parameters = {
         'dataset1': {'k': [20, 20], 'update': True, 'classifier': RandomForestClassifier, 'parameters': {}},
         'dataset2': {'k': [35, 35], 'update': True, 'classifier': RandomForestClassifier, 'parameters': {}},
         'dataset3': {'k': [35, 35], 'update': True, 'classifier': RandomForestClassifier, 'parameters': {}},
-        'dataset4': {'k': [35, 35], 'update': True, 'classifier': RandomForestClassifier, 'parameters': {}}
+        'dataset4': {'k': [35, 35], 'update': True, 'classifier': RandomForestClassifier, 'parameters': {}},
+        'dataset5': {'k': [20, 20], 'update': True, 'classifier': RandomForestClassifier, 'parameters': {}},
     },
     'sdsa_rf_not_update': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': RandomForestClassifier, 'update': False, 'parameters' : {}},
@@ -118,7 +149,8 @@ parameters = {
         'dataset1': {'k': [20, 20], 'update': False, 'classifier': RandomForestClassifier, 'parameters': {}},
         'dataset2': {'k': [35, 35], 'update': False, 'classifier': RandomForestClassifier, 'parameters': {}},
         'dataset3': {'k': [35, 35], 'update': False, 'classifier': RandomForestClassifier, 'parameters': {}},
-        'dataset4': {'k': [35, 35], 'update': False, 'classifier': RandomForestClassifier, 'parameters': {}}
+        'dataset4': {'k': [35, 35], 'update': False, 'classifier': RandomForestClassifier, 'parameters': {}},
+        'dataset5': {'k': [20, 20], 'update': False, 'classifier': RandomForestClassifier, 'parameters': {}},
     },
     'sdsa_svc': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': SVC, 'parameters' : {}},
@@ -128,7 +160,8 @@ parameters = {
         'dataset1': {'k': [20, 20], 'update': True, 'classifier': SVC, 'parameters': {}},
         'dataset2': {'k': [35, 35], 'update': True, 'classifier': SVC, 'parameters': {}},
         'dataset3': {'k': [35, 35], 'update': True, 'classifier': SVC, 'parameters': {}},
-        'dataset4': {'k': [35, 35], 'update': True, 'classifier': SVC, 'parameters': {}}
+        'dataset4': {'k': [35, 35], 'update': True, 'classifier': SVC, 'parameters': {}},
+        'dataset5': {'k': [20, 20], 'update': True, 'classifier': SVC, 'parameters': {}},
     },
     'sdsa_svc_not_update': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': SVC, 'update': False, 'parameters' : {}},
@@ -138,7 +171,8 @@ parameters = {
         'dataset1': {'k': [20, 20], 'update': False, 'classifier': SVC,  'parameters' : {}},
         'dataset2': {'k': [35, 35],'update': False, 'classifier': SVC,  'parameters' : {}},
         'dataset3': {'k': [35, 35], 'update': False, 'classifier': SVC,  'parameters' : {}},
-        'dataset4': {'k': [35, 35], 'update': False, 'classifier': SVC,  'parameters' : {}}
+        'dataset4': {'k': [35, 35], 'update': False, 'classifier': SVC,  'parameters' : {}},
+        'dataset5': {'k': [20, 20], 'update': False, 'classifier': SVC,  'parameters' : {}},
     },
     'sdsa_lr': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': LogisticRegression, 'parameters' : {'max_iter' : 120000}},
@@ -148,7 +182,8 @@ parameters = {
         'dataset1': {'k': [20, 20], 'update': True, 'classifier': LogisticRegression,'parameters': {'max_iter': 120000}},
         'dataset2': {'k': [35, 35], 'update': True, 'classifier': LogisticRegression,'parameters': {'max_iter': 120000}},
         'dataset3': {'k': [35, 35], 'update': True, 'classifier': LogisticRegression,'parameters': {'max_iter': 120000}},
-        'dataset4': {'k': [35, 35], 'update': True, 'classifier': LogisticRegression,'parameters': {'max_iter': 120000}}
+        'dataset4': {'k': [35, 35], 'update': True, 'classifier': LogisticRegression,'parameters': {'max_iter': 120000}},
+        'dataset5': {'k': [20, 20], 'update': True, 'classifier': LogisticRegression,'parameters': {'max_iter': 120000}},
     },
     'sdsa_lr_not_update': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': LogisticRegression,  'update': False, 'parameters' : {'max_iter' : 120000}},
@@ -158,7 +193,8 @@ parameters = {
         'dataset1': {'k': [20, 20], 'update': False, 'classifier': LogisticRegression,  'parameters' : {'max_iter' : 120000}},
         'dataset2': {'k': [35, 35],'update': False, 'classifier': LogisticRegression,  'parameters' : {'max_iter' : 120000}},
         'dataset3': {'k': [35, 35], 'update': False, 'classifier': LogisticRegression,  'parameters' : {'max_iter' : 120000}},
-        'dataset4': {'k': [35, 35], 'update': False, 'classifier': LogisticRegression,  'parameters' : {'max_iter' : 120000}}
+        'dataset4': {'k': [35, 35], 'update': False, 'classifier': LogisticRegression,  'parameters' : {'max_iter' : 120000}},
+        'dataset5': {'k': [20, 20], 'update': False, 'classifier': LogisticRegression,  'parameters' : {'max_iter' : 120000}},
     },
     'sdsa_knn': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': KNeighborsClassifier, 'parameters' : {'n_neighbors' : 5}},
@@ -168,7 +204,8 @@ parameters = {
         'dataset1': {'k': [20, 20], 'update': True, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
         'dataset2': {'k': [35, 35],'update': True, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
         'dataset3': {'k': [35, 35], 'update': True, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
-        'dataset4': {'k': [35, 35], 'update': True, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}}
+        'dataset4': {'k': [35, 35], 'update': True, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
+        'dataset5': {'k': [20, 20], 'update': True, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
     },
     'sdsa_knn_not_update': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': KNeighborsClassifier,  'update': False, 'parameters' : {'n_neighbors' : 5}},
@@ -178,7 +215,8 @@ parameters = {
         'dataset1': {'k': [20, 20], 'update': False, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
         'dataset2': {'k': [35, 35],'update': False, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
         'dataset3': {'k': [35, 35], 'update': False, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
-        'dataset4': {'k': [35, 35], 'update': False, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}}
+        'dataset4': {'k': [35, 35], 'update': False, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
+        'dataset5': {'k': [20, 20], 'update': False, 'classifier': KNeighborsClassifier,  'parameters' : {'n_neighbors' : 5}},
     },
     'sdsa_xgb': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': XGBClassifier, 'parameters': {}},
@@ -188,7 +226,8 @@ parameters = {
         'dataset1': {'k': [20, 20], 'update': True, 'classifier': XGBClassifier, 'parameters': {}},
         'dataset2': {'k': [35, 35], 'update': True, 'classifier': XGBClassifier, 'parameters': {}},
         'dataset3': {'k': [35, 35], 'update': True, 'classifier': XGBClassifier, 'parameters': {}},
-        'dataset4': {'k': [35, 35], 'update': True, 'classifier': XGBClassifier, 'parameters': {}}
+        'dataset4': {'k': [35, 35], 'update': True, 'classifier': XGBClassifier, 'parameters': {}},
+        'dataset5': {'k': [20, 20], 'update': True, 'classifier': XGBClassifier, 'parameters': {}},
     },
     'sdsa_xgb_not_update': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': XGBClassifier, 'update': False, 'parameters': {}},
@@ -198,11 +237,12 @@ parameters = {
         'dataset1': {'k': [20, 20], 'update': False, 'classifier': XGBClassifier, 'parameters': {}},
         'dataset2': {'k': [35, 35], 'update': False, 'classifier': XGBClassifier, 'parameters': {}},
         'dataset3': {'k': [35, 35], 'update': False, 'classifier': XGBClassifier, 'parameters': {}},
-        'dataset4': {'k': [35, 35], 'update': False, 'classifier': XGBClassifier, 'parameters': {}}
+        'dataset4': {'k': [35, 35], 'update': False, 'classifier': XGBClassifier, 'parameters': {}},
+        'dataset5': {'k': [20, 20], 'update': False, 'classifier': XGBClassifier, 'parameters': {}},
     },
 
 }
-
+''
 columns = ['dataset', 'n_classes', 'n_features', 'n_samples', 'classifier', 'mc',
            'test_fold', 'acc', 'exec_time']
 
