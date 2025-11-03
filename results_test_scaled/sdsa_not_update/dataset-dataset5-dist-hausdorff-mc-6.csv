@@ -1,0 +1,11 @@
+,dataset,n_classes,n_features,n_samples,classifier,mc,test_fold,acc,exec_time
+0,dataset5,2,2.0,200,sdsa_not_update,6,0,0.95,0.010986089706420898
+1,dataset5,2,2.0,200,sdsa_not_update,6,1,0.95,0.010839223861694336
+2,dataset5,2,2.0,200,sdsa_not_update,6,2,0.75,0.010657072067260742
+3,dataset5,2,2.0,200,sdsa_not_update,6,3,0.9,0.010138273239135742
+4,dataset5,2,2.0,200,sdsa_not_update,6,4,0.8,0.011076688766479492
+5,dataset5,2,2.0,200,sdsa_not_update,6,5,0.65,0.00977468490600586
+6,dataset5,2,2.0,200,sdsa_not_update,6,6,0.9,0.010367870330810547
+7,dataset5,2,2.0,200,sdsa_not_update,6,7,0.9,0.007470369338989258
+8,dataset5,2,2.0,200,sdsa_not_update,6,8,0.75,0.006634712219238281
+9,dataset5,2,2.0,200,sdsa_not_update,6,9,0.8,0.006146669387817383
