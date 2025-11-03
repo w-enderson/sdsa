@@ -29,7 +29,6 @@ for classifier in classifiers:
         distancia = parts[3]
         key = (dataset, distancia)
         grouped_files.setdefault(key, []).append(f)
-    
     # Para cada grupo, concatena e calcula estatísticas
     for (dataset, distancia), file_list in grouped_files.items():
         dfs = [pd.read_csv(f) for f in file_list]
@@ -68,7 +67,6 @@ for classifier in classifiers:
 
 # Cria DataFrame final
 df_final = pd.DataFrame(rows)
-
 # Reordena colunas: primeiro dataset e classifier
 cols = ['dataset', 'classifier']
 
