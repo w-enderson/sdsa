@@ -117,7 +117,6 @@ parameters = {
         'dataset3': {'k': [35, 35], 'update': True, 'parameters' : {}},
         'dataset4': {'k': [35, 35], 'update': True, 'parameters' : {}},
         'dataset5': {'k': [20, 20], 'update': True, 'parameters' : {}},
-
     },
     'sdsa_not_update': {
         'climates': {'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'update': False, 'parameters' : {}},
@@ -263,7 +262,8 @@ def parse_arguments():
     parser.add_argument('-c', '--classifiers', dest='classifier_names',
                         type=comma_separated_strings,
                         default=['wflvq', 'ivabc','sdsa', 'sdsa_not_update', 'sdsa_rf', 'sdsa_rf_not_update',
-                         'sdsa_svc','sdsa_svc_not_update','sdsa_lr', 'sdsa_lr_not_update', 'sdsa_xgb', 'sdsa_xgb_not_update'],
+                                'sdsa_svc','sdsa_svc_not_update','sdsa_lr', 'sdsa_lr_not_update', 'sdsa_knn',
+                                'sdsa_knn_not_update', 'sdsa_xgb', 'sdsa_xgb_not_update'],
                         help='''Classifiers to use for evaluation in a comma
                         separated list of strings. From the following
                         options: ''' + ', '.join(classifiers.keys()))
