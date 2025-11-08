@@ -131,6 +131,8 @@ def generate_multivariate_gaussians(parameters):
 # Execução principal
 # =====================================================
 if __name__ == "__main__":
+
+    # dataset5
     dataset5_dict1 = {
         "mu": np.array([99, 99]),
         "sigma": np.array([[200, 0],
@@ -150,3 +152,6 @@ if __name__ == "__main__":
     dataset5 = generate_multivariate_gaussians([dataset5_dict1, dataset5_dict2])
     dataset5.to_csv("./dataset5.csv", index=False)
     plot_retangulos(dataset5)
+
+    # dataset6
+

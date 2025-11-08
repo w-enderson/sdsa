@@ -98,7 +98,7 @@ for suffix in ['time_std']:
         if col_name in df_final.columns:
             cols.append(col_name)
 
-df_final = df_final[cols].round(2)
+df_final = df_final[cols].round(4)
 
 # Ordena por dataset
 df_final = df_final.sort_values('dataset').reset_index(drop=True)
