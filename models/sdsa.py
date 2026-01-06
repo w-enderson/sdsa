@@ -1,72 +1,102 @@
 import scipy.sparse as sp
 import numpy as np
 from scipy.spatial.distance import cdist
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.utils.extmath import stable_cumsum
 
+
+from sklearn.tree import DecisionTreeClassifier
+
+
+from sklearn.utils.extmath import stable_cumsum
 from sklearn.preprocessing import StandardScaler
 
+from typing import Any, Type
 
 class SDSA:
 
-    def __init__ (self, k, dist='euclidean',update = True, classifier = DecisionTreeClassifier, parameters = None):
+    def __init__ (self, 
+                    k: list[int], 
+                    dist: str ='euclidean', 
+                    update: bool = True, 
+                    classifier: Type[Any] = DecisionTreeClassifier, 
+                    parameters: dict[str, Any] | None = None
+                 ):
+        '''
+        k : número de protótipos por classe
+        dist : distancia intervalar usada
+        update :
+        classifier : classificador clássico usado
+        parameters : parametros do classificador
+        '''
+
         self.k = k
+        self.dist = dist
         self.update = update
         self.classifier = classifier
         self.parameters = parameters
-        self.dist = dist
     
-    def get_prototypes(self, X, y):
-        media_prot = []
-        
-        for i, n_prots in enumerate(self.k):  
-            X_class = X[y==i]
-            medias = kmeanspp(X_class, n_prots)
 
+    def get_prototypes(self, X, y):
+        '''
+        X : matriz de covariáveis simbólicas
+        y : vetor de rótulos (cada valor varia de 0 até o número de classes - 1)); 
+
+        '''
+
+        prototipos_full = []
+        
+        for i, n_prots_class_i in enumerate(self.k):  
+            
+            X_class_i = X[y==i]
+
+            prototipos_class_i = kmeanspp(X_class_i, n_prots_class_i)
+
+            # atualizaçao k-means
             if self.update:
                 for t in range(100):
-
-                    D = distance(X_class, medias, dist=self.dist)
-                    C  = np.argmin(D, axis=1)
-
-                    for c in range(n_prots): 
+                    D = distance(X_class_i, prototipos_class_i, dist='euclidean')
+                    C = np.argmin(D, axis=1)
+                    
+                    for c in range(n_prots_class_i): 
                         if np.any(C==c):
-                            medias[c] = np.mean(X_class[C == c], axis = 0)     
+                            prototipos_class_i[c] = np.mean(X_class_i[C == c], axis = 0)     
              
-            media_prot.append(medias)  
+            prototipos_full.append(prototipos_class_i)  
 
-        prots = np.vstack(media_prot)
-
-        return prots
+        # vetor de dimensao sum(k) x 1
+        return np.vstack(prototipos_full)
         
 
     def fit(self, X, y):    
 
-        prots = self.get_prototypes(X, y)
+        prototipos = self.get_prototypes(X, y)
 
-        D = distance(X, prots, dist=self.dist)
+        # Matriz de dissimilaridade
+        D = distance(X, prototipos, dist=self.dist)
         
+        # Matriz de dissimilaridade normalizada
         self.scaler = StandardScaler()
         D_scaled = self.scaler.fit_transform(D)
 
+        # Treinamento do classificador
         clf = self.classifier(**self.parameters)
-   
         clf.fit(D_scaled, y)
 
         self.clf = clf
-        self.medias = prots
-        return self
+        self.prototipos = prototipos
+
+        return
 
 
     
     def accuracy(self, X, Y):
 
-        D = distance(X, self.medias, self.dist)
+        D = distance(X, self.prototipos, self.dist)
         D_scaled = self.scaler.transform(D)
 
         predicoes = self.clf.predict(D_scaled)
 
         accuracy = np.sum(predicoes == Y)/len(predicoes == Y)
+        
         return accuracy
 
 
@@ -82,6 +112,7 @@ def distance(matrix1, matrix2, dist):
     d_max = cdist(matrix1[:,1::2], matrix2[:,1::2], metric= distancia)
 
     d_matrix = np.maximum(d_min, d_max) if dist=="hausdorff" else d_min + d_max
+    # matrix1[0] linhas e matrix2[0] colunas
 
     return d_matrix
 

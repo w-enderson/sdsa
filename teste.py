@@ -15,7 +15,7 @@ from models.sdsa import distance
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
-data= pd.read_csv('datasets/climates.csv')
+data= pd.read_csv('datasets/mushroom.csv')
 
 X = data.drop('target', axis=1).values                                                                                                                                         
 y = data['target'].values
@@ -33,7 +33,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 # X_train_scaled = scaler.fit_transform(X_train)
 # X_test_scaled = scaler.transform(X_test)
 dist = 'cityblock'
-c = SDSA(**{'dist':dist, 'k': [34, 28, 12, 20, 12, 42, 38, 34, 6, 40], 'classifier': LogisticRegression, 'parameters' : {}})
+c = SDSA(**{'dist':dist, 'k': [7, 2], 'classifier': LogisticRegression, 'parameters' : {}})
 
 prots= c.get_prototypes(X_train, y_train)
 D_train = distance(X_train, prots, dist=dist)
